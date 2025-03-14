@@ -64,6 +64,30 @@ public class Vision extends SubsystemBase {
     return inputs[cameraIndex].latestTargetObservation.tx();
   }
 
+  /**
+   * Returns the AprilTag ID of the tag picked up by the front cameras, used for reef alignment
+   *
+   * @return ID of forward facing AprilTag, if cameras are in agreement or if only one camera is
+   *     picking up a tag, otherwise returns -1
+   */
+  public int getForwardTargetID() {
+    if (inputs[0].tagIds.length != 0 && inputs[1].tagIds.length != 0) {
+      int camera0target = inputs[0].tagIds[0];
+      int camera1target = inputs[1].tagIds[0];
+      if (camera0target == camera1target) {
+        return camera0target;
+      } else {
+        return -1;
+      }
+    } else if (inputs[0].tagIds.length != 0) {
+      return inputs[0].tagIds[0];
+    } else if (inputs[1].tagIds.length != 0) {
+      return inputs[1].tagIds[0];
+    } else {
+      return -1;
+    }
+  }
+
   @Override
   public void periodic() {
     for (int i = 0; i < io.length; i++) {

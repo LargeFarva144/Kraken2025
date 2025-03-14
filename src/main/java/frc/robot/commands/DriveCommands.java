@@ -13,6 +13,11 @@
 
 package frc.robot.commands;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.GoalEndState;
+import com.pathplanner.lib.path.PathConstraints;
+import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.path.Waypoint;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
@@ -154,6 +159,34 @@ public class DriveCommands {
 
         // Reset PID controller when command starts
         .beforeStarting(() -> angleController.reset(drive.getRotation().getRadians()));
+  }
+  /**
+   * Drives to target pose on PathPlanner on-the-fly path
+   *
+   * @param drive Drive subsystem
+   * @param targetPose Target pose to drive to
+   * @return Returns command for drive subsystem
+   */
+  public static Command driveToPose(Drive drive, Pose2d targetPose) {
+
+    if (targetPose != null) {
+      Pose2d currentPose = drive.getPose();
+      Pose2d startPose = new Pose2d(currentPose.getTranslation(), currentPose.getRotation());
+
+      List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(startPose, targetPose);
+      PathPlannerPath path =
+          new PathPlannerPath(
+              waypoints,
+              new PathConstraints(1, 1, Units.degreesToRadians(360), Units.degreesToRadians(540)),
+              null,
+              new GoalEndState(0.0, targetPose.getRotation()));
+
+      path.preventFlipping = true;
+
+      return Commands.runOnce(() -> AutoBuilder.followPath(path).schedule());
+    } else {
+      return Commands.none();
+    }
   }
 
   /**
