@@ -25,8 +25,8 @@ public class VisionConstants {
       AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
 
   // Camera names, must match names configured on coprocessor
-  public static String camera0Name = "photonvisionFrontRight";
-  public static String camera1Name = "photonvisionFrontLeft";
+  public static String camera0Name = "photonvisionFrontLeft";
+  public static String camera1Name = "photonvisionFrontRight";
   public static String camera2Name = "photonvisionRearRight";
   public static String camera3Name = "photonvisionRearLeft";
 
@@ -50,7 +50,7 @@ public class VisionConstants {
       new Transform3d(
           Units.inchesToMeters(2.55),
           Units.inchesToMeters(-7.109),
-          Units.inchesToMeters(31.0),
+          Units.inchesToMeters(33.0),
           new Rotation3d(
               Units.degreesToRadians(12.6),
               Units.degreesToRadians(-18),
