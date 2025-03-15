@@ -127,25 +127,18 @@ public class ExtendTalonFx implements ExtendIO {
   }
 
   @Override
-  public void extendToLength(double extendLengthInches, double currentPivotRotations) {
-    double targetExtendRotations =
-        (extendLengthInches
-                - (currentPivotRotations * ExtendConstants.spoolCircumferenceInches)
-                - ExtendConstants.extendOffsetInchAtZeroDegrees)
-            / (ExtendConstants.spoolCircumferenceInches);
+  public void extendToLength(double extendLengthInches) {
+    double targetExtendRotations = (extendLengthInches - ExtendConstants.extendOffsetInches) / ExtendConstants.feedCircumferenceInches;
     _extendMotorK.setControl(
         positionVoltageRequest.withPosition(targetExtendRotations).withSlot(0));
   }
 
   @Override
-  public double getLength(double currentPivotRotations) {
-    return ExtendConstants.extendOffsetInchAtZeroDegrees
-        + (_extendMotorK.getPosition().getValueAsDouble() * currentPivotRotations)
-            * (ExtendConstants.spoolCircumferenceInches);
+  public double getLengthInches() {
+    return ExtendConstants.extendOffsetInches
+        + (_extendMotorK.getPosition().getValueAsDouble()
+            * (ExtendConstants.feedCircumferenceInches));
   }
-
-  @Override
-  public void updateConfig() {}
 
   @Override
   public void updateInputs(ExtendIOInputs inputs) {

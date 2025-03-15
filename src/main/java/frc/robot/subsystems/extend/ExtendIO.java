@@ -27,11 +27,11 @@ public interface ExtendIO {
   /**
    * @param inch extends to distance in inches from start
    */
-  public default void extendToLength(double extendLengthInches, double currentPivotRotations) {}
+  public default void extendToLength(double extendLengthInches) {}
 
   public default void runVolts(double volts) {}
 
-  public default double getLength(double currentPivotRotations) {
+  public default double getLengthInches() {
     return 0;
   }
 

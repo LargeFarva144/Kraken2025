@@ -42,13 +42,9 @@ public class Pivot extends SubsystemBase {
     return io.getAngle();
   }
 
-  public boolean atSetPoint() {
+  public boolean atSetpoint() {
     Debouncer setpointDebouncer = new Debouncer(0.5);
     return setpointDebouncer.calculate(
         Math.abs(io.getAngle().getDegrees() - setpointAngleDegrees) < 1);
-  }
-
-  public void updateConfig(double extendLengthInches) {
-    io.updateConfig(extendLengthInches);
   }
 }

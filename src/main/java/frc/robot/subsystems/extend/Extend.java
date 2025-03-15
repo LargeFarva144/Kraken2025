@@ -25,22 +25,18 @@ public class Extend extends SubsystemBase {
   }
 
   public void extendToLength(double extendLengthInches, double currentPivotRotations) {
-    io.extendToLength(extendLengthInches, currentPivotRotations);
+    io.extendToLength(extendLengthInches);
     this.setPointLengthInches = extendLengthInches;
   }
 
-  public double getLength(double currentPivotRotations) {
-    return io.getLength(currentPivotRotations);
+  public double getLengthInches() {
+    return io.getLengthInches();
   }
 
-  public void holdLength(double currentPivotRotations) {
-    io.extendToLength(setPointLengthInches, currentPivotRotations);
-  }
-
-  public boolean atSetPoint(double currentPivotRotations) {
+  public boolean atSetpoint(double currentPivotRotations) {
     Debouncer setpointDebouncer = new Debouncer(0.5);
     return setpointDebouncer.calculate(
-        Math.abs(io.getLength(currentPivotRotations) - setPointLengthInches) < 1);
+        Math.abs(io.getLengthInches() - setPointLengthInches) < 1);
   }
 
   public void updateConfig() {

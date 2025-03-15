@@ -42,8 +42,6 @@ public class PivotTalonFx implements PivotIO {
   private MotionMagicVoltage positionVoltageRequest;
   private VoltageOut voltageRequest;
 
-  private double setpointAngleDegrees;
-
   public PivotTalonFx() {
     _pivotMotorK = new TalonFX(PivotConstants.pivotTalonId);
     _pivotCANCoder = new CANcoder(PivotConstants.pivotCANCoderId);
@@ -136,22 +134,11 @@ public class PivotTalonFx implements PivotIO {
   public void pivotToAngle(double angleDegrees) {
     _pivotMotorK.setControl(
         positionVoltageRequest.withPosition(Units.degreesToRotations(angleDegrees)).withSlot(0));
-    setpointAngleDegrees = angleDegrees;
   }
 
   @Override
   public Rotation2d getAngle() {
     return new Rotation2d(Units.rotationsToRadians(_pivotMotorK.getPosition().getValueAsDouble()));
-  }
-
-  @Override
-  public void updateConfig(double extendLengthInches) {
-    TalonFXConfigurator configurator = _pivotMotorK.getConfigurator();
-    TalonFXConfiguration cfg = new TalonFXConfiguration();
-
-    cfg.Slot0.kG = PivotConstants.kG * extendLengthInches * PivotConstants.kGExtendFactor;
-
-    configurator.refresh(cfg);
   }
 
   @Override
