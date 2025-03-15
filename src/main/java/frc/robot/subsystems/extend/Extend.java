@@ -35,8 +35,7 @@ public class Extend extends SubsystemBase {
 
   public boolean atSetpoint(double currentPivotRotations) {
     Debouncer setpointDebouncer = new Debouncer(0.5);
-    return setpointDebouncer.calculate(
-        Math.abs(io.getLengthInches() - setPointLengthInches) < 1);
+    return setpointDebouncer.calculate(Math.abs(io.getLengthInches() - setPointLengthInches) < 1);
   }
 
   public void updateConfig() {

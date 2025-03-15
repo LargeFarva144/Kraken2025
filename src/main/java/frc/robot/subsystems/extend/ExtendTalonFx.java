@@ -4,6 +4,10 @@
 
 package frc.robot.subsystems.extend;
 
+import static edu.wpi.first.units.Units.RotationsPerSecond;
+import static edu.wpi.first.units.Units.RotationsPerSecondPerSecond;
+import static edu.wpi.first.units.Units.Second;
+
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -86,8 +90,9 @@ public class ExtendTalonFx implements ExtendIO {
     cfg.Feedback.FeedbackRemoteSensorID = _extendCANCoder.getDeviceID(); //Add this when adding an EnCoder gives it its ID
     
     // Motion Magic
-    cfg.MotionMagic.MotionMagicAcceleration = ExtendConstants.motionMagicAcceleration;
-    cfg.MotionMagic.MotionMagicCruiseVelocity = ExtendConstants.MotionMagicCruiseVelocity;
+    cfg.MotionMagic.withMotionMagicCruiseVelocity(RotationsPerSecond.of(ExtendConstants.motionMagicCruiseVelocity));
+    cfg.MotionMagic.withMotionMagicAcceleration(RotationsPerSecondPerSecond.of(ExtendConstants.motionMagicAcceleration));
+    cfg.MotionMagic.withMotionMagicJerk(RotationsPerSecondPerSecond.per(Second).of(ExtendConstants.motionMagicJerk));
 
     // voltage limits
     // cfg.Voltage.PeakForwardVoltage = ExtendConstants.extendPeakVoltage;
@@ -128,7 +133,9 @@ public class ExtendTalonFx implements ExtendIO {
 
   @Override
   public void extendToLength(double extendLengthInches) {
-    double targetExtendRotations = (extendLengthInches - ExtendConstants.extendOffsetInches) / ExtendConstants.feedCircumferenceInches;
+    double targetExtendRotations =
+        (extendLengthInches - ExtendConstants.extendOffsetInches)
+            / ExtendConstants.feedCircumferenceInches;
     _extendMotorK.setControl(
         positionVoltageRequest.withPosition(targetExtendRotations).withSlot(0));
   }
@@ -155,7 +162,7 @@ public class ExtendTalonFx implements ExtendIO {
             .isOK();
 
     inputs.positionRotations = positionRotations.getValueAsDouble();
-    inputs.positionInches = positionRotations.getValueAsDouble() * (2 * Math.PI * 2);
+    inputs.positionInches = positionRotations.getValueAsDouble() * (ExtendConstants.feedCircumferenceInches * Math.PI);
     inputs.velocityRotationsPerSecond = velocityRotationsPerSecond.getValueAsDouble();
     inputs.appliedVoltage = voltage.getValueAsDouble();
     inputs.supplyCurrentAmps = supplyCurrentAmps.getValueAsDouble();

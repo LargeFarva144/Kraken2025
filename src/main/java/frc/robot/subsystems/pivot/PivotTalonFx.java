@@ -4,10 +4,13 @@
 
 package frc.robot.subsystems.pivot;
 
+import static edu.wpi.first.units.Units.RotationsPerSecond;
+import static edu.wpi.first.units.Units.RotationsPerSecondPerSecond;
+import static edu.wpi.first.units.Units.Second;
+
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.configs.TalonFXConfigurator;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.CANcoder;
@@ -23,6 +26,7 @@ import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Temperature;
 import edu.wpi.first.units.measure.Voltage;
+import frc.robot.subsystems.extend.ExtendConstants;
 
 /** Add your docs here. */
 public class PivotTalonFx implements PivotIO {
@@ -94,8 +98,9 @@ public class PivotTalonFx implements PivotIO {
     // cfg.Voltage.PeakReverseVoltage = -PivotConstants.pivotPeakVoltage;
 
     // Motion Magic
-    cfg.MotionMagic.MotionMagicAcceleration = PivotConstants.motionMagicAcceleration;
-    cfg.MotionMagic.MotionMagicCruiseVelocity = PivotConstants.MotionMagicCruiseVelocity;
+    cfg.MotionMagic.withMotionMagicCruiseVelocity(RotationsPerSecond.of(PivotConstants.motionMagicCruiseVelocity));
+    cfg.MotionMagic.withMotionMagicAcceleration(RotationsPerSecondPerSecond.of(PivotConstants.motionMagicAcceleration));
+    cfg.MotionMagic.withMotionMagicJerk(RotationsPerSecondPerSecond.per(Second).of(PivotConstants.motionMagicJerk));
 
     _pivotMotorK.setPosition(_pivotCANCoder.getAbsolutePosition().getValueAsDouble());
     // spotless:on
