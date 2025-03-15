@@ -178,16 +178,18 @@ public class RobotContainer {
                 .ignoringDisable(true));
 
     controllerDriver
-        .leftTrigger(0.2)
-        .whileTrue(
+        .leftTrigger(0.1)
+        .and(() -> PoseConstants.getTargetPose(vision.getForwardTargetID(), true) != null)
+        .onTrue(
             DriveCommands.driveToPose(
-                drive, PoseConstants.getTargetPose(vision.getForwardTargetID(), true)));
+                drive, () -> PoseConstants.getTargetPose(vision.getForwardTargetID(), true)));
 
     controllerDriver
-        .rightTrigger(0.2)
-        .whileTrue(
+        .rightTrigger(0.1)
+        .and(() -> PoseConstants.getTargetPose(vision.getForwardTargetID(), true) != null)
+        .onTrue(
             DriveCommands.driveToPose(
-                drive, PoseConstants.getTargetPose(vision.getForwardTargetID(), false)));
+                drive, () -> PoseConstants.getTargetPose(vision.getForwardTargetID(), false)));
   }
 
   /**

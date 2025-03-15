@@ -167,26 +167,28 @@ public class DriveCommands {
    * @param targetPose Target pose to drive to
    * @return Returns command for drive subsystem
    */
-  public static Command driveToPose(Drive drive, Pose2d targetPose) {
+  public static Command driveToPose(Drive drive, Supplier<Pose2d> targetPose) {
 
-    if (targetPose != null) {
-      Pose2d currentPose = drive.getPose();
-      Pose2d startPose = new Pose2d(currentPose.getTranslation(), currentPose.getRotation());
+    return Commands.runOnce(
+        () -> {
+          Pose2d currentPose = drive.getPose();
+          Pose2d startPose = new Pose2d(currentPose.getTranslation(), currentPose.getRotation());
 
-      List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(startPose, targetPose);
-      PathPlannerPath path =
-          new PathPlannerPath(
-              waypoints,
-              new PathConstraints(1, 1, Units.degreesToRadians(360), Units.degreesToRadians(540)),
-              null,
-              new GoalEndState(0.0, targetPose.getRotation()));
+          // new PPHolonomicDriveController(new PIDConstants(5.0), new PIDConstants(5.0));
 
-      path.preventFlipping = true;
+          List<Waypoint> waypoints =
+              PathPlannerPath.waypointsFromPoses(startPose, targetPose.get());
+          PathPlannerPath path =
+              new PathPlannerPath(
+                  waypoints,
+                  new PathConstraints(
+                      5, 5, Units.degreesToRadians(360), Units.degreesToRadians(540)),
+                  null,
+                  new GoalEndState(0.0, targetPose.get().getRotation()));
 
-      return Commands.runOnce(() -> AutoBuilder.followPath(path).schedule());
-    } else {
-      return Commands.none();
-    }
+          path.preventFlipping = true;
+          AutoBuilder.followPath(path).schedule();
+        });
   }
 
   /**

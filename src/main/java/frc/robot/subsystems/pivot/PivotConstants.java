@@ -2,7 +2,7 @@ package frc.robot.subsystems.pivot;
 
 public class PivotConstants {
   public static final int pivotTalonId = 21;
-  public static final int pivotCANCoderId = 22;
+  public static final int pivotCANCoderId = 23;
   public static final boolean pivotInvert = false; // confirm and match cancoder
   public static final boolean pivotNeutralModeBrake = false;
   public static final double pivotPeakVoltage = 12;

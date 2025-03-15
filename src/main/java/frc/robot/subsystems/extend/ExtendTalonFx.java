@@ -162,7 +162,8 @@ public class ExtendTalonFx implements ExtendIO {
             .isOK();
 
     inputs.positionRotations = positionRotations.getValueAsDouble();
-    inputs.positionInches = positionRotations.getValueAsDouble() * (ExtendConstants.feedCircumferenceInches * Math.PI);
+    inputs.positionInches =
+        positionRotations.getValueAsDouble() * (ExtendConstants.feedCircumferenceInches * Math.PI);
     inputs.velocityRotationsPerSecond = velocityRotationsPerSecond.getValueAsDouble();
     inputs.appliedVoltage = voltage.getValueAsDouble();
     inputs.supplyCurrentAmps = supplyCurrentAmps.getValueAsDouble();

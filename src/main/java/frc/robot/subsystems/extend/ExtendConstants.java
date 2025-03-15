@@ -2,7 +2,7 @@ package frc.robot.subsystems.extend;
 
 public class ExtendConstants {
   public static final int extendTalonId = 20;
-  public static final int extendCANCoderId = 23;
+  public static final int extendCANCoderId = 22;
   public static final boolean extendInvert = false;
   public static final boolean extendNeutralModeBrake = false;
   public static final double extendPeakVoltage = 12;
