@@ -5,8 +5,8 @@ public class ExtendConstants {
   public static final int extendCANCoderId = 23;
   public static final boolean extendInvert = false;
   public static final boolean extendNeutralModeBrake = false;
-  public static final double extendPeakVoltage = 6;
-  public static final double extendGearRatio = 36; // confirm
+  public static final double extendPeakVoltage = 12;
+  public static final double extendGearRatio = 18; // confirm
   public static final double feedCircumferenceInches = 2 * Math.PI;
   public static final double extendOffsetInches = 12; // update
   public static final double safePivotLengthInches = 12; // update

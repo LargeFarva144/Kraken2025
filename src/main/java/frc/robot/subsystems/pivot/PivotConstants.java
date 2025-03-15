@@ -5,8 +5,8 @@ public class PivotConstants {
   public static final int pivotCANCoderId = 22;
   public static final boolean pivotInvert = false; // confirm and match cancoder
   public static final boolean pivotNeutralModeBrake = false;
-  public static final double pivotPeakVoltage = 6;
-  public static final double pivotGearRatio = 63; // confirm
+  public static final double pivotPeakVoltage = 12;
+  public static final double pivotGearRatio = 60; // confirm
 
   // Soft Limits
   public static final boolean pivotForwardSoftLimitEnabled = false;
