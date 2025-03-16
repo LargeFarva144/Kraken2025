@@ -6,21 +6,27 @@ package frc.robot.subsystems.extend;
 
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.pivot.Pivot;
+
 import org.littletonrobotics.junction.Logger;
 
 /** Add your docs here. */
 public class Extend extends SubsystemBase {
   private ExtendIO io;
+  private Pivot pivot;
   private ExtendIOInputsAutoLogged inputs = new ExtendIOInputsAutoLogged();
   private double setpointLengthInches;
 
-  public Extend(ExtendIO io) {
+  public Extend(ExtendIO io, Pivot pivot) {
     this.io = io;
+    this.pivot = pivot;
   }
 
   /** updates Extend values periodically */
   public void periodic() {
+    updateExtensionLimit(calculateExtensionLimit((pivot.getRotation())));
     io.updateInputs(inputs);
     Logger.processInputs("Extend", inputs);
   }
@@ -37,9 +43,28 @@ public class Extend extends SubsystemBase {
     return io.getRotation();
   }
 
+  public double calculateExtensionLimit(Rotation2d pivotAngleRotation) {
+    double pivotAngleRadians = pivotAngleRotation.getRadians();
+    if (pivotAngleRadians > Units.degreesToRadians(-78) && pivotAngleRadians < Units.degreesToRadians(0)) {
+      return ExtendConstants.funnelToPivotInches / Math.sin(pivotAngleRadians - Units.degreesToRadians(ExtendConstants.funnelAngleDegrees));
+    } else if (pivotAngleRadians >= Units.degreesToRadians(0) && pivotAngleRadians < Units.degreesToRadians(90)) {
+      return Math.min(ExtendConstants.aftEnvelopeInches / Math.cos(pivotAngleRadians), ExtendConstants.maxExtensionInches);
+    } else if (pivotAngleRadians >= Units.degreesToRadians(90) && pivotAngleRadians < Units.degreesToRadians(135)) {
+      return Math.min(ExtendConstants.aftEnvelopeInches / Math.cos(pivotAngleRadians), ExtendConstants.maxExtensionInches);
+    } else {
+      return ExtendConstants.defaultExtensionLimitInches;
+    }
+  }
+
+  public void updateExtensionLimit(double extensionLimitInches) {
+    Logger.recordOutput("Extend/extensionLimitInches", extensionLimitInches);
+  }
+
   public boolean atSetpoint() {
     Debouncer setpointDebouncer = new Debouncer(0.5);
-    double closedLoopError = (io.getRotation().getRotations() * ExtendConstants.feedCircumferenceInches) - setpointLengthInches;
+    double closedLoopError =
+        (io.getRotation().getRotations() * ExtendConstants.feedCircumferenceInches)
+            - setpointLengthInches;
     boolean atSetpoint = setpointDebouncer.calculate(Math.abs(closedLoopError) < 1);
     Logger.recordOutput("Extend/atSetPoint", atSetpoint);
     Logger.recordOutput("Extend/closedLoopError", closedLoopError);

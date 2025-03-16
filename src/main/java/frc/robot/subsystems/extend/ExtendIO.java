@@ -4,9 +4,8 @@
 
 package frc.robot.subsystems.extend;
 
-import org.littletonrobotics.junction.AutoLog;
-
 import edu.wpi.first.math.geometry.Rotation2d;
+import org.littletonrobotics.junction.AutoLog;
 
 /** Add your docs here. */
 public interface ExtendIO {
@@ -38,6 +37,8 @@ public interface ExtendIO {
   public default Rotation2d getRotation() {
     return new Rotation2d();
   }
-  
+
+  public default void updateExtensionLimit(double extensionLimitInches) {}
+
   public default void updateInputs(ExtendIOInputs inputs) {}
 }

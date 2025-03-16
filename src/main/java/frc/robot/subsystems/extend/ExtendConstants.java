@@ -6,16 +6,21 @@ public class ExtendConstants {
   public static final boolean extendInvert = false;
   public static final boolean extendNeutralModeBrake = false;
   public static final double extendPeakVoltage = 12;
-  public static final double extendGearRatio = 18; // confirm
+  public static final double extendGearRatio = 18;
   public static final double feedCircumferenceInches = 2 * Math.PI;
   public static final double extendOffsetInches = 12; // update
   public static final double safePivotLengthInches = 12; // update
 
-  // Soft Limits
-  public static final boolean extendForwardSoftLimitEnabled = false;
-  public static final double extendForwardSoftLimit = 0; // update
-  public static final boolean extendReverseSoftLimitEnabled = false;
-  public static final double extendReverseSoftLimit = 0; // update
+  // Soft Limit Parameters
+  public static final boolean extendForwardSoftLimitEnabled = true;
+  public static final boolean extendReverseSoftLimitEnabled = true;
+  public static final double reverseSoftLimitThreshold = 5;
+  public static final double defaultExtensionLimitInches = 24;
+  public static final double fwdEnvelopeInches = 18 + 7;
+  public static final double aftEnvelopeInches = 18 + 22;
+  public static final double maxExtensionInches = 30;
+  public static final double funnelAngleDegrees = 30;
+  public static final double funnelToPivotInches = 25;
 
   // PID
   public static double kP = 15;

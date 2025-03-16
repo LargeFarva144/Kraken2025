@@ -11,6 +11,7 @@ import static edu.wpi.first.units.Units.Second;
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.configs.TalonFXConfigurator;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.CANcoder;
@@ -19,7 +20,6 @@ import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Angle;
@@ -83,7 +83,7 @@ public class ExtendIOTalonFX implements ExtendIO {
     cfg.Slot0.GravityType = GravityTypeValue.Elevator_Static;
 
     cfg.SoftwareLimitSwitch.ForwardSoftLimitEnable = ExtendConstants.extendForwardSoftLimitEnabled;
-    cfg.SoftwareLimitSwitch.ForwardSoftLimitThreshold = ExtendConstants.extendForwardSoftLimit;
+    cfg.SoftwareLimitSwitch.ForwardSoftLimitThreshold = ExtendConstants.defaultExtensionLimitInches;
     cfg.SoftwareLimitSwitch.ReverseSoftLimitEnable = ExtendConstants.extendReverseSoftLimitEnabled;
     cfg.SoftwareLimitSwitch.ReverseSoftLimitThreshold = ExtendConstants.extendReverseSoftLimit;
     
@@ -142,6 +142,20 @@ public class ExtendIOTalonFX implements ExtendIO {
   @Override
   public Rotation2d getRotation() {
     return new Rotation2d(Units.rotationsToRadians(_extendMotorK.getPosition().getValueAsDouble()));
+  }
+
+  public void updateExtensionLimit(double extensionLimitInches) {
+    TalonFXConfigurator configurator = _extendMotorK.getConfigurator();
+    TalonFXConfiguration cfg = new TalonFXConfiguration();
+
+    cfg.SoftwareLimitSwitch.ForwardSoftLimitThreshold = extensionLimitInches / ExtendConstants.feedCircumferenceInches;
+
+    configurator.refresh(cfg);
+
+    if (positionRotations.getValueAsDouble() > extensionLimitInches) {
+      extendToLength(extensionLimitInches);
+    }
+
   }
 
   @Override

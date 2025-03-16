@@ -35,7 +35,6 @@ import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
 import frc.robot.subsystems.extend.Extend;
-import frc.robot.subsystems.extend.ExtendIO;
 import frc.robot.subsystems.extend.ExtendIOTalonFX;
 import frc.robot.subsystems.pivot.Pivot;
 import frc.robot.subsystems.pivot.PivotIOTalonFX;
@@ -87,7 +86,7 @@ public class RobotContainer {
                 new VisionIOPhotonVision(camera2Name, robotToCamera2),
                 new VisionIOPhotonVision(camera3Name, robotToCamera3));
         pivot = new Pivot(new PivotIOTalonFX());
-        extend = new Extend(new ExtendIOTalonFX());
+        extend = new Extend(new ExtendIOTalonFX(), pivot); //pivot must be first, is passed into extend
         break;
 
       case SIM:
@@ -107,7 +106,7 @@ public class RobotContainer {
                 new VisionIOPhotonVisionSim(camera2Name, robotToCamera2, drive::getPose),
                 new VisionIOPhotonVisionSim(camera3Name, robotToCamera3, drive::getPose));
         pivot = new Pivot(null);
-        extend = new Extend(null);
+        extend = new Extend(null, pivot);
         break;
 
       default:
@@ -127,7 +126,7 @@ public class RobotContainer {
                 new VisionIO() {},
                 new VisionIO() {});
         pivot = new Pivot(null);
-        extend = new Extend(null);
+        extend = new Extend(null, pivot);
         break;
     }
 
@@ -169,7 +168,12 @@ public class RobotContainer {
             () -> -controllerDriver.getLeftX(),
             () -> -controllerDriver.getRightX()));
 
-    pivot.setDefaultCommand(ArmCommands.armToHome(pivot, extend, () -> ArmConstants.Home.homePivotDegrees, () -> ArmConstants.Home.homeExtendInches));
+    pivot.setDefaultCommand(
+        ArmCommands.armToHome(
+            pivot,
+            extend,
+            () -> ArmConstants.Home.homePivotDegrees,
+            () -> ArmConstants.Home.homeExtendInches));
 
     // Lock to 0° when A button is held
     controllerDriver
@@ -209,17 +213,64 @@ public class RobotContainer {
             DriveCommands.driveToPose(
                 drive, () -> PoseConstants.getTargetPose(vision.getForwardTargetID(), false)));
 
-    new Trigger(() -> Math.abs(controllerOperator.getLeftY()) > 0.05).whileTrue(ArmCommands.joystickPivot(pivot, () -> -controllerOperator.getLeftY()));
-    new Trigger(() -> Math.abs(controllerOperator.getRightY()) > 0.05).whileTrue(ArmCommands.joystickPivot(pivot, () -> -controllerOperator.getRightY()));
-    
-    controllerOperator.a().whileTrue(ArmCommands.armToSetpoint(pivot, extend, () -> ArmConstants.Prep.L2PivotDegrees, () -> ArmConstants.Prep.L2ExtendInches));
-    controllerOperator.leftBumper().and(controllerOperator.a()).whileTrue(ArmCommands.armToSetpoint(pivot, extend, () -> ArmConstants.Score.L2PivotDegrees, () -> ArmConstants.Score.L2ExtendInches));
+    new Trigger(() -> Math.abs(controllerOperator.getLeftY()) > 0.05)
+        .whileTrue(ArmCommands.joystickPivot(pivot, () -> -controllerOperator.getLeftY()));
+    new Trigger(() -> Math.abs(controllerOperator.getRightY()) > 0.05)
+        .whileTrue(ArmCommands.joystickPivot(pivot, () -> -controllerOperator.getRightY()));
 
-    controllerOperator.b().whileTrue(ArmCommands.armToSetpoint(pivot, extend, () -> ArmConstants.Prep.L3PivotDegrees, () -> ArmConstants.Prep.L3ExtendInches));
-    controllerOperator.leftBumper().and(controllerOperator.b()).whileTrue(ArmCommands.armToSetpoint(pivot, extend, () -> ArmConstants.Score.L3PivotDegrees, () -> ArmConstants.Score.L3ExtendInches));
+    controllerOperator
+        .a()
+        .whileTrue(
+            ArmCommands.armToSetpoint(
+                pivot,
+                extend,
+                () -> ArmConstants.Prep.L2PivotDegrees,
+                () -> ArmConstants.Prep.L2ExtendInches));
+    controllerOperator
+        .leftBumper()
+        .and(controllerOperator.a())
+        .whileTrue(
+            ArmCommands.armToSetpoint(
+                pivot,
+                extend,
+                () -> ArmConstants.Score.L2PivotDegrees,
+                () -> ArmConstants.Score.L2ExtendInches));
 
-    controllerOperator.y().whileTrue(ArmCommands.armToSetpoint(pivot, extend, () -> ArmConstants.Prep.L4PivotDegrees, () -> ArmConstants.Prep.L4ExtendInches));
-    controllerOperator.leftBumper().and(controllerOperator.y()).whileTrue(ArmCommands.armToSetpoint(pivot, extend, () -> ArmConstants.Score.L4PivotDegrees, () -> ArmConstants.Score.L4ExtendInches));
+    controllerOperator
+        .b()
+        .whileTrue(
+            ArmCommands.armToSetpoint(
+                pivot,
+                extend,
+                () -> ArmConstants.Prep.L3PivotDegrees,
+                () -> ArmConstants.Prep.L3ExtendInches));
+    controllerOperator
+        .leftBumper()
+        .and(controllerOperator.b())
+        .whileTrue(
+            ArmCommands.armToSetpoint(
+                pivot,
+                extend,
+                () -> ArmConstants.Score.L3PivotDegrees,
+                () -> ArmConstants.Score.L3ExtendInches));
+
+    controllerOperator
+        .y()
+        .whileTrue(
+            ArmCommands.armToSetpoint(
+                pivot,
+                extend,
+                () -> ArmConstants.Prep.L4PivotDegrees,
+                () -> ArmConstants.Prep.L4ExtendInches));
+    controllerOperator
+        .leftBumper()
+        .and(controllerOperator.y())
+        .whileTrue(
+            ArmCommands.armToSetpoint(
+                pivot,
+                extend,
+                () -> ArmConstants.Score.L4PivotDegrees,
+                () -> ArmConstants.Score.L4ExtendInches));
   }
 
   /**
