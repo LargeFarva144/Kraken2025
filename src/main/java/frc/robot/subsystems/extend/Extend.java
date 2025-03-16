@@ -5,6 +5,7 @@
 package frc.robot.subsystems.extend;
 
 import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
 
@@ -12,7 +13,7 @@ import org.littletonrobotics.junction.Logger;
 public class Extend extends SubsystemBase {
   private ExtendIO io;
   private ExtendIOInputsAutoLogged inputs = new ExtendIOInputsAutoLogged();
-  private double setPointLengthInches;
+  private double setpointLengthInches;
 
   public Extend(ExtendIO io) {
     this.io = io;
@@ -24,21 +25,22 @@ public class Extend extends SubsystemBase {
     Logger.processInputs("Extend", inputs);
   }
 
-  public void extendToLength(double extendLengthInches, double currentPivotRotations) {
-    io.extendToLength(extendLengthInches);
-    this.setPointLengthInches = extendLengthInches;
+  public void extendToLength(double lengthInches) {
+    io.extendToLength(lengthInches);
+    this.setpointLengthInches = lengthInches;
+    Logger.recordOutput("Extend/setpoint", lengthInches);
   }
 
-  public double getLengthInches() {
-    return io.getLengthInches();
+  public Rotation2d getRotation() {
+    return io.getRotation();
   }
 
-  public boolean atSetpoint(double currentPivotRotations) {
+  public boolean atSetpoint() {
     Debouncer setpointDebouncer = new Debouncer(0.5);
-    return setpointDebouncer.calculate(Math.abs(io.getLengthInches() - setPointLengthInches) < 1);
-  }
-
-  public void updateConfig() {
-    io.updateConfig();
+    double closedLoopError = (io.getRotation().getRotations() * ExtendConstants.feedCircumferenceInches) - setpointLengthInches;
+    boolean atSetpoint = setpointDebouncer.calculate(Math.abs(closedLoopError) < 1);
+    Logger.recordOutput("Extend/atSetPoint", atSetpoint);
+    Logger.recordOutput("Extend/closedLoopError", closedLoopError);
+    return atSetpoint;
   }
 }

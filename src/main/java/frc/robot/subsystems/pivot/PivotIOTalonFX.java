@@ -28,7 +28,7 @@ import edu.wpi.first.units.measure.Temperature;
 import edu.wpi.first.units.measure.Voltage;
 
 /** Add your docs here. */
-public class PivotTalonFx implements PivotIO {
+public class PivotIOTalonFX implements PivotIO {
 
   private final TalonFX _pivotMotorK;
   private final CANcoder _pivotCANCoder;
@@ -45,9 +45,10 @@ public class PivotTalonFx implements PivotIO {
   private MotionMagicVoltage positionVoltageRequest;
   private VoltageOut voltageRequest;
 
-  public PivotTalonFx() {
+  public PivotIOTalonFX() {
     _pivotMotorK = new TalonFX(PivotConstants.pivotTalonId);
     _pivotCANCoder = new CANcoder(PivotConstants.pivotCANCoderId);
+
     positionRotations = _pivotMotorK.getPosition();
     velocityRotationsPerSecond = _pivotMotorK.getVelocity();
     voltage = _pivotMotorK.getMotorVoltage();
@@ -73,7 +74,7 @@ public class PivotTalonFx implements PivotIO {
     cfg.CurrentLimits
         .withSupplyCurrentLimitEnable(true)
         .withSupplyCurrentLimit(40);
-    cfg.ClosedLoopGeneral.ContinuousWrap = false; //true = knows when it reaches 360, it is 0
+    cfg.ClosedLoopGeneral.ContinuousWrap = false;
     cfg.ClosedLoopRamps.VoltageClosedLoopRampPeriod = 0.1;
     cfg.Slot0.kP = PivotConstants.kP;
     cfg.Slot0.kI = PivotConstants.kI;
@@ -90,11 +91,7 @@ public class PivotTalonFx implements PivotIO {
     cfg.Feedback.SensorToMechanismRatio = 1;
     cfg.Feedback.RotorToSensorRatio = PivotConstants.pivotGearRatio;
     cfg.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.FusedCANcoder;
-    cfg.Feedback.FeedbackRemoteSensorID = _pivotCANCoder.getDeviceID(); //connecting CAN to motor
-    
-    // voltage limits
-    // cfg.Voltage.PeakForwardVoltage = PivotConstants.pivotPeakVoltage;
-    // cfg.Voltage.PeakReverseVoltage = -PivotConstants.pivotPeakVoltage;
+    cfg.Feedback.FeedbackRemoteSensorID = _pivotCANCoder.getDeviceID();
 
     // Motion Magic
     cfg.MotionMagic.withMotionMagicCruiseVelocity(RotationsPerSecond.of(PivotConstants.motionMagicCruiseVelocity));
@@ -141,7 +138,7 @@ public class PivotTalonFx implements PivotIO {
   }
 
   @Override
-  public Rotation2d getAngle() {
+  public Rotation2d getRotation() {
     return new Rotation2d(Units.rotationsToRadians(_pivotMotorK.getPosition().getValueAsDouble()));
   }
 
@@ -159,7 +156,8 @@ public class PivotTalonFx implements PivotIO {
                 absolutePositionRotations,
                 absoluteVelocityRotationsPerSecond)
             .isOK();
-
+    inputs.motorPositionRotations = positionRotations.getValueAsDouble();
+    inputs.encoderPositionRotations = absolutePositionRotations.getValueAsDouble();
     inputs.positionAngleDegrees = Units.rotationsToDegrees(positionRotations.getValueAsDouble());
     inputs.velocityRotationsPerSecond = velocityRotationsPerSecond.getValueAsDouble();
     inputs.appliedVoltage = voltage.getValueAsDouble();

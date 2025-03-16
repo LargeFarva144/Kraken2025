@@ -164,10 +164,10 @@ public class DriveCommands {
    * Drives to target pose on PathPlanner on-the-fly path
    *
    * @param drive Drive subsystem
-   * @param targetPose Target pose to drive to
+   * @param targetPoseSupplier Target pose to drive to
    * @return Returns command for drive subsystem
    */
-  public static Command driveToPose(Drive drive, Supplier<Pose2d> targetPose) {
+  public static Command driveToPose(Drive drive, Supplier<Pose2d> targetPoseSupplier) {
 
     return Commands.runOnce(
         () -> {
@@ -177,14 +177,14 @@ public class DriveCommands {
           // new PPHolonomicDriveController(new PIDConstants(5.0), new PIDConstants(5.0));
 
           List<Waypoint> waypoints =
-              PathPlannerPath.waypointsFromPoses(startPose, targetPose.get());
+              PathPlannerPath.waypointsFromPoses(startPose, targetPoseSupplier.get());
           PathPlannerPath path =
               new PathPlannerPath(
                   waypoints,
                   new PathConstraints(
                       5, 5, Units.degreesToRadians(360), Units.degreesToRadians(540)),
                   null,
-                  new GoalEndState(0.0, targetPose.get().getRotation()));
+                  new GoalEndState(0.0, targetPoseSupplier.get().getRotation()));
 
           path.preventFlipping = true;
           AutoBuilder.followPath(path).schedule();

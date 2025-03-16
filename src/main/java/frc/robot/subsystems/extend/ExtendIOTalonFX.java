@@ -19,6 +19,9 @@ import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
@@ -26,24 +29,24 @@ import edu.wpi.first.units.measure.Temperature;
 import edu.wpi.first.units.measure.Voltage;
 
 /** Add your docs here. */
-public class ExtendTalonFx implements ExtendIO {
+public class ExtendIOTalonFX implements ExtendIO {
 
   private final TalonFX _extendMotorK;
   private final CANcoder _extendCANCoder;
 
   private StatusSignal<Angle> positionRotations;
   private StatusSignal<AngularVelocity> velocityRotationsPerSecond;
+  private StatusSignal<Angle> absolutePositionRotations;
+  private StatusSignal<AngularVelocity> absoluteVelocityRotationsPerSecond;
   private StatusSignal<Voltage> voltage;
   private StatusSignal<Current> supplyCurrentAmps;
   private StatusSignal<Current> torqueCurrentAmps;
   private StatusSignal<Temperature> tempCelsius;
-  private StatusSignal<Angle> absolutePositionRotations;
-  private StatusSignal<AngularVelocity> absoluteVelocityRotationsPerSecond;
 
   private MotionMagicVoltage positionVoltageRequest;
   private VoltageOut voltageRequest;
 
-  public ExtendTalonFx() {
+  public ExtendIOTalonFX() {
     _extendMotorK = new TalonFX(ExtendConstants.extendTalonId);
     _extendCANCoder = new CANcoder(ExtendConstants.extendCANCoderId);
 
@@ -86,17 +89,13 @@ public class ExtendTalonFx implements ExtendIO {
     
     cfg.Feedback.SensorToMechanismRatio = 1;
     cfg.Feedback.RotorToSensorRatio = ExtendConstants.extendGearRatio;
-    cfg.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.FusedCANcoder;
-    cfg.Feedback.FeedbackRemoteSensorID = _extendCANCoder.getDeviceID(); //Add this when adding an EnCoder gives it its ID
+    cfg.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
+    cfg.Feedback.FeedbackRemoteSensorID = _extendCANCoder.getDeviceID();
     
     // Motion Magic
     cfg.MotionMagic.withMotionMagicCruiseVelocity(RotationsPerSecond.of(ExtendConstants.motionMagicCruiseVelocity));
     cfg.MotionMagic.withMotionMagicAcceleration(RotationsPerSecondPerSecond.of(ExtendConstants.motionMagicAcceleration));
     cfg.MotionMagic.withMotionMagicJerk(RotationsPerSecondPerSecond.per(Second).of(ExtendConstants.motionMagicJerk));
-
-    // voltage limits
-    // cfg.Voltage.PeakForwardVoltage = ExtendConstants.extendPeakVoltage;
-    // cfg.Voltage.PeakReverseVoltage = -ExtendConstants.extendPeakVoltage;
 
     _extendMotorK.setPosition(_extendCANCoder.getAbsolutePosition().getValueAsDouble());
     // spotless:on
@@ -132,19 +131,17 @@ public class ExtendTalonFx implements ExtendIO {
   }
 
   @Override
-  public void extendToLength(double extendLengthInches) {
+  public void extendToLength(double lengthInches) {
     double targetExtendRotations =
-        (extendLengthInches - ExtendConstants.extendOffsetInches)
+        (lengthInches - ExtendConstants.extendOffsetInches)
             / ExtendConstants.feedCircumferenceInches;
     _extendMotorK.setControl(
         positionVoltageRequest.withPosition(targetExtendRotations).withSlot(0));
   }
 
   @Override
-  public double getLengthInches() {
-    return ExtendConstants.extendOffsetInches
-        + (_extendMotorK.getPosition().getValueAsDouble()
-            * (ExtendConstants.feedCircumferenceInches));
+  public Rotation2d getRotation() {
+    return new Rotation2d(Units.rotationsToRadians(_extendMotorK.getPosition().getValueAsDouble()));
   }
 
   @Override
@@ -161,7 +158,8 @@ public class ExtendTalonFx implements ExtendIO {
                 absoluteVelocityRotationsPerSecond)
             .isOK();
 
-    inputs.positionRotations = positionRotations.getValueAsDouble();
+    inputs.motorPositionRotations = positionRotations.getValueAsDouble();
+    inputs.encoderPositionRotations = absolutePositionRotations.getValueAsDouble();
     inputs.positionInches =
         positionRotations.getValueAsDouble() * (ExtendConstants.feedCircumferenceInches * Math.PI);
     inputs.velocityRotationsPerSecond = velocityRotationsPerSecond.getValueAsDouble();

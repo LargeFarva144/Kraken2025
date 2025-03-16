@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.commands.ArmCommands;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.drive.Drive;
@@ -32,10 +33,16 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
+import frc.robot.subsystems.extend.Extend;
+import frc.robot.subsystems.extend.ExtendIO;
+import frc.robot.subsystems.extend.ExtendIOTalonFX;
+import frc.robot.subsystems.pivot.Pivot;
+import frc.robot.subsystems.pivot.PivotIOTalonFX;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOPhotonVision;
 import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
+import frc.robot.util.ArmConstants;
 import frc.robot.util.PoseConstants;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
@@ -49,10 +56,12 @@ public class RobotContainer {
   // Subsystems
   private final Drive drive;
   private final Vision vision;
+  private final Pivot pivot;
+  private final Extend extend;
 
   // Controller
   private final CommandXboxController controllerDriver = new CommandXboxController(0);
-  // private final CommandXboxController controllerOperator = new CommandXboxController(1);
+  private final CommandXboxController controllerOperator = new CommandXboxController(1);
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
@@ -76,6 +85,8 @@ public class RobotContainer {
                 new VisionIOPhotonVision(camera1Name, robotToCamera1),
                 new VisionIOPhotonVision(camera2Name, robotToCamera2),
                 new VisionIOPhotonVision(camera3Name, robotToCamera3));
+        pivot = new Pivot(new PivotIOTalonFX());
+        extend = new Extend(new ExtendIOTalonFX());
         break;
 
       case SIM:
@@ -94,6 +105,8 @@ public class RobotContainer {
                 new VisionIOPhotonVisionSim(camera1Name, robotToCamera1, drive::getPose),
                 new VisionIOPhotonVisionSim(camera2Name, robotToCamera2, drive::getPose),
                 new VisionIOPhotonVisionSim(camera3Name, robotToCamera3, drive::getPose));
+        pivot = new Pivot(null);
+        extend = new Extend(null);
         break;
 
       default:
@@ -112,6 +125,8 @@ public class RobotContainer {
                 new VisionIO() {},
                 new VisionIO() {},
                 new VisionIO() {});
+        pivot = new Pivot(null);
+        extend = new Extend(null);
         break;
     }
 
@@ -153,6 +168,8 @@ public class RobotContainer {
             () -> -controllerDriver.getLeftX(),
             () -> -controllerDriver.getRightX()));
 
+    pivot.setDefaultCommand(ArmCommands.armToHome(pivot, extend, () -> ArmConstants.Home.homePivotDegrees, () -> ArmConstants.Home.homeExtendInches));
+
     // Lock to 0° when A button is held
     controllerDriver
         .a()
@@ -186,10 +203,19 @@ public class RobotContainer {
 
     controllerDriver
         .rightTrigger(0.1)
-        .and(() -> PoseConstants.getTargetPose(vision.getForwardTargetID(), true) != null)
+        .and(() -> PoseConstants.getTargetPose(vision.getForwardTargetID(), false) != null)
         .onTrue(
             DriveCommands.driveToPose(
                 drive, () -> PoseConstants.getTargetPose(vision.getForwardTargetID(), false)));
+    
+    controllerOperator.a().whileTrue(ArmCommands.armToSetpoint(pivot, extend, () -> ArmConstants.Prep.L2PivotDegrees, () -> ArmConstants.Prep.L2ExtendInches));
+    controllerOperator.leftBumper().and(controllerOperator.a()).whileTrue(ArmCommands.armToSetpoint(pivot, extend, () -> ArmConstants.Score.L2PivotDegrees, () -> ArmConstants.Score.L2ExtendInches));
+
+    controllerOperator.b().whileTrue(ArmCommands.armToSetpoint(pivot, extend, () -> ArmConstants.Prep.L3PivotDegrees, () -> ArmConstants.Prep.L3ExtendInches));
+    controllerOperator.leftBumper().and(controllerOperator.b()).whileTrue(ArmCommands.armToSetpoint(pivot, extend, () -> ArmConstants.Score.L3PivotDegrees, () -> ArmConstants.Score.L3ExtendInches));
+
+    controllerOperator.y().whileTrue(ArmCommands.armToSetpoint(pivot, extend, () -> ArmConstants.Prep.L4PivotDegrees, () -> ArmConstants.Prep.L4ExtendInches));
+    controllerOperator.leftBumper().and(controllerOperator.y()).whileTrue(ArmCommands.armToSetpoint(pivot, extend, () -> ArmConstants.Score.L4PivotDegrees, () -> ArmConstants.Score.L4ExtendInches));
   }
 
   /**

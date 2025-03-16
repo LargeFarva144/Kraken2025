@@ -36,15 +36,19 @@ public class Pivot extends SubsystemBase {
   public void pivotToAngle(double angleDegrees) {
     io.pivotToAngle(angleDegrees);
     this.setpointAngleDegrees = angleDegrees;
+    Logger.recordOutput("Pivot/setpoint", angleDegrees);
   }
 
-  public Rotation2d getAngle() {
-    return io.getAngle();
+  public Rotation2d getRotation() {
+    return io.getRotation();
   }
 
   public boolean atSetpoint() {
     Debouncer setpointDebouncer = new Debouncer(0.5);
-    return setpointDebouncer.calculate(
-        Math.abs(io.getAngle().getDegrees() - setpointAngleDegrees) < 1);
+    double closedLoopError = io.getRotation().getDegrees() - setpointAngleDegrees;
+    boolean atSetpoint = setpointDebouncer.calculate(Math.abs(closedLoopError) < 1);
+    Logger.recordOutput("Pivot/atSetPoint", atSetpoint);
+    Logger.recordOutput("Pivot/closedLoopError", closedLoopError);
+    return atSetpoint;
   }
 }
