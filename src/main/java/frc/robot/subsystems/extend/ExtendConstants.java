@@ -14,7 +14,7 @@ public class ExtendConstants {
   // Soft Limit Parameters
   public static final boolean extendForwardSoftLimitEnabled = true;
   public static final boolean extendReverseSoftLimitEnabled = true;
-  public static final double reverseSoftLimitThreshold = 5;
+  public static final double extendReverseSoftLimit = 5;
   public static final double defaultExtensionLimitInches = 24;
   public static final double fwdEnvelopeInches = 18 + 7;
   public static final double aftEnvelopeInches = 18 + 22;
