@@ -75,13 +75,16 @@ public class Vision extends SubsystemBase {
       int camera0target = inputs[0].tagIds[0];
       int camera1target = inputs[1].tagIds[0];
       if (camera0target == camera1target) {
+        System.out.println(camera0target);
         return camera0target;
       } else {
         return -1;
       }
     } else if (inputs[0].tagIds.length != 0) {
+      System.out.println(inputs[0].tagIds[0]);
       return inputs[0].tagIds[0];
     } else if (inputs[1].tagIds.length != 0) {
+      System.out.println(inputs[1].tagIds[0]);
       return inputs[1].tagIds[0];
     } else {
       return -1;
