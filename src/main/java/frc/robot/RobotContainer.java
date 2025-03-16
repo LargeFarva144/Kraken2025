@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.ArmCommands;
 import frc.robot.commands.DriveCommands;
@@ -207,6 +208,9 @@ public class RobotContainer {
         .onTrue(
             DriveCommands.driveToPose(
                 drive, () -> PoseConstants.getTargetPose(vision.getForwardTargetID(), false)));
+
+    new Trigger(() -> Math.abs(controllerOperator.getLeftY()) > 0.05).whileTrue(ArmCommands.joystickPivot(pivot, () -> -controllerOperator.getLeftY()));
+    new Trigger(() -> Math.abs(controllerOperator.getRightY()) > 0.05).whileTrue(ArmCommands.joystickPivot(pivot, () -> -controllerOperator.getRightY()));
     
     controllerOperator.a().whileTrue(ArmCommands.armToSetpoint(pivot, extend, () -> ArmConstants.Prep.L2PivotDegrees, () -> ArmConstants.Prep.L2ExtendInches));
     controllerOperator.leftBumper().and(controllerOperator.a()).whileTrue(ArmCommands.armToSetpoint(pivot, extend, () -> ArmConstants.Score.L2PivotDegrees, () -> ArmConstants.Score.L2ExtendInches));

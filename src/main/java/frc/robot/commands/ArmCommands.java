@@ -18,4 +18,14 @@ public class ArmCommands {
     return Commands.sequence(Commands.run(() -> pivot.pivotToAngle(pivotSetpointSupplier.getAsDouble())).until(() -> pivot.atSetpoint()).andThen(Commands.run(() -> extend.extendToLength(extendSetpointSupplier.getAsDouble()))));
   }
 
+  public static Command joystickPivot(Pivot pivot, DoubleSupplier ySupplier) {
+    double voltLimit = 6;
+    return Commands.run(() -> pivot.runVolts(ySupplier.getAsDouble() * voltLimit));
+  }
+
+  public static Command joystickExtend(Extend extend, DoubleSupplier ySupplier) {
+    double voltLimit = 6;
+    return Commands.run(() -> extend.runVolts(ySupplier.getAsDouble() * voltLimit));
+  }
+
 }
