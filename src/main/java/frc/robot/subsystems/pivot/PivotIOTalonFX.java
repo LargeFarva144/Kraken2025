@@ -139,7 +139,7 @@ public class PivotIOTalonFX implements PivotIO {
 
   @Override
   public void stop() {
-    _pivotCANCoder.setControl(voltageRequest.withOutput(0));
+    _pivotMotorK.setControl(voltageRequest.withOutput(0));
   }
 
   @Override

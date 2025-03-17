@@ -183,11 +183,6 @@ public class RobotContainer {
             () -> -controllerDriver.getLeftX(),
             () -> -controllerDriver.getRightX()));
 
-    // pivot.setDefaultCommand(ArmCommands.joystickPivot(pivot, () ->
-    // -controllerOperator.getLeftY()));
-    // extend.setDefaultCommand(
-    //     ArmCommands.joystickExtend(extend, () -> -controllerOperator.getRightY()));
-
     // pivot.setDefaultCommand(
     //     ArmCommands.armToHome(
     //         pivot,
@@ -247,10 +242,10 @@ public class RobotContainer {
 
     // Operator Controller Bindings
 
-    new Trigger(() -> Math.abs(controllerOperator.getLeftY()) > 0.05)
+    new Trigger(() -> Math.abs(controllerOperator.getLeftY()) > 0.5)
         .whileTrue(ArmCommands.joystickPivot(pivot, () -> -controllerOperator.getLeftY()))
         .onFalse(Commands.runOnce(() -> pivot.stop()));
-    new Trigger(() -> Math.abs(controllerOperator.getRightY()) > 0.05)
+    new Trigger(() -> Math.abs(controllerOperator.getRightY()) > 0.5)
         .whileTrue(ArmCommands.joystickExtend(extend, () -> -controllerOperator.getRightY()))
         .onFalse(Commands.runOnce(() -> extend.stop()));
 
@@ -307,6 +302,8 @@ public class RobotContainer {
                 extend,
                 () -> ArmConstants.Score.L4PivotDegrees,
                 () -> ArmConstants.Score.L4ExtendInches));
+
+    controllerOperator.start().onTrue(Commands.runOnce(() -> extend.resetZero()));
   }
 
   /**

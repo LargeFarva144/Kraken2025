@@ -85,7 +85,7 @@ public class ExtendIOTalonFX implements ExtendIO {
     cfg.SoftwareLimitSwitch.ForwardSoftLimitEnable = ExtendConstants.extendForwardSoftLimitEnabled;
     cfg.SoftwareLimitSwitch.ForwardSoftLimitThreshold = ExtendConstants.defaultExtensionLimitInches;
     cfg.SoftwareLimitSwitch.ReverseSoftLimitEnable = ExtendConstants.extendReverseSoftLimitEnabled;
-    cfg.SoftwareLimitSwitch.ReverseSoftLimitThreshold = ExtendConstants.extendReverseSoftLimit;
+    cfg.SoftwareLimitSwitch.ReverseSoftLimitThreshold = (ExtendConstants.extendReverseSoftLimitInches - ExtendConstants.extendOffsetInches) / ExtendConstants.feedCircumferenceInches;
     
     cfg.Feedback.SensorToMechanismRatio = 1;
     cfg.Feedback.RotorToSensorRatio = ExtendConstants.extendGearRatio;
@@ -147,6 +147,11 @@ public class ExtendIOTalonFX implements ExtendIO {
   @Override
   public Rotation2d getRotation() {
     return new Rotation2d(Units.rotationsToRadians(_extendMotorK.getPosition().getValueAsDouble()));
+  }
+
+  @Override
+  public void resetZero() {
+    _extendCANCoder.setPosition(0);
   }
 
   @Override

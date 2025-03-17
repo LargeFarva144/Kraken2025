@@ -4,7 +4,7 @@ public class PivotConstants {
   public static final int pivotTalonId = 21;
   public static final int pivotCANCoderId = 23;
   public static final boolean pivotInvert = false; // confirm and match cancoder
-  public static final boolean pivotNeutralModeBrake = false;
+  public static final boolean pivotNeutralModeBrake = true;
   public static final double pivotPeakVoltage = 12;
   public static final double pivotGearRatio = 60; // confirm
 
@@ -15,7 +15,7 @@ public class PivotConstants {
   public static final double pivotReverseSoftLimitDegrees = -78;
 
   // PID
-  public static double kP = 65;
+  public static double kP = 70;
   public static double kI = 0;
   public static double kD = 0.5;
   public static double kG = 0;

@@ -42,5 +42,7 @@ public interface ExtendIO {
 
   public default void updateExtensionLimit(double extensionLimitInches) {}
 
+  public default void resetZero() {}
+
   public default void updateInputs(ExtendIOInputs inputs) {}
 }

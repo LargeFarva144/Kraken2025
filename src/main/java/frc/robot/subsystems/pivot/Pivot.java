@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems.pivot;
 
-import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
@@ -48,11 +47,12 @@ public class Pivot extends SubsystemBase {
   }
 
   public boolean atSetpoint() {
-    Debouncer setpointDebouncer = new Debouncer(0.5);
-    double closedLoopError = io.getRotation().getDegrees() - setpointAngleDegrees;
-    boolean atSetpoint = setpointDebouncer.calculate(Math.abs(closedLoopError) < 1);
+    // Debouncer setpointDebouncer = new Debouncer(0.5);
+    double closedLoopErrorDegrees = io.getRotation().getDegrees() - setpointAngleDegrees;
+    // boolean atSetpoint = setpointDebouncer.calculate(Math.abs(closedLoopError) < 1);
+    boolean atSetpoint = Math.abs(closedLoopErrorDegrees) < 1;
     Logger.recordOutput("Pivot/atSetPoint", atSetpoint);
-    Logger.recordOutput("Pivot/closedLoopError", closedLoopError);
+    Logger.recordOutput("Pivot/closedLoopError", closedLoopErrorDegrees);
     return atSetpoint;
   }
 }

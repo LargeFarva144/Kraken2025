@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems.extend;
 
-import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -25,7 +24,7 @@ public class Extend extends SubsystemBase {
 
   /** updates Extend values periodically */
   public void periodic() {
-    updateExtensionLimit(calculateExtensionLimit((pivot.getRotation())));
+    // updateExtensionLimit(calculateExtensionLimit((pivot.getRotation())));
     io.updateInputs(inputs);
     Logger.processInputs("Extend", inputs);
   }
@@ -74,12 +73,17 @@ public class Extend extends SubsystemBase {
     Logger.recordOutput("Extend/extensionLimitInches", extensionLimitInches);
   }
 
+  public void resetZero() {
+    io.resetZero();
+  }
+
   public boolean atSetpoint() {
-    Debouncer setpointDebouncer = new Debouncer(0.5);
+    // Debouncer setpointDebouncer = new Debouncer(0.5);
     double closedLoopError =
         (io.getRotation().getRotations() * ExtendConstants.feedCircumferenceInches)
             - setpointLengthInches;
-    boolean atSetpoint = setpointDebouncer.calculate(Math.abs(closedLoopError) < 1);
+    // boolean atSetpoint = setpointDebouncer.calculate(Math.abs(closedLoopError) < 1);
+    boolean atSetpoint = Math.abs(closedLoopError) < 1;
     Logger.recordOutput("Extend/atSetPoint", atSetpoint);
     Logger.recordOutput("Extend/closedLoopError", closedLoopError);
     return atSetpoint;

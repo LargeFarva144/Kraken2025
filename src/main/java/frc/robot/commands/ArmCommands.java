@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.extend.Extend;
 import frc.robot.subsystems.pivot.Pivot;
+import frc.robot.util.ArmConstants;
 import java.util.function.DoubleSupplier;
 
 public class ArmCommands {
@@ -15,9 +16,10 @@ public class ArmCommands {
       DoubleSupplier pivotHomeSupplier,
       DoubleSupplier extendHomeSupplier) {
     return Commands.sequence(
-        Commands.run(() -> extend.extendToLength(extendHomeSupplier.getAsDouble()))
+        Commands.run(() -> extend.extendToLength(extendHomeSupplier.getAsDouble()), extend)
             .until(() -> extend.atSetpoint())
-            .andThen(Commands.run(() -> pivot.pivotToAngle(pivotHomeSupplier.getAsDouble()))));
+            .andThen(
+                Commands.run(() -> pivot.pivotToAngle(pivotHomeSupplier.getAsDouble()), pivot)));
   }
 
   public static Command armToSetpoint(
@@ -26,13 +28,15 @@ public class ArmCommands {
       DoubleSupplier pivotSetpointSupplier,
       DoubleSupplier extendSetpointSupplier) {
     return Commands.sequence(
-        Commands.run(() -> pivot.pivotToAngle(pivotSetpointSupplier.getAsDouble()))
+        Commands.parallel(
+                Commands.run(() -> pivot.pivotToAngle(pivotSetpointSupplier.getAsDouble()), pivot),
+                Commands.run(
+                    () -> extend.extendToLength(ArmConstants.Home.homeExtendInches), extend))
             .until(() -> pivot.atSetpoint())
             .andThen(
-                Commands.runOnce(
-                    () ->
-                        extend.extendToLength(
-                            extendSetpointSupplier.getAsDouble())))); // might need run().until()
+                Commands.run(
+                    () -> extend.extendToLength(extendSetpointSupplier.getAsDouble()),
+                    extend))); // might need run().until()
   }
 
   public static Command joystickPivot(Pivot pivot, DoubleSupplier ySupplier) {
