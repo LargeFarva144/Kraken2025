@@ -4,7 +4,6 @@
 
 package frc.robot.commands.autos;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.ArmCommands;
@@ -17,9 +16,19 @@ public class L4 extends SequentialCommandGroup {
   public L4(Pivot pivot, Extend extend) {
 
     addCommands(
-      new InstantCommand(() -> ArmCommands.armToSetpoint(pivot, extend, () -> ArmConstants.Prep.L4PivotDegrees, () -> ArmConstants.Prep.L4ExtendInches)),
-      new InstantCommand(() -> ArmCommands.armToSetpoint(pivot, extend, () -> ArmConstants.Score.L4PivotDegrees, () -> ArmConstants.Score.L4ExtendInches))
-    );
+        new InstantCommand(
+            () ->
+                ArmCommands.armToSetpoint(
+                    pivot,
+                    extend,
+                    () -> ArmConstants.Prep.L4PivotDegrees,
+                    () -> ArmConstants.Prep.L4ExtendInches)),
+        new InstantCommand(
+            () ->
+                ArmCommands.armToSetpoint(
+                    pivot,
+                    extend,
+                    () -> ArmConstants.Score.L4PivotDegrees,
+                    () -> ArmConstants.Score.L4ExtendInches)));
   }
-
 }

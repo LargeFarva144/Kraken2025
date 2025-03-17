@@ -9,7 +9,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.pivot.Pivot;
-
 import org.littletonrobotics.junction.Logger;
 
 /** Add your docs here. */
@@ -45,12 +44,21 @@ public class Extend extends SubsystemBase {
 
   public double calculateExtensionLimit(Rotation2d pivotAngleRotation) {
     double pivotAngleRadians = pivotAngleRotation.getRadians();
-    if (pivotAngleRadians > Units.degreesToRadians(-78) && pivotAngleRadians < Units.degreesToRadians(0)) {
-      return ExtendConstants.funnelToPivotInches / Math.sin(pivotAngleRadians - Units.degreesToRadians(ExtendConstants.funnelAngleDegrees));
-    } else if (pivotAngleRadians >= Units.degreesToRadians(0) && pivotAngleRadians < Units.degreesToRadians(90)) {
-      return Math.min(ExtendConstants.aftEnvelopeInches / Math.cos(pivotAngleRadians), ExtendConstants.maxExtensionInches);
-    } else if (pivotAngleRadians >= Units.degreesToRadians(90) && pivotAngleRadians < Units.degreesToRadians(135)) {
-      return Math.min(ExtendConstants.aftEnvelopeInches / Math.cos(pivotAngleRadians), ExtendConstants.maxExtensionInches);
+    if (pivotAngleRadians > Units.degreesToRadians(-78)
+        && pivotAngleRadians < Units.degreesToRadians(0)) {
+      return ExtendConstants.funnelToPivotInches
+          / Math.sin(
+              pivotAngleRadians - Units.degreesToRadians(ExtendConstants.funnelAngleDegrees));
+    } else if (pivotAngleRadians >= Units.degreesToRadians(0)
+        && pivotAngleRadians < Units.degreesToRadians(90)) {
+      return Math.min(
+          ExtendConstants.aftEnvelopeInches / Math.cos(pivotAngleRadians),
+          ExtendConstants.maxExtensionInches);
+    } else if (pivotAngleRadians >= Units.degreesToRadians(90)
+        && pivotAngleRadians < Units.degreesToRadians(135)) {
+      return Math.min(
+          ExtendConstants.aftEnvelopeInches / Math.cos(pivotAngleRadians),
+          ExtendConstants.maxExtensionInches);
     } else {
       return ExtendConstants.defaultExtensionLimitInches;
     }

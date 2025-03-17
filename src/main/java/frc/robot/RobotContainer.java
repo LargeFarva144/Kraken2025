@@ -17,7 +17,6 @@ import static frc.robot.subsystems.vision.VisionConstants.*;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -95,7 +94,8 @@ public class RobotContainer {
                 new VisionIOPhotonVision(camera2Name, robotToCamera2),
                 new VisionIOPhotonVision(camera3Name, robotToCamera3));
         pivot = new Pivot(new PivotIOTalonFX());
-        extend = new Extend(new ExtendIOTalonFX(), pivot); //pivot must be first, is passed into extend
+        extend =
+            new Extend(new ExtendIOTalonFX(), pivot); // pivot must be first, is passed into extend
         hopper = new Hopper(new HopperIOCANrange());
         break;
 
@@ -192,13 +192,18 @@ public class RobotContainer {
             () -> ArmConstants.Home.homePivotDegrees,
             () -> ArmConstants.Home.homeExtendInches));
 
-    //Automatic Triggers
+    // Automatic Triggers
 
     new Trigger(() -> hopper.getObjectDetection())
-        .onTrue(ArmCommands.armToSetpoint(pivot, extend, () -> ArmConstants.Coral.coralPivotDegrees, () -> ArmConstants.Coral.coralExtendInches));
-    
-    //Driver Controller Bindings
-    
+        .onTrue(
+            ArmCommands.armToSetpoint(
+                pivot,
+                extend,
+                () -> ArmConstants.Coral.coralPivotDegrees,
+                () -> ArmConstants.Coral.coralExtendInches));
+
+    // Driver Controller Bindings
+
     // Lock to 0° when A button is held
     controllerDriver
         .a()

@@ -29,7 +29,10 @@ public class ArmCommands {
         Commands.run(() -> pivot.pivotToAngle(pivotSetpointSupplier.getAsDouble()))
             .until(() -> pivot.atSetpoint())
             .andThen(
-                Commands.runOnce(() -> extend.extendToLength(extendSetpointSupplier.getAsDouble())))); // might need run().until()
+                Commands.runOnce(
+                    () ->
+                        extend.extendToLength(
+                            extendSetpointSupplier.getAsDouble())))); // might need run().until()
   }
 
   public static Command joystickPivot(Pivot pivot, DoubleSupplier ySupplier) {

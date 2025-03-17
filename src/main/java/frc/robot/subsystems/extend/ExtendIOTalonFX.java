@@ -149,14 +149,14 @@ public class ExtendIOTalonFX implements ExtendIO {
     TalonFXConfigurator configurator = _extendMotorK.getConfigurator();
     TalonFXConfiguration cfg = new TalonFXConfiguration();
 
-    cfg.SoftwareLimitSwitch.ForwardSoftLimitThreshold = extensionLimitInches / ExtendConstants.feedCircumferenceInches;
+    cfg.SoftwareLimitSwitch.ForwardSoftLimitThreshold =
+        extensionLimitInches / ExtendConstants.feedCircumferenceInches;
 
     configurator.refresh(cfg);
 
     if (positionRotations.getValueAsDouble() > extensionLimitInches) {
       extendToLength(extensionLimitInches);
     }
-
   }
 
   @Override
