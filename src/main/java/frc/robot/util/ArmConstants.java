@@ -8,6 +8,11 @@ public class ArmConstants {
     public static double homeExtendInches = 8;
   }
 
+  public class Coral {
+    public static double coralPivotDegrees = -70;
+    public static double coralExtendInches = 18;
+  }
+
   public class Prep {
 
     public static double L4PivotDegrees = 95;

@@ -144,6 +144,7 @@ public class ExtendIOTalonFX implements ExtendIO {
     return new Rotation2d(Units.rotationsToRadians(_extendMotorK.getPosition().getValueAsDouble()));
   }
 
+  @Override
   public void updateExtensionLimit(double extensionLimitInches) {
     TalonFXConfigurator configurator = _extendMotorK.getConfigurator();
     TalonFXConfiguration cfg = new TalonFXConfiguration();
