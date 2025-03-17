@@ -30,12 +30,18 @@ public class Extend extends SubsystemBase {
     Logger.processInputs("Extend", inputs);
   }
 
-  public void runVolts(double volts) {}
+  public void runVolts(double volts) {
+    io.runVolts(volts);
+  }
 
   public void extendToLength(double lengthInches) {
     io.extendToLength(lengthInches);
     this.setpointLengthInches = lengthInches;
     Logger.recordOutput("Extend/setpoint", lengthInches);
+  }
+
+  public void stop() {
+    io.stop();
   }
 
   public Rotation2d getRotation() {

@@ -36,12 +36,12 @@ public class ArmCommands {
   }
 
   public static Command joystickPivot(Pivot pivot, DoubleSupplier ySupplier) {
-    double voltLimit = 6;
-    return Commands.run(() -> pivot.runVolts(ySupplier.getAsDouble() * voltLimit));
+    double voltLimit = 2;
+    return Commands.run(() -> pivot.runVolts(ySupplier.getAsDouble() * voltLimit), pivot);
   }
 
   public static Command joystickExtend(Extend extend, DoubleSupplier ySupplier) {
     double voltLimit = 6;
-    return Commands.run(() -> extend.runVolts(ySupplier.getAsDouble() * voltLimit));
+    return Commands.run(() -> extend.runVolts(ySupplier.getAsDouble() * voltLimit), extend);
   }
 }

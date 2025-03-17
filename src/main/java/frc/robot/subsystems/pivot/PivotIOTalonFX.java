@@ -84,9 +84,9 @@ public class PivotIOTalonFX implements PivotIO {
     cfg.Slot0.kV = PivotConstants.kV;
     cfg.Slot0.kA = PivotConstants.kA;
     cfg.SoftwareLimitSwitch.ForwardSoftLimitEnable = PivotConstants.pivotForwardSoftLimitEnabled;
-    cfg.SoftwareLimitSwitch.ForwardSoftLimitThreshold = PivotConstants.pivotForwardSoftLimit;
+    cfg.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.degreesToRotations(PivotConstants.pivotForwardSoftLimitDegrees);
     cfg.SoftwareLimitSwitch.ReverseSoftLimitEnable = PivotConstants.pivotReverseSoftLimitEnabled;
-    cfg.SoftwareLimitSwitch.ReverseSoftLimitThreshold = PivotConstants.pivotReverseSoftLimit;
+    cfg.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.degreesToRotations(PivotConstants.pivotReverseSoftLimitDegrees);
     cfg.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
     cfg.Feedback.SensorToMechanismRatio = 1;
     cfg.Feedback.RotorToSensorRatio = PivotConstants.pivotGearRatio;
@@ -135,6 +135,11 @@ public class PivotIOTalonFX implements PivotIO {
   public void pivotToAngle(double angleDegrees) {
     _pivotMotorK.setControl(
         positionVoltageRequest.withPosition(Units.degreesToRotations(angleDegrees)).withSlot(0));
+  }
+
+  @Override
+  public void stop() {
+    _pivotCANCoder.setControl(voltageRequest.withOutput(0));
   }
 
   @Override

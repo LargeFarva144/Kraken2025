@@ -38,8 +38,6 @@ import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
 import frc.robot.subsystems.extend.Extend;
 import frc.robot.subsystems.extend.ExtendIOTalonFX;
-import frc.robot.subsystems.hopper.Hopper;
-import frc.robot.subsystems.hopper.HopperIOCANrange;
 import frc.robot.subsystems.pivot.Pivot;
 import frc.robot.subsystems.pivot.PivotIOTalonFX;
 import frc.robot.subsystems.vision.Vision;
@@ -62,7 +60,7 @@ public class RobotContainer {
   private final Vision vision;
   private final Pivot pivot;
   private final Extend extend;
-  private final Hopper hopper;
+  // private final Hopper hopper;
 
   // Controller
   private final CommandXboxController controllerDriver = new CommandXboxController(0);
@@ -96,7 +94,7 @@ public class RobotContainer {
         pivot = new Pivot(new PivotIOTalonFX());
         extend =
             new Extend(new ExtendIOTalonFX(), pivot); // pivot must be first, is passed into extend
-        hopper = new Hopper(new HopperIOCANrange());
+        // hopper = new Hopper(new HopperIOCANrange());
         break;
 
       case SIM:
@@ -117,7 +115,7 @@ public class RobotContainer {
                 new VisionIOPhotonVisionSim(camera3Name, robotToCamera3, drive::getPose));
         pivot = new Pivot(null);
         extend = new Extend(null, pivot);
-        hopper = new Hopper(null);
+        // hopper = new Hopper(null);
         break;
 
       default:
@@ -138,7 +136,7 @@ public class RobotContainer {
                 new VisionIO() {});
         pivot = new Pivot(null);
         extend = new Extend(null, pivot);
-        hopper = new Hopper(null);
+        // hopper = new Hopper(null);
         break;
     }
 
@@ -185,22 +183,27 @@ public class RobotContainer {
             () -> -controllerDriver.getLeftX(),
             () -> -controllerDriver.getRightX()));
 
-    pivot.setDefaultCommand(
-        ArmCommands.armToHome(
-            pivot,
-            extend,
-            () -> ArmConstants.Home.homePivotDegrees,
-            () -> ArmConstants.Home.homeExtendInches));
+    // pivot.setDefaultCommand(ArmCommands.joystickPivot(pivot, () ->
+    // -controllerOperator.getLeftY()));
+    // extend.setDefaultCommand(
+    //     ArmCommands.joystickExtend(extend, () -> -controllerOperator.getRightY()));
+
+    // pivot.setDefaultCommand(
+    //     ArmCommands.armToHome(
+    //         pivot,
+    //         extend,
+    //         () -> ArmConstants.Home.homePivotDegrees,
+    //         () -> ArmConstants.Home.homeExtendInches));
 
     // Automatic Triggers
 
-    new Trigger(() -> hopper.getObjectDetection())
-        .onTrue(
-            ArmCommands.armToSetpoint(
-                pivot,
-                extend,
-                () -> ArmConstants.Coral.coralPivotDegrees,
-                () -> ArmConstants.Coral.coralExtendInches));
+    // new Trigger(() -> hopper.getObjectDetection())
+    //     .onTrue(
+    //         ArmCommands.armToSetpoint(
+    //             pivot,
+    //             extend,
+    //             () -> ArmConstants.Coral.coralPivotDegrees,
+    //             () -> ArmConstants.Coral.coralExtendInches));
 
     // Driver Controller Bindings
 
@@ -245,9 +248,11 @@ public class RobotContainer {
     // Operator Controller Bindings
 
     new Trigger(() -> Math.abs(controllerOperator.getLeftY()) > 0.05)
-        .whileTrue(ArmCommands.joystickPivot(pivot, () -> -controllerOperator.getLeftY()));
+        .whileTrue(ArmCommands.joystickPivot(pivot, () -> -controllerOperator.getLeftY()))
+        .onFalse(Commands.runOnce(() -> pivot.stop()));
     new Trigger(() -> Math.abs(controllerOperator.getRightY()) > 0.05)
-        .whileTrue(ArmCommands.joystickPivot(pivot, () -> -controllerOperator.getRightY()));
+        .whileTrue(ArmCommands.joystickExtend(extend, () -> -controllerOperator.getRightY()))
+        .onFalse(Commands.runOnce(() -> extend.stop()));
 
     controllerOperator
         .a()

@@ -34,6 +34,8 @@ public interface ExtendIO {
 
   public default void runVolts(double volts) {}
 
+  public default void stop() {}
+
   public default Rotation2d getRotation() {
     return new Rotation2d();
   }

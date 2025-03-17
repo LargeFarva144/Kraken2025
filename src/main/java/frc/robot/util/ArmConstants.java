@@ -4,13 +4,13 @@ public class ArmConstants {
 
   public class Home {
 
-    public static double homePivotDegrees = -70;
-    public static double homeExtendInches = 8;
+    public static double homePivotDegrees = -76;
+    public static double homeExtendInches = 18;
   }
 
   public class Coral {
-    public static double coralPivotDegrees = -70;
-    public static double coralExtendInches = 18;
+    public static double coralPivotDegrees = -75;
+    public static double coralExtendInches = 22;
   }
 
   public class Prep {

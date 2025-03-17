@@ -10,9 +10,9 @@ public class PivotConstants {
 
   // Soft Limits
   public static final boolean pivotForwardSoftLimitEnabled = true;
-  public static final double pivotForwardSoftLimit = 135;
+  public static final double pivotForwardSoftLimitDegrees = 225;
   public static final boolean pivotReverseSoftLimitEnabled = true;
-  public static final double pivotReverseSoftLimit = -78;
+  public static final double pivotReverseSoftLimitDegrees = -78;
 
   // PID
   public static double kP = 65;

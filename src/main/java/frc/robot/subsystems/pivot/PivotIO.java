@@ -29,6 +29,8 @@ public interface PivotIO {
 
   public default void pivotToAngle(double angleDegrees) {}
 
+  public default void stop() {}
+
   /**
    * gives current angle of actual arm
    *

@@ -131,6 +131,11 @@ public class ExtendIOTalonFX implements ExtendIO {
   }
 
   @Override
+  public void stop() {
+    _extendMotorK.setControl(voltageRequest.withOutput(0));
+  }
+
+  @Override
   public void extendToLength(double lengthInches) {
     double targetExtendRotations =
         (lengthInches - ExtendConstants.extendOffsetInches)
@@ -176,7 +181,8 @@ public class ExtendIOTalonFX implements ExtendIO {
     inputs.motorPositionRotations = positionRotations.getValueAsDouble();
     inputs.encoderPositionRotations = absolutePositionRotations.getValueAsDouble();
     inputs.positionInches =
-        positionRotations.getValueAsDouble() * (ExtendConstants.feedCircumferenceInches * Math.PI);
+        (positionRotations.getValueAsDouble() * (ExtendConstants.feedCircumferenceInches))
+            + ExtendConstants.extendOffsetInches;
     inputs.velocityRotationsPerSecond = velocityRotationsPerSecond.getValueAsDouble();
     inputs.appliedVoltage = voltage.getValueAsDouble();
     inputs.supplyCurrentAmps = supplyCurrentAmps.getValueAsDouble();

@@ -8,17 +8,17 @@ public class ExtendConstants {
   public static final double extendPeakVoltage = 12;
   public static final double extendGearRatio = 18;
   public static final double feedCircumferenceInches = 2 * Math.PI;
-  public static final double extendOffsetInches = 12; // update
-  public static final double safePivotLengthInches = 12; // update
+  public static final double extendOffsetInches = 17;
+  public static final double safePivotLengthInches = 18;
 
   // Soft Limit Parameters
-  public static final boolean extendForwardSoftLimitEnabled = true;
-  public static final boolean extendReverseSoftLimitEnabled = true;
+  public static final boolean extendForwardSoftLimitEnabled = false;
+  public static final boolean extendReverseSoftLimitEnabled = false;
   public static final double extendReverseSoftLimit = 5;
   public static final double defaultExtensionLimitInches = 24;
   public static final double fwdEnvelopeInches = 18 + 7;
   public static final double aftEnvelopeInches = 18 + 22;
-  public static final double maxExtensionInches = 30;
+  public static final double maxExtensionInches = 62;
   public static final double funnelAngleDegrees = 30;
   public static final double funnelToPivotInches = 25;
 

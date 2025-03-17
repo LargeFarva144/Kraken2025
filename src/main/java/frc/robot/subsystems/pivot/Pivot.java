@@ -39,6 +39,10 @@ public class Pivot extends SubsystemBase {
     Logger.recordOutput("Pivot/setpoint", angleDegrees);
   }
 
+  public void stop() {
+    io.stop();
+  }
+
   public Rotation2d getRotation() {
     return io.getRotation();
   }
