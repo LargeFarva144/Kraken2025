@@ -12,14 +12,12 @@ public class ArmCommands {
 
   public static Command armToHome(
       Pivot pivot,
-      Extend extend,
-      DoubleSupplier pivotHomeSupplier,
-      DoubleSupplier extendHomeSupplier) {
+      Extend extend) {
     return Commands.sequence(
-        Commands.run(() -> extend.extendToLength(extendHomeSupplier.getAsDouble()), extend)
+        Commands.run(() -> extend.extendToLength(ArmConstants.Home.homeExtendInches), extend)
             .until(() -> extend.atSetpoint())
             .andThen(
-                Commands.run(() -> pivot.pivotToAngle(pivotHomeSupplier.getAsDouble()), pivot)));
+                Commands.run(() -> pivot.pivotToAngle(ArmConstants.Home.homePivotDegrees), pivot)));
   }
 
   public static Command armToSetpoint(
