@@ -22,8 +22,8 @@ public class PoseConstants {
           Map.entry(
               18,
               new Pose2d(
-                  new Translation2d(Units.inchesToMeters(117.00), Units.inchesToMeters(164.97)),
-                  Rotation2d.fromDegrees(0))),
+                  new Translation2d(Units.inchesToMeters(117.00), Units.inchesToMeters(163.97)),
+                  Rotation2d.fromDegrees(2))),
           Map.entry(
               19,
               new Pose2d(
@@ -57,8 +57,8 @@ public class PoseConstants {
           Map.entry(
               18,
               new Pose2d(
-                  new Translation2d(Units.inchesToMeters(117.00), Units.inchesToMeters(152.03)),
-                  Rotation2d.fromDegrees(0))),
+                  new Translation2d(Units.inchesToMeters(117.00), Units.inchesToMeters(150.03)),
+                  Rotation2d.fromDegrees(2))),
           Map.entry(
               19,
               new Pose2d(
