@@ -14,21 +14,20 @@ public class PoseConstants {
               17,
               new Pose2d(
                   new Translation2d(
-                      Units.inchesToMeters(140.85),
-                      Units.inchesToMeters(110.65)), // X:141.02, Y:110.42
+                      Units.inchesToMeters(141.02),
+                      Units.inchesToMeters(110.42)), // X:141.02, Y:110.42
+                  // +y goes left from drivers station -y goes right from drivers station
+                  // +X goes up from driver station, -X goes down from driver station
                   Rotation2d.fromDegrees(60))),
           Map.entry(
               18,
               new Pose2d(
-                  new Translation2d(
-                        Units.inchesToMeters(117.00), 
-                        Units.inchesToMeters(164.97)),
+                  new Translation2d(Units.inchesToMeters(117.00), Units.inchesToMeters(164.97)),
                   Rotation2d.fromDegrees(0))),
           Map.entry(
               19,
               new Pose2d(
-                  new Translation2d(
-                        Units.inchesToMeters(152.23), Units.inchesToMeters(213.05)),
+                  new Translation2d(Units.inchesToMeters(152.23), Units.inchesToMeters(213.05)),
                   Rotation2d.fromDegrees(300))),
           Map.entry(
               20,
