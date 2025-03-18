@@ -151,7 +151,9 @@ public class ExtendIOTalonFX implements ExtendIO {
 
   @Override
   public void resetZero() {
+    _extendMotorK.setPosition(0);
     _extendCANCoder.setPosition(0);
+    _extendMotorK.setPosition(_extendCANCoder.getAbsolutePosition().getValueAsDouble());
   }
 
   @Override

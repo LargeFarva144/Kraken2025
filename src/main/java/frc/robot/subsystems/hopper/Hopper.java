@@ -16,7 +16,7 @@ public class Hopper extends SubsystemBase {
     Logger.processInputs("Hopper", inputs);
   }
 
-  public boolean getObjectDetection() {
-    return io.getObjectDetection();
+  public boolean hasCoral() {
+    return io.hasCoral();
   }
 }

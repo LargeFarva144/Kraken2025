@@ -24,7 +24,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.ArmCommands;
 import frc.robot.commands.DriveCommands;
@@ -148,6 +147,8 @@ public class RobotContainer {
         break;
     }
 
+    extend.resetZero();
+
     // Register named commands
     L2 = new L2(pivot, extend);
     L3 = new L3(pivot, extend);
@@ -199,13 +200,11 @@ public class RobotContainer {
 
     // Automatic Triggers
 
-    // new Trigger(() -> hopper.getObjectDetection())
+    // new Trigger(() -> hopper.hasCoral())
     //     .onTrue(
-    //         ArmCommands.armToSetpoint(
+    //         ArmCommands.pickupCoral(
     //             pivot,
-    //             extend,
-    //             () -> ArmConstants.Coral.coralPivotDegrees,
-    //             () -> ArmConstants.Coral.coralExtendInches));
+    //             extend));
 
     // Driver Controller Bindings
 
@@ -249,15 +248,9 @@ public class RobotContainer {
 
     // Operator Controller Bindings
 
-    new Trigger(() -> Math.abs(controllerOperator.getLeftY()) > 0.5)
-        .whileTrue(ArmCommands.joystickPivot(pivot, () -> -controllerOperator.getLeftY()))
-        .onFalse(Commands.runOnce(() -> pivot.stop()));
-    new Trigger(() -> Math.abs(controllerOperator.getRightY()) > 0.5)
-        .whileTrue(ArmCommands.joystickExtend(extend, () -> -controllerOperator.getRightY()))
-        .onFalse(Commands.runOnce(() -> extend.stop()));
-
+    // Joystick control of arm requires LT
     controllerOperator
-        .rightTrigger(0.1)
+        .leftTrigger(0.1)
         .whileTrue(
             Commands.parallel(
                 ArmCommands.joystickPivot(pivot, () -> -controllerOperator.getLeftY()),
@@ -266,6 +259,7 @@ public class RobotContainer {
             Commands.parallel(
                 Commands.runOnce(() -> pivot.stop()), Commands.runOnce(() -> extend.stop())));
 
+    // L2 on A button
     controllerOperator
         .a()
         .whileTrue(
@@ -274,16 +268,8 @@ public class RobotContainer {
                 extend,
                 () -> ArmConstants.Prep.L2PivotDegrees,
                 () -> ArmConstants.Prep.L2ExtendInches));
-    controllerOperator
-        .leftBumper()
-        .and(controllerOperator.a())
-        .whileTrue(
-            ArmCommands.armToSetpoint(
-                pivot,
-                extend,
-                () -> ArmConstants.Score.L2PivotDegrees,
-                () -> ArmConstants.Score.L2ExtendInches));
 
+    // L3 on B button
     controllerOperator
         .b()
         .whileTrue(
@@ -292,16 +278,8 @@ public class RobotContainer {
                 extend,
                 () -> ArmConstants.Prep.L3PivotDegrees,
                 () -> ArmConstants.Prep.L3ExtendInches));
-    controllerOperator
-        .leftBumper()
-        .and(controllerOperator.b())
-        .whileTrue(
-            ArmCommands.armToSetpoint(
-                pivot,
-                extend,
-                () -> ArmConstants.Score.L3PivotDegrees,
-                () -> ArmConstants.Score.L3ExtendInches));
 
+    // L4 on Y button
     controllerOperator
         .y()
         .whileTrue(
@@ -310,25 +288,19 @@ public class RobotContainer {
                 extend,
                 () -> ArmConstants.Prep.L4PivotDegrees,
                 () -> ArmConstants.Prep.L4ExtendInches));
-    controllerOperator
-        .leftBumper()
-        .and(controllerOperator.y())
-        .whileTrue(
-            ArmCommands.armToSetpoint(
-                pivot,
-                extend,
-                () -> ArmConstants.Score.L4PivotDegrees,
-                () -> ArmConstants.Score.L4ExtendInches));
 
+    // Coral pickup on RB
     controllerOperator
         .rightBumper()
         .whileTrue(
             Commands.parallel(
                 ArmCommands.pickupCoral(pivot, extend),
-                Commands.run(() -> vacuum.runVacuum(true))));
+                Commands.runOnce(() -> vacuum.runVacuum(true))));
 
-    controllerOperator.leftTrigger(0.1).onTrue(Commands.run(() -> vacuum.runVacuum(false)));
+    // Drop coral on RT
+    controllerOperator.rightTrigger(0.1).onTrue(Commands.runOnce(() -> vacuum.runVacuum(false)));
 
+    // Reset encoder on Start button
     controllerOperator.start().onTrue(Commands.runOnce(() -> extend.resetZero()));
   }
 

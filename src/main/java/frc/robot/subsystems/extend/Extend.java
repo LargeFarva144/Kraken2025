@@ -24,7 +24,7 @@ public class Extend extends SubsystemBase {
 
   /** updates Extend values periodically */
   public void periodic() {
-    // updateExtensionLimit(calculateExtensionLimit((pivot.getRotation())));
+    updateExtensionLimit(calculateExtensionLimit((pivot.getRotation())));
     io.updateInputs(inputs);
     Logger.processInputs("Extend", inputs);
   }
@@ -49,20 +49,20 @@ public class Extend extends SubsystemBase {
 
   public double calculateExtensionLimit(Rotation2d pivotAngleRotation) {
     double pivotAngleRadians = pivotAngleRotation.getRadians();
-    if (pivotAngleRadians > Units.degreesToRadians(-78)
+    if (pivotAngleRadians > Units.degreesToRadians(-81)
         && pivotAngleRadians < Units.degreesToRadians(0)) {
       return ExtendConstants.funnelToPivotInches
-          / Math.sin(
-              pivotAngleRadians - Units.degreesToRadians(ExtendConstants.funnelAngleDegrees));
+          / Math.cos(
+              pivotAngleRadians + Units.degreesToRadians(ExtendConstants.funnelAngleDegrees));
     } else if (pivotAngleRadians >= Units.degreesToRadians(0)
         && pivotAngleRadians < Units.degreesToRadians(90)) {
       return Math.min(
           ExtendConstants.aftEnvelopeInches / Math.cos(pivotAngleRadians),
           ExtendConstants.maxExtensionInches);
     } else if (pivotAngleRadians >= Units.degreesToRadians(90)
-        && pivotAngleRadians < Units.degreesToRadians(135)) {
+        && pivotAngleRadians < Units.degreesToRadians(225)) {
       return Math.min(
-          ExtendConstants.aftEnvelopeInches / Math.cos(pivotAngleRadians),
+          ExtendConstants.fwdEnvelopeInches / -Math.cos(pivotAngleRadians),
           ExtendConstants.maxExtensionInches);
     } else {
       return ExtendConstants.defaultExtensionLimitInches;

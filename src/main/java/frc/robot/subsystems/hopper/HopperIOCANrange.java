@@ -43,8 +43,8 @@ public class HopperIOCANrange implements HopperIO {
   }
 
   @Override
-  public boolean getObjectDetection() {
-    return objectDetectedLeft.getValue() && objectDetectedRight.getValue();
+  public boolean hasCoral() {
+    return distanceLeft.getValueAsDouble() < 0.050;
   }
 
   @Override

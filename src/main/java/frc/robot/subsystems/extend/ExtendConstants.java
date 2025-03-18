@@ -19,7 +19,7 @@ public class ExtendConstants {
   public static final double fwdEnvelopeInches = 18 + 7;
   public static final double aftEnvelopeInches = 18 + 22;
   public static final double maxExtensionInches = 62;
-  public static final double funnelAngleDegrees = 30;
+  public static final double funnelAngleDegrees = 60;
   public static final double funnelToPivotInches = 25;
 
   // PID

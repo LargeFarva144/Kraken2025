@@ -16,7 +16,7 @@ public interface HopperIO {
     public double signalStrengthRight = 0.0;
   }
 
-  public default boolean getObjectDetection() {
+  public default boolean hasCoral() {
     return false;
   }
 
