@@ -72,9 +72,10 @@ public class RobotContainer {
   private final LoggedDashboardChooser<Command> autoChooser;
 
   // Named commands
-  private Command L2;
-  private Command L3;
-  private Command L4;
+  private static Command L2;
+  private static Command L3;
+  private static Command L4;
+  private static Command testCommand;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -153,10 +154,12 @@ public class RobotContainer {
     L2 = new L2(pivot, extend);
     L3 = new L3(pivot, extend);
     L4 = new L4(pivot, extend);
+    testCommand = new TestCommand(pivot);
 
     NamedCommands.registerCommand("L2", L2);
     NamedCommands.registerCommand("L3", L3);
     NamedCommands.registerCommand("L4", L4);
+    NamedCommands.registerCommand("TestCommand", testCommand);
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -254,7 +257,7 @@ public class RobotContainer {
         .whileTrue(
             Commands.parallel(
                 ArmCommands.joystickPivot(pivot, () -> -controllerOperator.getLeftY()),
-                ArmCommands.joystickExtend(extend, () -> controllerOperator.getRightY())))
+                ArmCommands.joystickExtend(extend, () -> -controllerOperator.getRightY())))
         .onFalse(
             Commands.parallel(
                 Commands.runOnce(() -> pivot.stop()), Commands.runOnce(() -> extend.stop())));
@@ -295,7 +298,8 @@ public class RobotContainer {
         .whileTrue(
             Commands.parallel(
                 ArmCommands.pickupCoral(pivot, extend),
-                Commands.runOnce(() -> vacuum.runVacuum(true))));
+                Commands.runOnce(() -> vacuum.runVacuum(true))))
+        .onFalse(ArmCommands.armToHome(pivot, extend));
 
     // Drop coral on RT
     controllerOperator.rightTrigger(0.1).onTrue(Commands.runOnce(() -> vacuum.runVacuum(false)));

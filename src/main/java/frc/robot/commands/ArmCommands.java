@@ -39,8 +39,7 @@ public class ArmCommands {
     return Commands.sequence(
         Commands.run(() -> pivot.pivotToAngle(ArmConstants.Coral.coralPivotDegrees))
             .until(() -> pivot.atSetpoint()),
-        Commands.run(() -> extend.extendToLength(ArmConstants.Coral.coralExtendInches))
-            .until(() -> extend.atSetpoint()));
+        Commands.run(() -> extend.extendToLength(ArmConstants.Coral.coralExtendInches)));
   }
 
   public static Command joystickPivot(Pivot pivot, DoubleSupplier ySupplier) {

@@ -81,11 +81,13 @@ public class Extend extends SubsystemBase {
     // Debouncer setpointDebouncer = new Debouncer(0.5);
     double closedLoopError =
         (io.getRotation().getRotations() * ExtendConstants.feedCircumferenceInches)
-            - setpointLengthInches;
+            - setpointLengthInches
+            + ExtendConstants.extendOffsetInches;
     // boolean atSetpoint = setpointDebouncer.calculate(Math.abs(closedLoopError) < 1);
     boolean atSetpoint = Math.abs(closedLoopError) < 1;
     Logger.recordOutput("Extend/atSetPoint", atSetpoint);
-    Logger.recordOutput("Extend/closedLoopError", closedLoopError);
+    Logger.recordOutput(
+        "Extend/closedLoopError", closedLoopError / ExtendConstants.feedCircumferenceInches);
     return atSetpoint;
   }
 }
