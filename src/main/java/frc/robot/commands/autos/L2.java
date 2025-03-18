@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.commands.autos;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -11,9 +7,9 @@ import frc.robot.subsystems.extend.Extend;
 import frc.robot.subsystems.pivot.Pivot;
 import frc.robot.util.ArmConstants;
 
-public class L4 extends SequentialCommandGroup {
+public class L2 extends SequentialCommandGroup {
 
-  public L4(Pivot pivot, Extend extend) {
+  public L2(Pivot pivot, Extend extend) {
 
     addCommands(
         new InstantCommand(
@@ -21,7 +17,7 @@ public class L4 extends SequentialCommandGroup {
                 ArmCommands.armToSetpoint(
                     pivot,
                     extend,
-                    () -> ArmConstants.Prep.L4PivotDegrees,
-                    () -> ArmConstants.Prep.L4ExtendInches)));
+                    () -> ArmConstants.Prep.L2PivotDegrees,
+                    () -> ArmConstants.Prep.L2ExtendInches)));
   }
 }

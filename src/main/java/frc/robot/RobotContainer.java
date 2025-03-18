@@ -28,7 +28,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.ArmCommands;
 import frc.robot.commands.DriveCommands;
-import frc.robot.commands.autos.L4;
+import frc.robot.commands.autos.*;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
@@ -40,6 +40,8 @@ import frc.robot.subsystems.extend.Extend;
 import frc.robot.subsystems.extend.ExtendIOTalonFX;
 import frc.robot.subsystems.pivot.Pivot;
 import frc.robot.subsystems.pivot.PivotIOTalonFX;
+import frc.robot.subsystems.vacuum.Vacuum;
+import frc.robot.subsystems.vacuum.VacuumIOTalonSRX;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOPhotonVision;
@@ -60,6 +62,7 @@ public class RobotContainer {
   private final Vision vision;
   private final Pivot pivot;
   private final Extend extend;
+  private final Vacuum vacuum;
   // private final Hopper hopper;
 
   // Controller
@@ -70,6 +73,8 @@ public class RobotContainer {
   private final LoggedDashboardChooser<Command> autoChooser;
 
   // Named commands
+  private Command L2;
+  private Command L3;
   private Command L4;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -95,6 +100,7 @@ public class RobotContainer {
         extend =
             new Extend(new ExtendIOTalonFX(), pivot); // pivot must be first, is passed into extend
         // hopper = new Hopper(new HopperIOCANrange());
+        vacuum = new Vacuum(new VacuumIOTalonSRX());
         break;
 
       case SIM:
@@ -116,6 +122,7 @@ public class RobotContainer {
         pivot = new Pivot(null);
         extend = new Extend(null, pivot);
         // hopper = new Hopper(null);
+        vacuum = new Vacuum(null);
         break;
 
       default:
@@ -137,12 +144,17 @@ public class RobotContainer {
         pivot = new Pivot(null);
         extend = new Extend(null, pivot);
         // hopper = new Hopper(null);
+        vacuum = new Vacuum(null);
         break;
     }
 
     // Register named commands
+    L2 = new L2(pivot, extend);
+    L3 = new L3(pivot, extend);
     L4 = new L4(pivot, extend);
 
+    NamedCommands.registerCommand("L2", L2);
+    NamedCommands.registerCommand("L3", L3);
     NamedCommands.registerCommand("L4", L4);
 
     // Set up auto routines
@@ -183,10 +195,7 @@ public class RobotContainer {
             () -> -controllerDriver.getLeftX(),
             () -> -controllerDriver.getRightX()));
 
-    pivot.setDefaultCommand(
-        ArmCommands.armToHome(
-            pivot,
-            extend));
+    pivot.setDefaultCommand(ArmCommands.armToHome(pivot, extend));
 
     // Automatic Triggers
 
@@ -246,17 +255,16 @@ public class RobotContainer {
     new Trigger(() -> Math.abs(controllerOperator.getRightY()) > 0.5)
         .whileTrue(ArmCommands.joystickExtend(extend, () -> -controllerOperator.getRightY()))
         .onFalse(Commands.runOnce(() -> extend.stop()));
-        
-    controllerOperator.rightTrigger(0.1)
+
+    controllerOperator
+        .rightTrigger(0.1)
         .whileTrue(
             Commands.parallel(
-                ArmCommands.joystickPivot(
-                    pivot, () -> -controllerOperator.getLeftY()
-                ), ArmCommands.joystickExtend(
-                    extend, () -> controllerOperator.getRightY()
-                )
-            )
-        ).onFalse(Commands.parallel(Commands.runOnce(() -> pivot.stop()), Commands.runOnce(() -> extend.stop())));
+                ArmCommands.joystickPivot(pivot, () -> -controllerOperator.getLeftY()),
+                ArmCommands.joystickExtend(extend, () -> controllerOperator.getRightY())))
+        .onFalse(
+            Commands.parallel(
+                Commands.runOnce(() -> pivot.stop()), Commands.runOnce(() -> extend.stop())));
 
     controllerOperator
         .a()
@@ -311,6 +319,15 @@ public class RobotContainer {
                 extend,
                 () -> ArmConstants.Score.L4PivotDegrees,
                 () -> ArmConstants.Score.L4ExtendInches));
+
+    controllerOperator
+        .rightBumper()
+        .whileTrue(
+            Commands.parallel(
+                ArmCommands.pickupCoral(pivot, extend),
+                Commands.run(() -> vacuum.runVacuum(true))));
+
+    controllerOperator.leftTrigger(0.1).onTrue(Commands.run(() -> vacuum.runVacuum(false)));
 
     controllerOperator.start().onTrue(Commands.runOnce(() -> extend.resetZero()));
   }

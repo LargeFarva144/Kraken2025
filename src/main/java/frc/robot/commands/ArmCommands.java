@@ -10,9 +10,7 @@ import java.util.function.DoubleSupplier;
 public class ArmCommands {
   private ArmCommands() {}
 
-  public static Command armToHome(
-      Pivot pivot,
-      Extend extend) {
+  public static Command armToHome(Pivot pivot, Extend extend) {
     return Commands.sequence(
         Commands.run(() -> extend.extendToLength(ArmConstants.Home.homeExtendInches), extend)
             .until(() -> extend.atSetpoint())
@@ -35,6 +33,14 @@ public class ArmCommands {
                 Commands.run(
                     () -> extend.extendToLength(extendSetpointSupplier.getAsDouble()),
                     extend))); // might need run().until()
+  }
+
+  public static Command pickupCoral(Pivot pivot, Extend extend) {
+    return Commands.sequence(
+        Commands.run(() -> pivot.pivotToAngle(ArmConstants.Coral.coralPivotDegrees))
+            .until(() -> pivot.atSetpoint()),
+        Commands.run(() -> extend.extendToLength(ArmConstants.Coral.coralExtendInches))
+            .until(() -> extend.atSetpoint()));
   }
 
   public static Command joystickPivot(Pivot pivot, DoubleSupplier ySupplier) {
