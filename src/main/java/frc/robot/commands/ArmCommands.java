@@ -35,11 +35,32 @@ public class ArmCommands {
                     extend))); // might need run().until()
   }
 
+  public static Command autoArmToSetpoint(
+      Pivot pivot,
+      Extend extend,
+      DoubleSupplier pivotSetpointSupplier,
+      DoubleSupplier extendSetpointSupplier) {
+    return Commands.sequence(
+        Commands.parallel(
+                Commands.run(() -> pivot.pivotToAngle(pivotSetpointSupplier.getAsDouble()), pivot),
+                Commands.run(
+                    () -> extend.extendToLength(ArmConstants.Home.homeExtendInches), extend))
+            .until(() -> pivot.atSetpoint())
+            .andThen(
+                Commands.run(
+                        () -> extend.extendToLength(extendSetpointSupplier.getAsDouble()), extend)
+                    .until(() -> extend.atSetpoint()))); // might need run().until()
+  }
+
   public static Command pickupCoral(Pivot pivot, Extend extend) {
     return Commands.sequence(
         Commands.run(() -> pivot.pivotToAngle(ArmConstants.Coral.coralPivotDegrees))
             .until(() -> pivot.atSetpoint()),
-        Commands.run(() -> extend.extendToLength(ArmConstants.Coral.coralExtendInches)));
+        Commands.run(() -> extend.extendToLength(ArmConstants.Coral.coralExtendInches))
+            .until(() -> extend.atSetpoint()),
+        Commands.waitSeconds(1.5),
+        Commands.run(() -> extend.extendToLength(ArmConstants.Home.homeExtendInches))
+            .until(() -> extend.atSetpoint()));
   }
 
   public static Command joystickPivot(Pivot pivot, DoubleSupplier ySupplier) {

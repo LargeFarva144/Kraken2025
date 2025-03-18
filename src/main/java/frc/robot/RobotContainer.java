@@ -75,7 +75,7 @@ public class RobotContainer {
   private static Command L2;
   private static Command L3;
   private static Command L4;
-  private static Command testCommand;
+  private static Command PickUpCoral;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -148,18 +148,18 @@ public class RobotContainer {
         break;
     }
 
-    extend.resetZero();
+    // extend.resetZero();
 
     // Register named commands
     L2 = new L2(pivot, extend);
     L3 = new L3(pivot, extend);
-    L4 = new L4(pivot, extend);
-    testCommand = new TestCommand(pivot);
+    L4 = new L4(pivot, extend, vacuum);
+    PickUpCoral = new PickUpCoral(pivot, extend, vacuum);
 
     NamedCommands.registerCommand("L2", L2);
     NamedCommands.registerCommand("L3", L3);
     NamedCommands.registerCommand("L4", L4);
-    NamedCommands.registerCommand("TestCommand", testCommand);
+    NamedCommands.registerCommand("PickUpCoral", PickUpCoral);
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());

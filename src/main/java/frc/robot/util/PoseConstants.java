@@ -13,17 +13,22 @@ public class PoseConstants {
           Map.entry(
               17,
               new Pose2d(
-                  new Translation2d(Units.inchesToMeters(141.02), Units.inchesToMeters(110.42)),
+                  new Translation2d(
+                      Units.inchesToMeters(140.85),
+                      Units.inchesToMeters(110.65)), // X:141.02, Y:110.42
                   Rotation2d.fromDegrees(60))),
           Map.entry(
               18,
               new Pose2d(
-                  new Translation2d(Units.inchesToMeters(117.00), Units.inchesToMeters(164.97)),
+                  new Translation2d(
+                        Units.inchesToMeters(117.00), 
+                        Units.inchesToMeters(164.97)),
                   Rotation2d.fromDegrees(0))),
           Map.entry(
               19,
               new Pose2d(
-                  new Translation2d(Units.inchesToMeters(152.23), Units.inchesToMeters(213.05)),
+                  new Translation2d(
+                        Units.inchesToMeters(152.23), Units.inchesToMeters(213.05)),
                   Rotation2d.fromDegrees(300))),
           Map.entry(
               20,
@@ -46,7 +51,9 @@ public class PoseConstants {
           Map.entry(
               17,
               new Pose2d(
-                  new Translation2d(Units.inchesToMeters(152.23), Units.inchesToMeters(103.95)),
+                  new Translation2d(
+                      Units.inchesToMeters(152.00),
+                      Units.inchesToMeters(104.0)), // X:152.23, Y:103.95
                   Rotation2d.fromDegrees(60))),
           Map.entry(
               18,
