@@ -20,9 +20,13 @@ public interface ClimbIO {
 
   public default void stop() {}
 
-  public default double getAngle() {
+  public default double setAngle() {
     return 0;
   }
+
+  // public default Rotation2d getAngle(){
+  //   return new Rotation2d();
+  // }
 
   public default void updateInputs(ClimbIOInputs inputs) {}
 }
