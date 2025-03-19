@@ -29,6 +29,9 @@ import frc.robot.commands.ArmCommands;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.autos.*;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.climb.Climb;
+import frc.robot.subsystems.climb.ClimbConstants;
+import frc.robot.subsystems.climb.ClimbTalonFX;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
@@ -62,6 +65,7 @@ public class RobotContainer {
   private final Pivot pivot;
   private final Extend extend;
   private final Vacuum vacuum;
+  private final Climb climb;
   // private final Hopper hopper;
 
   // Controller
@@ -101,6 +105,7 @@ public class RobotContainer {
             new Extend(new ExtendIOTalonFX(), pivot); // pivot must be first, is passed into extend
         // hopper = new Hopper(new HopperIOCANrange());
         vacuum = new Vacuum(new VacuumIOTalonSRX());
+        climb = new Climb(new ClimbTalonFX());
         break;
 
       case SIM:
@@ -123,6 +128,7 @@ public class RobotContainer {
         extend = new Extend(null, pivot);
         // hopper = new Hopper(null);
         vacuum = new Vacuum(null);
+        climb = new Climb(null);
         break;
 
       default:
@@ -145,6 +151,7 @@ public class RobotContainer {
         extend = new Extend(null, pivot);
         // hopper = new Hopper(null);
         vacuum = new Vacuum(null);
+        climb = new Climb(null);
         break;
     }
 
@@ -306,6 +313,20 @@ public class RobotContainer {
 
     // Reset encoder on Start button
     controllerOperator.start().onTrue(Commands.runOnce(() -> extend.resetZero()));
+
+    controllerDriver
+        .y()
+        .and(() -> climb.setAngle() < ClimbConstants.climbPrepAngleDegrees)
+        .onTrue(
+            Commands.run(() -> climb.runVolts(3))
+                .until(() -> climb.setAngle() >= ClimbConstants.climbPrepAngleDegrees));
+
+    controllerDriver
+        .y()
+        .and(() -> climb.setAngle() >= ClimbConstants.climbPrepAngleDegrees)
+        .whileTrue(
+            Commands.run(() -> climb.runVolts(3))
+                .until(() -> climb.setAngle() == ClimbConstants.climbHangAngleDegrees));
   }
 
   /**

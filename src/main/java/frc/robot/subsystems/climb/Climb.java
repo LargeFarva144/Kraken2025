@@ -9,6 +9,7 @@ public class Climb extends SubsystemBase {
   private ClimbIO io;
   private ClimbIOInputsAutoLogged inputs = new ClimbIOInputsAutoLogged(); /*updates IO inputs
  /* and creates a place to update them */
+  private double angle;
 
   public Climb(ClimbIO io) {
     this.io = io;
@@ -23,7 +24,25 @@ public class Climb extends SubsystemBase {
     io.runVolts(volts);
   }
 
-  public double getAngle() {
-    return io.getAngle();
+  public double setAngle() {
+    return io.setAngle();
   }
+  // public Rotation2d getAngle() {
+  //   return io.getAngle();
+  // }
+
+  // public void setClimbPosition(Rotation2d climbAngle) {
+  //   io.setAngle(climbAngle.getRotations());
+  //   /*  above, is this to get from rotations to degrees? I know it records something and
+  // processes it because its IO. */
+  //   this.angle = climbAngle.getDegrees();
+  // }
+
+  // public boolean atClimb() {
+  //   if (angle < (io.setAngle().getDegrees() + 1) && angle > io.setAngle().getRotations() - 1) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
 }

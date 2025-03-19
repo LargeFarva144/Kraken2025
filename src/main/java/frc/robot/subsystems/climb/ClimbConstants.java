@@ -6,11 +6,11 @@ public class ClimbConstants {
   public static final boolean climbInvert = true; // confirm
   public static final boolean climbNeutralModeBrake = true;
   public static final double climbPeakVoltage = 8;
-  public static final double climbGearRatio = 180;
+  public static final double climbGearRatio = 225;
 
   // Command Stop Points
-  public static final double climbPrepAngleDegrees = 140; // update
-  public static final double climbHangAngleDegrees = 260; // update
+  public static final double climbPrepAngleDegrees = 80.8; // update
+  public static final double climbHangAngleDegrees = 148; // update
 
   // Soft Limits
   public static final boolean climbForwardSoftLimitEnabled = false;
