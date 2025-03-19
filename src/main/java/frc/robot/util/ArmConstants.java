@@ -22,7 +22,7 @@ public class ArmConstants {
 
     public static double L4ExtendInches = 47;
     public static double L3ExtendInches = 27.2;
-    public static double L2ExtendInches = 20;
+    public static double L2ExtendInches = 23;
     // public static double L1ExtendInches
 
   }

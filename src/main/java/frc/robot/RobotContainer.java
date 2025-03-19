@@ -262,6 +262,7 @@ public class RobotContainer {
             Commands.parallel(
                 Commands.runOnce(() -> pivot.stop()), Commands.runOnce(() -> extend.stop())));
 
+                
     // L2 on A button
     controllerOperator
         .a()
