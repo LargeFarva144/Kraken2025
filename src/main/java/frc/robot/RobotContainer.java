@@ -29,6 +29,9 @@ import frc.robot.commands.ArmCommands;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.autos.*;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.climb.Climb;
+import frc.robot.subsystems.climb.ClimbConstants;
+import frc.robot.subsystems.climb.ClimbTalonFX;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
@@ -63,6 +66,7 @@ public class RobotContainer {
   private final Extend extend;
   private final Vacuum vacuum;
   // private final Hopper hopper;
+  private final Climb climb;
 
   // Controller
   private final CommandXboxController controllerDriver = new CommandXboxController(0);
@@ -101,6 +105,7 @@ public class RobotContainer {
             new Extend(new ExtendIOTalonFX(), pivot); // pivot must be first, is passed into extend
         // hopper = new Hopper(new HopperIOCANrange());
         vacuum = new Vacuum(new VacuumIOTalonSRX());
+        climb = new Climb(new ClimbTalonFX());
         break;
 
       case SIM:
@@ -123,6 +128,7 @@ public class RobotContainer {
         extend = new Extend(null, pivot);
         // hopper = new Hopper(null);
         vacuum = new Vacuum(null);
+        climb = new Climb(null);
         break;
 
       default:
@@ -145,6 +151,7 @@ public class RobotContainer {
         extend = new Extend(null, pivot);
         // hopper = new Hopper(null);
         vacuum = new Vacuum(null);
+        climb = new Climb(null);
         break;
     }
 
@@ -248,6 +255,14 @@ public class RobotContainer {
         .onTrue(
             DriveCommands.driveToPose(
                 drive, () -> PoseConstants.getTargetPose(vision.getForwardTargetID(), false)));
+
+    // Climb to prep angle on RB
+    controllerDriver
+        .rightBumper().and(() -> climb.getAngle() < ClimbConstants.climbPrepAngleDegrees).onTrue(Commands.run(() -> climb.runVolts(10)).until(() -> climb.getAngle() >= ClimbConstants.climbPrepAngleDegrees));
+
+    // Climb to hang on RB
+    controllerDriver
+        .rightBumper().and(() -> climb.getAngle() >= ClimbConstants.climbPrepAngleDegrees).whileTrue(Commands.run(() -> climb.runVolts(10))).onFalse(Commands.runOnce(() -> climb.stop()));
 
     // Operator Controller Bindings
 

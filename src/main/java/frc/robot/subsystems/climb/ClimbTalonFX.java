@@ -49,15 +49,14 @@ public class ClimbTalonFX implements ClimbIO {
     cfg.ClosedLoopGeneral.ContinuousWrap = false;
     cfg.ClosedLoopRamps.VoltageClosedLoopRampPeriod = 0.1;
     cfg.SoftwareLimitSwitch.ForwardSoftLimitEnable = ClimbConstants.climbForwardSoftLimitEnabled;
-    cfg.SoftwareLimitSwitch.ForwardSoftLimitThreshold = ClimbConstants.climbForwardSoftLimit;
+    cfg.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.degreesToRotations(ClimbConstants.climbForwardSoftLimitDegrees);
     cfg.SoftwareLimitSwitch.ReverseSoftLimitEnable = ClimbConstants.climbReverseSoftLimitEnabled;
-    cfg.SoftwareLimitSwitch.ReverseSoftLimitThreshold = ClimbConstants.climbReverseSoftLimit;
+    cfg.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.degreesToRotations(ClimbConstants.climbReverseSoftLimitDegrees);
 
     cfg.Voltage.PeakForwardVoltage = ClimbConstants.climbPeakVoltage;
     cfg.Voltage.PeakReverseVoltage = -ClimbConstants.climbPeakVoltage;
 
-    // Set internal encoder to 0 when code starts - climb arm must be manually reset to start
-    // position
+    // Set internal encoder to 0 when code starts - climb arm must be manually reset to start position
     _climbMotorK.setPosition(0);
 
     BaseStatusSignal.setUpdateFrequencyForAll(
@@ -77,6 +76,11 @@ public class ClimbTalonFX implements ClimbIO {
   @Override
   public void runVolts(double volts) {
     _climbMotorK.setControl(voltageOut.withOutput(volts));
+  }
+
+  @Override
+  public void stop() {
+    _climbMotorK.setControl(voltageOut.withOutput(0));
   }
 
   @Override

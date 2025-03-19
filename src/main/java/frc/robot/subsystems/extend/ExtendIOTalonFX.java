@@ -83,7 +83,7 @@ public class ExtendIOTalonFX implements ExtendIO {
     cfg.Slot0.GravityType = GravityTypeValue.Elevator_Static;
 
     cfg.SoftwareLimitSwitch.ForwardSoftLimitEnable = ExtendConstants.extendForwardSoftLimitEnabled;
-    cfg.SoftwareLimitSwitch.ForwardSoftLimitThreshold = ExtendConstants.defaultExtensionLimitInches;
+    cfg.SoftwareLimitSwitch.ForwardSoftLimitThreshold = (ExtendConstants.defaultExtensionLimitInches - ExtendConstants.extendOffsetInches) / ExtendConstants.feedCircumferenceInches;
     cfg.SoftwareLimitSwitch.ReverseSoftLimitEnable = ExtendConstants.extendReverseSoftLimitEnabled;
     cfg.SoftwareLimitSwitch.ReverseSoftLimitThreshold = (ExtendConstants.extendReverseSoftLimitInches - ExtendConstants.extendOffsetInches) / ExtendConstants.feedCircumferenceInches;
     
