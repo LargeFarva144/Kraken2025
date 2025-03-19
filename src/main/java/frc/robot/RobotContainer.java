@@ -258,11 +258,18 @@ public class RobotContainer {
 
     // Climb to prep angle on RB
     controllerDriver
-        .rightBumper().and(() -> climb.getAngle() < ClimbConstants.climbPrepAngleDegrees).onTrue(Commands.run(() -> climb.runVolts(10)).until(() -> climb.getAngle() >= ClimbConstants.climbPrepAngleDegrees));
+        .rightBumper()
+        .and(() -> climb.getAngle() < ClimbConstants.climbPrepAngleDegrees)
+        .onTrue(
+            Commands.run(() -> climb.runVolts(10))
+                .until(() -> climb.getAngle() >= ClimbConstants.climbPrepAngleDegrees));
 
     // Climb to hang on RB
     controllerDriver
-        .rightBumper().and(() -> climb.getAngle() >= ClimbConstants.climbPrepAngleDegrees).whileTrue(Commands.run(() -> climb.runVolts(10))).onFalse(Commands.runOnce(() -> climb.stop()));
+        .rightBumper()
+        .and(() -> climb.getAngle() >= ClimbConstants.climbPrepAngleDegrees)
+        .whileTrue(Commands.run(() -> climb.runVolts(10)))
+        .onFalse(Commands.runOnce(() -> climb.stop()));
 
     // Operator Controller Bindings
 
@@ -277,7 +284,6 @@ public class RobotContainer {
             Commands.parallel(
                 Commands.runOnce(() -> pivot.stop()), Commands.runOnce(() -> extend.stop())));
 
-                
     // L2 on A button
     controllerOperator
         .a()

@@ -13,7 +13,6 @@ import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Temperature;
 import edu.wpi.first.units.measure.Voltage;
-import frc.robot.subsystems.climb.ClimbIO.ClimbIOInputs;
 
 public class ClimbTalonFX implements ClimbIO {
 
@@ -49,14 +48,17 @@ public class ClimbTalonFX implements ClimbIO {
     cfg.ClosedLoopGeneral.ContinuousWrap = false;
     cfg.ClosedLoopRamps.VoltageClosedLoopRampPeriod = 0.1;
     cfg.SoftwareLimitSwitch.ForwardSoftLimitEnable = ClimbConstants.climbForwardSoftLimitEnabled;
-    cfg.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.degreesToRotations(ClimbConstants.climbForwardSoftLimitDegrees);
+    cfg.SoftwareLimitSwitch.ForwardSoftLimitThreshold =
+        Units.degreesToRotations(ClimbConstants.climbForwardSoftLimitDegrees);
     cfg.SoftwareLimitSwitch.ReverseSoftLimitEnable = ClimbConstants.climbReverseSoftLimitEnabled;
-    cfg.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.degreesToRotations(ClimbConstants.climbReverseSoftLimitDegrees);
+    cfg.SoftwareLimitSwitch.ReverseSoftLimitThreshold =
+        Units.degreesToRotations(ClimbConstants.climbReverseSoftLimitDegrees);
 
     cfg.Voltage.PeakForwardVoltage = ClimbConstants.climbPeakVoltage;
     cfg.Voltage.PeakReverseVoltage = -ClimbConstants.climbPeakVoltage;
 
-    // Set internal encoder to 0 when code starts - climb arm must be manually reset to start position
+    // Set internal encoder to 0 when code starts - climb arm must be manually reset to start
+    // position
     _climbMotorK.setPosition(0);
 
     BaseStatusSignal.setUpdateFrequencyForAll(
