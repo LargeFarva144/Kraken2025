@@ -349,9 +349,16 @@ public class RobotContainer {
             Commands.run(() -> climb.runVolts(3))
                 .until(() -> climb.setAngle() >= ClimbConstants.climbHangAngleDegrees));
     
-    controllerOperator.leftTrigger(0.2)
-    .and(controllerOperator.rightTrigger(0.2))
+    controllerOperator.button(10)
+    .and(controllerOperator.button(9))
     .whileTrue(ArmCommands.armRemoveAlgae(pivot, extend));
+
+    controllerOperator
+        .leftBumper()
+        .whileTrue(Commands.parallel(
+            ArmCommands.armFloorPickUpCoral(
+                pivot, extend),
+                Commands.runOnce(() -> vacuum.runVacuum(true))));
   }
 
   /**

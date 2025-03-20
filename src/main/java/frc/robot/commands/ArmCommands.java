@@ -76,6 +76,14 @@ public class ArmCommands {
             .until(() -> extend.atSetpoint()));
   }
 
+  public static Command armFloorPickUpCoral(Pivot pivot, Extend extend) {
+    return Commands.sequence(
+        Commands.run(() -> pivot.pivotToAngle(ArmConstants.groundPickUp.groundPickUpPivotDegrees))
+            .until(() -> pivot.atSetpoint()),
+        Commands.run(() -> extend.extendToLength(ArmConstants.groundPickUp.groundPickUpExtendInches))
+            .until(() -> extend.atSetpoint()));
+  }
+
   public static Command joystickPivot(Pivot pivot, DoubleSupplier ySupplier) {
     double voltLimit = 2.5;
     return Commands.run(() -> pivot.runVolts(ySupplier.getAsDouble() * voltLimit), pivot);

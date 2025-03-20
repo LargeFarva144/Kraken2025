@@ -41,6 +41,11 @@ public class ArmConstants {
 
   }
 
+  public class groundPickUp {
+    public static double groundPickUpPivotDegrees = 220;
+    public static double groundPickUpExtendInches = 24;
+  }
+
   public class Algae{
     public static double algaePrepPivotDegrees = 113.5;
     public static double algaeScorePivotDegrees = 125;
