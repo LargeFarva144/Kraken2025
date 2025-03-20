@@ -84,9 +84,8 @@ public class ClimbTalonFX implements ClimbIO {
   @Override
   public double setAngle() {
     return positionRotations.getValueAsDouble();
- }
-
- // =======
+  }
+// =======
 //   public void stop() {
 //     _climbMotorK.setControl(voltageOut.withOutput(0));
 //   }
