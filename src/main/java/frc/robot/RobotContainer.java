@@ -40,6 +40,8 @@ import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
 import frc.robot.subsystems.extend.Extend;
 import frc.robot.subsystems.extend.ExtendIOTalonFX;
+import frc.robot.subsystems.hopper.Hopper;
+import frc.robot.subsystems.hopper.HopperIOCANrange;
 import frc.robot.subsystems.pivot.Pivot;
 import frc.robot.subsystems.pivot.PivotIOTalonFX;
 import frc.robot.subsystems.vacuum.Vacuum;
@@ -65,8 +67,8 @@ public class RobotContainer {
   private final Pivot pivot;
   private final Extend extend;
   private final Vacuum vacuum;
+  private final Hopper hopper;
   private final Climb climb;
-  // private final Hopper hopper;
 
   // Controller
   private final CommandXboxController controllerDriver = new CommandXboxController(0);
@@ -103,7 +105,7 @@ public class RobotContainer {
         pivot = new Pivot(new PivotIOTalonFX());
         extend =
             new Extend(new ExtendIOTalonFX(), pivot); // pivot must be first, is passed into extend
-        // hopper = new Hopper(new HopperIOCANrange());
+        hopper = new Hopper(new HopperIOCANrange());
         vacuum = new Vacuum(new VacuumIOTalonSRX());
         climb = new Climb(new ClimbTalonFX());
         break;
@@ -126,7 +128,7 @@ public class RobotContainer {
                 new VisionIOPhotonVisionSim(camera3Name, robotToCamera3, drive::getPose));
         pivot = new Pivot(null);
         extend = new Extend(null, pivot);
-        // hopper = new Hopper(null);
+        hopper = new Hopper(null);
         vacuum = new Vacuum(null);
         climb = new Climb(null);
         break;
@@ -149,12 +151,14 @@ public class RobotContainer {
                 new VisionIO() {});
         pivot = new Pivot(null);
         extend = new Extend(null, pivot);
-        // hopper = new Hopper(null);
+        hopper = new Hopper(null);
         vacuum = new Vacuum(null);
         climb = new Climb(null);
         break;
     }
 
+    // Only use the below if arm is bottomed in funnel while deploying,
+    // should only be needed if different code is deployed
     // extend.resetZero();
 
     // Register named commands
@@ -212,9 +216,9 @@ public class RobotContainer {
 
     // new Trigger(() -> hopper.hasCoral())
     //     .onTrue(
-    //         ArmCommands.pickupCoral(
-    //             pivot,
-    //             extend));
+    //         Commands.parallel(
+    //             ArmCommands.pickupCoral(pivot, extend),
+    //             Commands.runOnce(() -> vacuum.runVacuum(true))));
 
     // Driver Controller Bindings
 
@@ -256,6 +260,21 @@ public class RobotContainer {
             DriveCommands.driveToPose(
                 drive, () -> PoseConstants.getTargetPose(vision.getForwardTargetID(), false)));
 
+    // Climb to prep angle on RB
+    controllerDriver
+        .y()
+        .and(() -> climb.setAngle() < ClimbConstants.climbPrepAngleDegrees)
+        .onTrue(
+            Commands.run(() -> climb.runVolts(3))
+                .until(() -> climb.setAngle() >= ClimbConstants.climbPrepAngleDegrees));
+
+    // Climb to hang on RB
+    controllerDriver
+        .y()
+        .and(() -> climb.setAngle() >= ClimbConstants.climbPrepAngleDegrees)
+        .whileTrue(Commands.run(() -> climb.runVolts(3)))
+        .onFalse(Commands.runOnce(() -> climb.stop()));
+
     // Operator Controller Bindings
 
     // Joystick control of arm requires LT
@@ -268,6 +287,8 @@ public class RobotContainer {
         .onFalse(
             Commands.parallel(
                 Commands.runOnce(() -> pivot.stop()), Commands.runOnce(() -> extend.stop())));
+
+    controllerOperator.x().onTrue(Commands.runOnce(() -> vacuum.toggleVacuum()));
 
     // L2 on A button
     controllerOperator

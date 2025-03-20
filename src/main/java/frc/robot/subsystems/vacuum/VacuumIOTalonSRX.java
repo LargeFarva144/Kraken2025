@@ -14,6 +14,16 @@ public class VacuumIOTalonSRX implements VacuumIO {
     _valveMotor = new Servo(0);
   }
 
+  public void toggleVacuum() {
+    if (_vacuumMotor.getMotorOutputVoltage() > 0) {
+      _vacuumMotor.set(ControlMode.PercentOutput, 0);
+      _valveMotor.setAngle(90);
+    } else {
+      _vacuumMotor.set(ControlMode.PercentOutput, 1);
+      _valveMotor.setAngle(50);
+    }
+  }
+
   public void runVacuum(boolean runVacuum) {
     if (runVacuum) {
       _vacuumMotor.set(ControlMode.PercentOutput, 1);

@@ -13,4 +13,8 @@ public class Vacuum extends SubsystemBase {
   public void runVacuum(boolean runVacuum) {
     io.runVacuum(runVacuum);
   }
+
+  public void toggleVacuum() {
+    io.toggleVacuum();
+  }
 }

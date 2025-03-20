@@ -18,11 +18,15 @@ public interface ClimbIO {
 
   public default void runVolts(double volts) {}
 
+
+  public default void stop() {}
+
   public default double setAngle() {
     return 0;
   }
 
-  // public default Rotation2d getAngle() {
+  // public default Rotation2d getAngle(){
+
   //   return new Rotation2d();
   // }
 

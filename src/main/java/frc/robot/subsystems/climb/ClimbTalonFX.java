@@ -14,7 +14,6 @@ import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Temperature;
 import edu.wpi.first.units.measure.Voltage;
-import frc.robot.subsystems.climb.ClimbIO.ClimbIOInputs;
 
 public class ClimbTalonFX implements ClimbIO {
 
@@ -27,7 +26,8 @@ public class ClimbTalonFX implements ClimbIO {
   private final StatusSignal<Current> torqueCurrentAmps;
   private final StatusSignal<Temperature> tempCelsius;
 
-  private final PositionVoltage positionOut = new PositionVoltage(0).withSlot(0);
+
+  private final PositionVoltage positionOut = new PositionVoltage(0);
   private final VoltageOut voltageOut = new VoltageOut(0).withEnableFOC(true).withUpdateFreqHz(0);
 
   public ClimbTalonFX() {
@@ -51,9 +51,11 @@ public class ClimbTalonFX implements ClimbIO {
     cfg.ClosedLoopGeneral.ContinuousWrap = false;
     cfg.ClosedLoopRamps.VoltageClosedLoopRampPeriod = 0.1;
     cfg.SoftwareLimitSwitch.ForwardSoftLimitEnable = ClimbConstants.climbForwardSoftLimitEnabled;
-    cfg.SoftwareLimitSwitch.ForwardSoftLimitThreshold = ClimbConstants.climbForwardSoftLimit;
+    cfg.SoftwareLimitSwitch.ForwardSoftLimitThreshold =
+        Units.degreesToRotations(ClimbConstants.climbForwardSoftLimitDegrees);
     cfg.SoftwareLimitSwitch.ReverseSoftLimitEnable = ClimbConstants.climbReverseSoftLimitEnabled;
-    cfg.SoftwareLimitSwitch.ReverseSoftLimitThreshold = ClimbConstants.climbReverseSoftLimit;
+    cfg.SoftwareLimitSwitch.ReverseSoftLimitThreshold =
+        Units.degreesToRotations(ClimbConstants.climbReverseSoftLimitDegrees);
 
     cfg.Voltage.PeakForwardVoltage = ClimbConstants.climbPeakVoltage;
     cfg.Voltage.PeakReverseVoltage = -ClimbConstants.climbPeakVoltage;
@@ -82,9 +84,19 @@ public class ClimbTalonFX implements ClimbIO {
   }
 
   @Override
+
   public double setAngle() {
     return positionRotations.getValueAsDouble();
-  }
+// =======
+//   public void stop() {
+//     _climbMotorK.setControl(voltageOut.withOutput(0));
+//   }
+
+//   @Override
+//   public double setAngle() {
+//     return positionRotations.getValueAsDouble() / ClimbConstants.climbGearRatio;
+// >>>>>>> 1b8980746a08f84ace5ca040f0b63f3085f0f42a
+ }
 
   // @Override
   // public Rotation2d getAngle() {
@@ -106,6 +118,9 @@ public class ClimbTalonFX implements ClimbIO {
 
     inputs.positionRotations = positionRotations.getValueAsDouble();
     inputs.angleDegrees = Units.rotationsToDegrees(positionRotations.getValueAsDouble());
+// =======
+//     inputs.angleDegrees = positionRotations.getValueAsDouble() / 360;
+// >>>>>>> 1b8980746a08f84ace5ca040f0b63f3085f0f42a
     inputs.velocityRotationsPerSecond = velocityRotationsPerSecond.getValueAsDouble();
     inputs.appliedVoltage = voltage.getValueAsDouble();
     inputs.supplyCurrentAmps = supplyCurrentAmps.getValueAsDouble();

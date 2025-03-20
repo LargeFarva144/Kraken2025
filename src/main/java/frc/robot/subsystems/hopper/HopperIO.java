@@ -8,17 +8,14 @@ public interface HopperIO {
   public static class HopperIOInputs {
 
     public boolean connected = false;
-    public boolean objectDetectedLeft = false;
-    public boolean objectDetectedRight = false;
-    public double distanceLeftInches = 0.0;
-    public double distanceRightInches = 0.0;
-    public double signalStrengthLeft = 0.0;
-    public double signalStrengthRight = 0.0;
+    public boolean objectDetected = false;
+    public double distanceInches = 0.0;
+    public double signalStrength = 0.0;
   }
 
-  public default boolean hasCoral() {
-    return false;
-  }
+  // public default boolean hasCoral() {
+  //   return false;
+  // }
 
   public default void updateInputs(HopperIOInputs inputs) {}
 }
