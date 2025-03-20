@@ -162,7 +162,7 @@ public class Drive extends SubsystemBase {
 
   @Override
   public void periodic() {
-    CameraServer.startAutomaticCapture();
+    CameraServer.startAutomaticCapture().setResolution(200, 400);
     odometryLock.lock(); // Prevents odometry updates while reading data
     gyroIO.updateInputs(gyroInputs);
     Logger.processInputs("Drive/Gyro", gyroInputs);

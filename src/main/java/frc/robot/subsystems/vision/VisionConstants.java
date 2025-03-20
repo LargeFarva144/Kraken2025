@@ -34,32 +34,36 @@ public class VisionConstants {
   // (Not used by Limelight, configure in web UI instead)
   public static Transform3d robotToCamera0 =
       new Transform3d(
-          Units.inchesToMeters(7.23),
-          Units.inchesToMeters(-6.184),
-          Units.inchesToMeters(14.734),
+          Units.inchesToMeters(7.24),
+          Units.inchesToMeters(6.237),
+          Units.inchesToMeters(14.829),
           new Rotation3d(
-              Units.degreesToRadians(1), Units.degreesToRadians(11), Units.degreesToRadians(6)));
+              Units.degreesToRadians(1), 
+              Units.degreesToRadians(11), 
+              Units.degreesToRadians(6)));
   public static Transform3d robotToCamera1 =
       new Transform3d(
-          Units.inchesToMeters(7.23),
-          Units.inchesToMeters(6.184),
-          Units.inchesToMeters(14.734),
+          Units.inchesToMeters(7.24),
+          Units.inchesToMeters(-6.237),
+          Units.inchesToMeters(14.829),
           new Rotation3d(
-              Units.degreesToRadians(-1), Units.degreesToRadians(11), Units.degreesToRadians(-6)));
+              Units.degreesToRadians(-1), 
+              Units.degreesToRadians(11), 
+              Units.degreesToRadians(-6)));
   public static Transform3d robotToCamera2 = // update, changed from hang interference
       new Transform3d(
-          Units.inchesToMeters(2.55),
-          Units.inchesToMeters(-7.109),
-          Units.inchesToMeters(33.0),
+          Units.inchesToMeters(3.3),
+          Units.inchesToMeters(-6.75),
+          Units.inchesToMeters(32.625),
           new Rotation3d(
               Units.degreesToRadians(12.6),
               Units.degreesToRadians(-18),
               Units.degreesToRadians(-135)));
   public static Transform3d robotToCamera3 =
       new Transform3d(
-          Units.inchesToMeters(2.55),
-          Units.inchesToMeters(7.109),
-          Units.inchesToMeters(31.0),
+          Units.inchesToMeters(3.39),
+          Units.inchesToMeters(6.75),
+          Units.inchesToMeters(30.89),
           new Rotation3d(
               Units.degreesToRadians(-12.6),
               Units.degreesToRadians(-18),
