@@ -38,18 +38,14 @@ public class VisionConstants {
           Units.inchesToMeters(6.237),
           Units.inchesToMeters(14.829),
           new Rotation3d(
-              Units.degreesToRadians(1), 
-              Units.degreesToRadians(11), 
-              Units.degreesToRadians(6)));
+              Units.degreesToRadians(1), Units.degreesToRadians(11), Units.degreesToRadians(6)));
   public static Transform3d robotToCamera1 =
       new Transform3d(
           Units.inchesToMeters(7.24),
           Units.inchesToMeters(-6.237),
           Units.inchesToMeters(14.829),
           new Rotation3d(
-              Units.degreesToRadians(-1), 
-              Units.degreesToRadians(11), 
-              Units.degreesToRadians(-6)));
+              Units.degreesToRadians(-1), Units.degreesToRadians(11), Units.degreesToRadians(-6)));
   public static Transform3d robotToCamera2 = // update, changed from hang interference
       new Transform3d(
           Units.inchesToMeters(3.3),

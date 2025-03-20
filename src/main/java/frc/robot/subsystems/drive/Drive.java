@@ -113,6 +113,7 @@ public class Drive extends SubsystemBase {
       ModuleIO frModuleIO,
       ModuleIO blModuleIO,
       ModuleIO brModuleIO) {
+    CameraServer.startAutomaticCapture().setResolution(200, 400);
     this.gyroIO = gyroIO;
     modules[0] = new Module(flModuleIO, 0, TunerConstants.FrontLeft);
     modules[1] = new Module(frModuleIO, 1, TunerConstants.FrontRight);
@@ -162,7 +163,7 @@ public class Drive extends SubsystemBase {
 
   @Override
   public void periodic() {
-    CameraServer.startAutomaticCapture().setResolution(200, 400);
+
     odometryLock.lock(); // Prevents odometry updates while reading data
     gyroIO.updateInputs(gyroInputs);
     Logger.processInputs("Drive/Gyro", gyroInputs);
