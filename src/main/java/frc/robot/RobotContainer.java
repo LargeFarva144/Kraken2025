@@ -288,7 +288,7 @@ public class RobotContainer {
             Commands.parallel(
                 Commands.runOnce(() -> pivot.stop()), Commands.runOnce(() -> extend.stop())));
 
-    controllerOperator.x().onTrue(Commands.runOnce(() -> vacuum.toggleVacuum()));
+    controllerOperator.x().and(controllerOperator.leftTrigger()).onTrue(Commands.runOnce(() -> vacuum.toggleVacuum()));
 
     // L2 on A button
     controllerOperator
@@ -359,6 +359,9 @@ public class RobotContainer {
             ArmCommands.armFloorPickUpCoral(
                 pivot, extend),
                 Commands.runOnce(() -> vacuum.runVacuum(true))));
+
+
+                
   }
 
   /**

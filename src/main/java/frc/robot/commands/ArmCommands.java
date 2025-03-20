@@ -65,14 +65,14 @@ public class ArmCommands {
 
   public static Command armRemoveAlgae(Pivot pivot, Extend extend) {
     return Commands.sequence(
-        Commands.run(() -> pivot.pivotToAngle(ArmConstants.Algae.algaePrepPivotDegrees))
+        Commands.run(() -> pivot.pivotToAngle(ArmConstants.Algae.algaePrepRemovePivotDegrees))
             .until(() -> pivot.atSetpoint()),
-        Commands.run(() -> extend.extendToLength(ArmConstants.Algae.algaePrepExtendInches))
+        Commands.run(() -> extend.extendToLength(ArmConstants.Algae.algaePrepRemoveExtendInches))
             .until(() -> extend.atSetpoint()),
         Commands.waitSeconds(1.5),
-        Commands.run(() -> pivot.pivotToAngle(ArmConstants.Algae.algaeScorePivotDegrees))
+        Commands.run(() -> pivot.pivotToAngle(ArmConstants.Algae.algaeRemovePivotDegrees))
             .until(() -> pivot.atSetpoint()),
-        Commands.run(() -> extend.extendToLength(ArmConstants.Algae.algaeScoreExtendInches))
+        Commands.run(() -> extend.extendToLength(ArmConstants.Algae.algaeRemoveExtendInches))
             .until(() -> extend.atSetpoint()));
   }
 
@@ -83,7 +83,17 @@ public class ArmCommands {
         Commands.run(() -> extend.extendToLength(ArmConstants.groundPickUp.groundPickUpExtendInches))
             .until(() -> extend.atSetpoint()));
   }
+  
+  public static Command armReefPickUpAlgae(Pivot pivot, Extend extend) {
+    return Commands.sequence(
+        Commands.run(() -> pivot.pivotToAngle(ArmConstants.Algae.algaePickUpReefPivotDegrees))
+            .until(() -> pivot.atSetpoint()),
+        Commands.run(() -> extend.extendToLength(ArmConstants.Algae.algaePickUpReefExtendInches))
+            .until(() -> extend.atSetpoint()));
+  }
 
+//   public static Command armScoreProcessor(p)
+// {}
   public static Command joystickPivot(Pivot pivot, DoubleSupplier ySupplier) {
     double voltLimit = 2.5;
     return Commands.run(() -> pivot.runVolts(ySupplier.getAsDouble() * voltLimit), pivot);

@@ -44,13 +44,22 @@ public class ArmConstants {
   public class groundPickUp {
     public static double groundPickUpPivotDegrees = 220;
     public static double groundPickUpExtendInches = 24;
+
   }
 
   public class Algae{
-    public static double algaePrepPivotDegrees = 113.5;
-    public static double algaeScorePivotDegrees = 125;
-    public static double algaePrepExtendInches = 27.2;
-    public static double algaeScoreExtendInches = 5;
+    public static double algaePrepRemovePivotDegrees = 113.5;
+    public static double algaeRemovePivotDegrees = 125;
+    public static double algaePrepRemoveExtendInches = 27.2;
+    public static double algaeRemoveExtendInches = 5;
 
+    public static double algaePickUpReefPivotDegrees = 220;
+    public static double algaePickUpReefExtendInches = 24;
+    
+    // public static double algaePickUpFloorPivotDegrees = 0;
+    // public static double algaePickUpFloorExtendInches = 0;
+
+    public static double algaeProcessorPivotDegrees = 0;
+    public static double algaeProcessorExtendInches = 0;
   }
 }
