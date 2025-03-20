@@ -348,9 +348,8 @@ public class RobotContainer {
         .whileTrue(
             Commands.run(() -> climb.runVolts(3))
                 .until(() -> climb.setAngle() >= ClimbConstants.climbHangAngleDegrees));
-    
-    controllerDriver.leftBumper()
-    .whileTrue(ArmCommands.armTopRemoveAlgae(pivot, extend));
+
+    controllerDriver.leftBumper().whileTrue(ArmCommands.armTopRemoveAlgae(pivot, extend));
     controllerDriver.rightBumper().whileTrue(ArmCommands.armBottomRemoveAlgae(pivot, extend));
   }
 

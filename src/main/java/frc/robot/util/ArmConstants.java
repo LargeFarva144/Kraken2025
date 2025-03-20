@@ -41,7 +41,7 @@ public class ArmConstants {
 
   }
 
-  public class Algae{
+  public class Algae {
     public static double algaeBottomPrepPivotDegrees = 148;
     public static double algaeBottomPivotDegrees = 185;
     public static double algaeBottomPrepExtendInches = 23;
