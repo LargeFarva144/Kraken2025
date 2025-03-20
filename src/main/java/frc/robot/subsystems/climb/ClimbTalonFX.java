@@ -26,8 +26,6 @@ public class ClimbTalonFX implements ClimbIO {
   private final StatusSignal<Current> torqueCurrentAmps;
   private final StatusSignal<Temperature> tempCelsius;
 
-
-  private final PositionVoltage positionOut = new PositionVoltage(0);
   private final VoltageOut voltageOut = new VoltageOut(0).withEnableFOC(true).withUpdateFreqHz(0);
 
   public ClimbTalonFX() {
@@ -84,10 +82,11 @@ public class ClimbTalonFX implements ClimbIO {
   }
 
   @Override
-
   public double setAngle() {
     return positionRotations.getValueAsDouble();
-// =======
+ }
+
+ // =======
 //   public void stop() {
 //     _climbMotorK.setControl(voltageOut.withOutput(0));
 //   }
@@ -96,7 +95,6 @@ public class ClimbTalonFX implements ClimbIO {
 //   public double setAngle() {
 //     return positionRotations.getValueAsDouble() / ClimbConstants.climbGearRatio;
 // >>>>>>> 1b8980746a08f84ace5ca040f0b63f3085f0f42a
- }
 
   // @Override
   // public Rotation2d getAngle() {

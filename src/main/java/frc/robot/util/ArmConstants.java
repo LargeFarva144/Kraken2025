@@ -40,4 +40,12 @@ public class ArmConstants {
     // public static double L1ExtendInches
 
   }
+
+  public class Algae{
+    public static double algaePrepPivotDegrees = 113.5;
+    public static double algaeScorePivotDegrees = 125;
+    public static double algaePrepExtendInches = 27.2;
+    public static double algaeScoreExtendInches = 5;
+
+  }
 }

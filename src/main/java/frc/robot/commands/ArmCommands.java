@@ -63,6 +63,19 @@ public class ArmCommands {
             .until(() -> extend.atSetpoint()));
   }
 
+  public static Command armRemoveAlgae(Pivot pivot, Extend extend) {
+    return Commands.sequence(
+        Commands.run(() -> pivot.pivotToAngle(ArmConstants.Algae.algaePrepPivotDegrees))
+            .until(() -> pivot.atSetpoint()),
+        Commands.run(() -> extend.extendToLength(ArmConstants.Algae.algaePrepExtendInches))
+            .until(() -> extend.atSetpoint()),
+        Commands.waitSeconds(1.5),
+        Commands.run(() -> pivot.pivotToAngle(ArmConstants.Algae.algaeScorePivotDegrees))
+            .until(() -> pivot.atSetpoint()),
+        Commands.run(() -> extend.extendToLength(ArmConstants.Algae.algaeScoreExtendInches))
+            .until(() -> extend.atSetpoint()));
+  }
+
   public static Command joystickPivot(Pivot pivot, DoubleSupplier ySupplier) {
     double voltLimit = 2.5;
     return Commands.run(() -> pivot.runVolts(ySupplier.getAsDouble() * voltLimit), pivot);
