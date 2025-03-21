@@ -208,7 +208,7 @@ public class RobotContainer {
             () -> -controllerDriver.getLeftX(),
             () -> -controllerDriver.getRightX()));
 
-    pivot.setDefaultCommand(ArmCommands.armToHome(pivot, extend));
+    // pivot.setDefaultCommand(ArmCommands.armToHome(pivot, extend));
 
     // Automatic Triggers
 
