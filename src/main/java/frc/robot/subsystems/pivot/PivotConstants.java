@@ -24,7 +24,7 @@ public class PivotConstants {
   public static double kV = 0.12;
   public static double kA = 0.01;
 
-  public static double motionMagicCruiseVelocity = 1;
-  public static double motionMagicAcceleration = 1;
+  public static double motionMagicCruiseVelocity = 1.5;
+  public static double motionMagicAcceleration = 2;
   public static double motionMagicJerk = 100;
 }
