@@ -341,6 +341,13 @@ public class RobotContainer {
     //             () -> ArmConstants.Algae.algaeExtendBarge)).onFalse(ArmCommands.armToHome(pivot,
     // extend));
 
+    // controllerOperator
+    //     .button(0)
+    //     .whileTrue(
+    //         Commands.parallel(
+    //             ArmCommands.pickupAlgae(pivot, extend),
+    //             Commands.runOnce(() -> vacuum.runVacuum(true))));
+
     // Coral pickup on RB
     controllerOperator
         .rightBumper()
@@ -378,7 +385,8 @@ public class RobotContainer {
                 extend,
                 () -> ArmConstants.Algae.algaeTopPrepPivotDegrees,
                 () -> ArmConstants.Algae.algaeTopPrepExtendInches,
-                () -> ArmConstants.Algae.algaeTopPivotDegrees));
+                () -> ArmConstants.Algae.algaeTopPivotDegrees))
+        .onFalse(ArmCommands.armToHome(pivot, extend));
 
     controllerDriver
         .leftBumper()
@@ -388,7 +396,8 @@ public class RobotContainer {
                 extend,
                 () -> ArmConstants.Algae.algaeBottomPrepPivotDegrees,
                 () -> ArmConstants.Algae.algaeBottomPrepExtendInches,
-                () -> ArmConstants.Algae.algaeBottomPivotDegrees));
+                () -> ArmConstants.Algae.algaeBottomPivotDegrees))
+        .onFalse(ArmCommands.armToHome(pivot, extend));
   }
 
   /**
