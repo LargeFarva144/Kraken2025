@@ -318,6 +318,27 @@ public class RobotContainer {
                 () -> ArmConstants.Prep.L4PivotDegrees,
                 () -> ArmConstants.Prep.L4ExtendInches));
 
+
+    // controllerOperator
+    //     .button(0)
+    //     .whileTrue(
+    //         ArmCommands.armToSetpoint(
+    //             pivot,
+    //             extend,
+    //             () -> ArmConstants.Algae.algaePivotProcessor,
+    //             () -> ArmConstants.Algae.algaeExtendProcessor));
+
+
+    // controllerOperator
+    //     .button(0)
+    //     .whileTrue(
+    //         ArmCommands.armToSetpoint(
+    //             pivot,
+    //             extend,
+    //             () -> ArmConstants.Algae.algaePivotBarge,
+    //             () -> ArmConstants.Algae.algaeExtendBarge));
+    
+
     // Coral pickup on RB
     controllerOperator
         .rightBumper()
@@ -347,9 +368,31 @@ public class RobotContainer {
             Commands.run(() -> climb.runVolts(3))
                 .until(() -> climb.setAngle() >= ClimbConstants.climbHangAngleDegrees));
 
-    controllerDriver.leftBumper().whileTrue(ArmCommands.armTopRemoveAlgae(pivot, extend));
-    controllerDriver.rightBumper().whileTrue(ArmCommands.armBottomRemoveAlgae(pivot, extend));
-  }
+
+    controllerDriver.leftBumper().whileTrue(
+                    ArmCommands.armRemoveAlgae(
+                        pivot,
+                        extend,   
+                        () -> ArmConstants.Algae.algaeTopPrepPivotDegrees,
+                        () -> ArmConstants.Algae.algaeTopPrepExtendInches,
+                        () -> ArmConstants.Algae.algaeTopPivotDegrees
+                    )
+                );
+              
+
+    controllerDriver
+    .rightBumper()
+    .whileTrue(
+        ArmCommands.armRemoveAlgae(
+            pivot,
+            extend,   
+            () -> ArmConstants.Algae.algaeBottomPrepPivotDegrees,
+            () -> ArmConstants.Algae.algaeBottomPrepExtendInches,
+            () -> ArmConstants.Algae.algaeBottomPivotDegrees
+        )
+    );
+            }
+  
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

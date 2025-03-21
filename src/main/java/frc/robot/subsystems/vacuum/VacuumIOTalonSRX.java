@@ -36,10 +36,6 @@ public class VacuumIOTalonSRX implements VacuumIO {
     }
   }
 
-  // public double getAngle(double angle){
-
-  // }
-
   @Override
   public void updateInputs(VacuumIOInputs inputs) {
     inputs.supplyCurrentAmps = _vacuumMotor.getStatorCurrent();
