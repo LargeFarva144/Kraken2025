@@ -369,7 +369,7 @@ public class RobotContainer {
                 .until(() -> climb.setAngle() >= ClimbConstants.climbHangAngleDegrees));
 
 
-    controllerDriver.leftBumper().whileTrue(
+    controllerDriver.rightBumper().whileTrue(
                     ArmCommands.armRemoveAlgae(
                         pivot,
                         extend,   
@@ -381,7 +381,7 @@ public class RobotContainer {
               
 
     controllerDriver
-    .rightBumper()
+    .leftBumper()
     .whileTrue(
         ArmCommands.armRemoveAlgae(
             pivot,
