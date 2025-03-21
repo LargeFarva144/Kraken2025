@@ -43,16 +43,16 @@ public class ArmConstants {
 
   public class Algae {
     public static double algaeBottomPrepPivotDegrees = 155.7;
-    // public static double algaeBottomPivotDegrees = 185;
+    public static double algaeBottomPivotDegrees = 160;
     public static double algaeBottomPrepExtendInches = 17.7;
     // public static double algaeBottomExtendInches = 5;
 
     public static double algaeTopPrepPivotDegrees = 125;
-    // public static double algaeTopPivotDegrees = 125;
+    public static double algaeTopPivotDegrees = 120;
     public static double algaeTopPrepExtendInches = 21.3;
-    // public static double algaeTopExtendInches = 5;
+    public static double algaeTopExtendInches = 23;
 
-    public static double algaeExtendBarge = 59.6;
+    public static double algaeExtendBarge = 61;
     public static double algaePivotBarge = 91.2;
 
     public static double algaeExtendPickUpGround = 41;

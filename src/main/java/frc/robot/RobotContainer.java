@@ -328,14 +328,14 @@ public class RobotContainer {
     //             () ->
     // ArmConstants.Algae.algaeExtendProcessor)));
 
-    // controllerOperator
-    //     .button(0)
-    //     .whileTrue(
-    //         ArmCommands.armToSetpoint(
-    //             pivot,
-    //             extend,
-    //             () -> ArmConstants.Algae.algaePivotBarge,
-    //             () -> ArmConstants.Algae.algaeExtendBarge)));
+    controllerOperator
+        .povUp()
+        .whileTrue(
+            ArmCommands.armToSetpoint(
+                pivot,
+                extend,
+                () -> ArmConstants.Algae.algaePivotBarge,
+                () -> ArmConstants.Algae.algaeExtendBarge));
 
     // controllerOperator
     //     .button(0)
@@ -384,7 +384,12 @@ public class RobotContainer {
                     extend,
                     () -> ArmConstants.Algae.algaeTopPrepPivotDegrees,
                     () -> ArmConstants.Algae.algaeTopPrepExtendInches),
-                Commands.runOnce(() -> vacuum.runVacuum(true))));
+                Commands.runOnce(() -> vacuum.runVacuum(true)),
+                ArmCommands.armAlgaeLiftTop(pivot, extend)))
+        .onFalse(
+            ArmCommands.armAlgaeLiftTop(pivot, extend)
+                .andThen(
+                    Commands.runOnce(() -> pivot.stop()), Commands.runOnce(() -> extend.stop())));
 
     controllerDriver
         .leftBumper()
@@ -395,7 +400,12 @@ public class RobotContainer {
                     extend,
                     () -> ArmConstants.Algae.algaeBottomPrepPivotDegrees,
                     () -> ArmConstants.Algae.algaeBottomPrepExtendInches),
-                Commands.runOnce(() -> vacuum.runVacuum(true))));
+                Commands.runOnce(() -> vacuum.runVacuum(true)),
+                ArmCommands.armAlgaeLiftTop(pivot, extend)))
+        .onFalse(
+            ArmCommands.armAlgaeLiftTop(pivot, extend)
+                .andThen(
+                    Commands.runOnce(() -> pivot.stop()), Commands.runOnce(() -> extend.stop())));
   }
 
   /**

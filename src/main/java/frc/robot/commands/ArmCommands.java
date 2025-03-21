@@ -63,6 +63,23 @@ public class ArmCommands {
             .until(() -> extend.atSetpoint()));
   }
 
+  public static Command armAlgaeLiftTop(Pivot pivot, Extend extend) {
+    return Commands.sequence(
+        Commands.runOnce(() -> extend.extendToLength(ArmConstants.Algae.algaeExtendBarge), extend)
+            .until(() -> extend.atSetpoint())
+            .andThen(
+                Commands.runOnce(
+                    () -> pivot.pivotToAngle(ArmConstants.Algae.algaePivotBarge), pivot)));
+  }
+
+  public static Command armAlgaeLiftBottom(Pivot pivot) {
+    return
+    // Commands.run(() -> extend.extendToLength(ArmConstants.Algae.algaeExtendBarge), extend)
+    //     .until(() -> extend.atSetpoint())
+    //     .andThen(
+    Commands.runOnce(() -> pivot.pivotToAngle(ArmConstants.Algae.algaePivotBarge), pivot);
+  }
+
   //   public static Command armRemoveAlgae(
   //       Pivot pivot,
   //       Extend extend,
