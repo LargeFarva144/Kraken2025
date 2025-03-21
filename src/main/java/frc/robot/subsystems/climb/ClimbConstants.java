@@ -4,7 +4,7 @@ public class ClimbConstants {
 
   public static final int climbTalonId = 27;
   public static final boolean climbInvert = true; // confirm
-  public static final boolean climbNeutralModeBrake = false;
+  public static final boolean climbNeutralModeBrake = true;
   public static final double climbPeakVoltage = 12;
   public static final double climbGearRatio = 225;
 
