@@ -12,6 +12,8 @@ public class VacuumIOTalonSRX implements VacuumIO {
   public VacuumIOTalonSRX() {
     _vacuumMotor = new TalonSRX(30);
     _valveMotor = new Servo(0);
+
+    double supplyCurrentAmps = _vacuumMotor.getStatorCurrent();
   }
 
   public void toggleVacuum() {
@@ -27,10 +29,19 @@ public class VacuumIOTalonSRX implements VacuumIO {
   public void runVacuum(boolean runVacuum) {
     if (runVacuum) {
       _vacuumMotor.set(ControlMode.PercentOutput, 1);
-      _valveMotor.setAngle(50);
+      _valveMotor.setAngle(40);
     } else {
       _vacuumMotor.set(ControlMode.PercentOutput, 0);
       _valveMotor.setAngle(90);
     }
+  }
+
+  // public double getAngle(double angle){
+
+  // }
+
+  @Override
+  public void updateInputs(VacuumIOInputs inputs) {
+    inputs.supplyCurrentAmps = _vacuumMotor.getStatorCurrent();
   }
 }

@@ -98,10 +98,10 @@ public class RobotContainer {
         vision =
             new Vision(
                 drive::addVisionMeasurement,
-                new VisionIOPhotonVision(camera0Name, robotToCamera0),
-                new VisionIOPhotonVision(camera1Name, robotToCamera1),
-                new VisionIOPhotonVision(camera2Name, robotToCamera2),
-                new VisionIOPhotonVision(camera3Name, robotToCamera3));
+                new VisionIOPhotonVision(camera0Name, robotToCamera1),
+                new VisionIOPhotonVision(camera1Name, robotToCamera0),
+                new VisionIOPhotonVision(camera2Name, robotToCamera2));
+        // new VisionIOPhotonVision(camera3Name, robotToCamera3));
         pivot = new Pivot(new PivotIOTalonFX());
         extend =
             new Extend(new ExtendIOTalonFX(), pivot); // pivot must be first, is passed into extend
@@ -124,8 +124,8 @@ public class RobotContainer {
                 drive::addVisionMeasurement,
                 new VisionIOPhotonVisionSim(camera0Name, robotToCamera0, drive::getPose),
                 new VisionIOPhotonVisionSim(camera1Name, robotToCamera1, drive::getPose),
-                new VisionIOPhotonVisionSim(camera2Name, robotToCamera2, drive::getPose),
-                new VisionIOPhotonVisionSim(camera3Name, robotToCamera3, drive::getPose));
+                new VisionIOPhotonVisionSim(camera2Name, robotToCamera2, drive::getPose));
+        // new VisionIOPhotonVisionSim(camera3Name, robotToCamera3, drive::getPose));
         pivot = new Pivot(null);
         extend = new Extend(null, pivot);
         hopper = new Hopper(null);
@@ -144,11 +144,9 @@ public class RobotContainer {
                 new ModuleIO() {});
         vision =
             new Vision(
-                drive::addVisionMeasurement,
-                new VisionIO() {},
-                new VisionIO() {},
-                new VisionIO() {},
-                new VisionIO() {});
+                drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {}, new VisionIO() {}
+                // new VisionIO() {}
+                );
         pivot = new Pivot(null);
         extend = new Extend(null, pivot);
         hopper = new Hopper(null);
