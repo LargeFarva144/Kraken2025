@@ -63,25 +63,26 @@ public class ArmCommands {
             .until(() -> extend.atSetpoint()));
   }
 
-  public static Command armRemoveAlgae(
-      Pivot pivot,
-      Extend extend,
-      DoubleSupplier pivotSetpointSupplier,
-      DoubleSupplier extendSetpointSupplier,
-      DoubleSupplier pivotUpSetpointSupplier) {
-    return Commands.sequence(
-        Commands.parallel(
-                Commands.run(() -> pivot.pivotToAngle(pivotSetpointSupplier.getAsDouble()), pivot),
-                Commands.run(
-                    () -> extend.extendToLength(ArmConstants.Home.homeExtendInches), extend))
-            .until(() -> pivot.atSetpoint())
-            .andThen(
-                Commands.run(
-                    () -> extend.extendToLength(extendSetpointSupplier.getAsDouble()), extend),
-                Commands.run(
-                    () -> pivot.pivotToAngle(pivotUpSetpointSupplier.getAsDouble()),
-                    pivot))); // might need run().until()
-  }
+  //   public static Command armRemoveAlgae(
+  //       Pivot pivot,
+  //       Extend extend,
+  //       DoubleSupplier pivotSetpointSupplier,
+  //       DoubleSupplier extendSetpointSupplier,
+  //       DoubleSupplier pivotUpSetpointSupplier) {
+  //     return Commands.sequence(
+  //         Commands.parallel(
+  //                 Commands.run(() -> pivot.pivotToAngle(pivotSetpointSupplier.getAsDouble()),
+  // pivot),
+  //                 Commands.run(
+  //                     () -> extend.extendToLength(ArmConstants.Home.homeExtendInches), extend))
+  //             .until(() -> pivot.atSetpoint())
+  //             .andThen(
+  //                 Commands.run(
+  //                     () -> extend.extendToLength(extendSetpointSupplier.getAsDouble()), extend),
+  //                 Commands.run(
+  //                     () -> pivot.pivotToAngle(pivotUpSetpointSupplier.getAsDouble()),
+  //                     pivot))); // might need run().until()
+  //   }
 
   //   public static Command armBottomRemoveAlgae(Pivot pivot, Extend extend) {
   //     return Commands.sequence(
