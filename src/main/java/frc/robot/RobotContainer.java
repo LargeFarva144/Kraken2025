@@ -378,20 +378,24 @@ public class RobotContainer {
     controllerDriver
         .rightBumper()
         .whileTrue(
-            ArmCommands.armToSetpoint(
-                pivot,
-                extend,
-                () -> ArmConstants.Algae.algaeTopPrepPivotDegrees,
-                () -> ArmConstants.Algae.algaeTopPrepExtendInches));
+            Commands.parallel(
+                ArmCommands.armToSetpoint(
+                    pivot,
+                    extend,
+                    () -> ArmConstants.Algae.algaeTopPrepPivotDegrees,
+                    () -> ArmConstants.Algae.algaeTopPrepExtendInches),
+                Commands.runOnce(() -> vacuum.runVacuum(true))));
 
     controllerDriver
         .leftBumper()
         .whileTrue(
-            ArmCommands.armToSetpoint(
-                pivot,
-                extend,
-                () -> ArmConstants.Algae.algaeBottomPrepPivotDegrees,
-                () -> ArmConstants.Algae.algaeBottomPrepExtendInches));
+            Commands.parallel(
+                ArmCommands.armToSetpoint(
+                    pivot,
+                    extend,
+                    () -> ArmConstants.Algae.algaeBottomPrepPivotDegrees,
+                    () -> ArmConstants.Algae.algaeBottomPrepExtendInches),
+                Commands.runOnce(() -> vacuum.runVacuum(true))));
   }
 
   /**
