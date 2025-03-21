@@ -296,7 +296,7 @@ public class RobotContainer {
                 pivot,
                 extend,
                 () -> ArmConstants.Prep.L2PivotDegrees,
-                () -> ArmConstants.Prep.L2ExtendInches));
+                () -> ArmConstants.Prep.L2ExtendInches)).onFalse(ArmCommands.armToHome(pivot, extend));
 
     // L3 on B button
     controllerOperator
@@ -306,7 +306,7 @@ public class RobotContainer {
                 pivot,
                 extend,
                 () -> ArmConstants.Prep.L3PivotDegrees,
-                () -> ArmConstants.Prep.L3ExtendInches));
+                () -> ArmConstants.Prep.L3ExtendInches)).onFalse(ArmCommands.armToHome(pivot, extend));
 
     // L4 on Y button
     controllerOperator
@@ -316,7 +316,7 @@ public class RobotContainer {
                 pivot,
                 extend,
                 () -> ArmConstants.Prep.L4PivotDegrees,
-                () -> ArmConstants.Prep.L4ExtendInches));
+                () -> ArmConstants.Prep.L4ExtendInches)).onFalse(ArmCommands.armToHome(pivot, extend));
 
 
     // controllerOperator
@@ -326,7 +326,7 @@ public class RobotContainer {
     //             pivot,
     //             extend,
     //             () -> ArmConstants.Algae.algaePivotProcessor,
-    //             () -> ArmConstants.Algae.algaeExtendProcessor));
+    //             () -> ArmConstants.Algae.algaeExtendProcessor)).onFalse(ArmCommands.armToHome(pivot, extend));
 
 
     // controllerOperator
@@ -336,7 +336,7 @@ public class RobotContainer {
     //             pivot,
     //             extend,
     //             () -> ArmConstants.Algae.algaePivotBarge,
-    //             () -> ArmConstants.Algae.algaeExtendBarge));
+    //             () -> ArmConstants.Algae.algaeExtendBarge)).onFalse(ArmCommands.armToHome(pivot, extend));
     
 
     // Coral pickup on RB

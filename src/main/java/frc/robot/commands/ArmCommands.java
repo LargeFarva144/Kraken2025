@@ -104,9 +104,9 @@ public class ArmCommands {
 
   public static Command pickupAlgae(Pivot pivot, Extend extend) {
     return Commands.sequence(
-        Commands.run(() -> pivot.pivotToAngle(ArmConstants.Coral.coralPivotDegrees))
+        Commands.run(() -> pivot.pivotToAngle(ArmConstants.Algae.algaePivotPickUpGround))
             .until(() -> pivot.atSetpoint()),
-        Commands.run(() -> extend.extendToLength(ArmConstants.Coral.coralExtendInches))
+        Commands.run(() -> extend.extendToLength(ArmConstants.Algae.algaeExtendPickUpGround))
             .until(() -> extend.atSetpoint()),
         Commands.waitSeconds(1.5),
         Commands.run(() -> extend.extendToLength(ArmConstants.Home.homeExtendInches))
