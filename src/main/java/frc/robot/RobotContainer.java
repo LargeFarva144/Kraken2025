@@ -384,11 +384,11 @@ public class RobotContainer {
                     extend,
                     () -> ArmConstants.Algae.algaeTopPrepPivotDegrees,
                     () -> ArmConstants.Algae.algaeTopPrepExtendInches),
-                Commands.runOnce(() -> vacuum.runVacuum(true))));
-    // .onFalse(
-    //     ArmCommands.armAlgaeLiftTop(pivot, extend)
-    //         .andThen(
-    //             Commands.runOnce(() -> pivot.stop()), Commands.runOnce(() -> extend.stop())))
+                Commands.runOnce(() -> vacuum.runVacuum(true))))
+        .onFalse(
+            ArmCommands.armAlgaeLiftTop(pivot, extend)
+                .andThen(
+                    Commands.runOnce(() -> pivot.stop()), Commands.runOnce(() -> extend.stop())));
 
     controllerDriver
         .leftBumper()
@@ -399,12 +399,11 @@ public class RobotContainer {
                     extend,
                     () -> ArmConstants.Algae.algaeBottomPrepPivotDegrees,
                     () -> ArmConstants.Algae.algaeBottomPrepExtendInches),
-                Commands.runOnce(() -> vacuum.runVacuum(true))));
-    // .onFalse(
-    //     ArmCommands.armAlgaeLiftTop(pivot, extend)
-    //         .andThen(
-    //             Commands.runOnce(() -> pivot.stop()), Commands.runOnce(() -> extend.stop())))
-
+                Commands.runOnce(() -> vacuum.runVacuum(true))))
+        .onFalse(
+            ArmCommands.armAlgaeLiftTop(pivot, extend)
+                .andThen(
+                    Commands.runOnce(() -> pivot.stop()), Commands.runOnce(() -> extend.stop())));
   }
 
   /**
