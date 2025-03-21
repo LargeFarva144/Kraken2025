@@ -55,10 +55,9 @@ public class ArmConstants {
     public static double algaeExtendBarge = 41;
     public static double algaePivotBarge = 45;
 
-
     public static double algaeExtendPickUpGround = 41;
     public static double algaePivotPickUpGround = 45;
-    
+
     public static double algaeExtendProcessor = 41;
     public static double algaePivotProcessor = 45;
   }

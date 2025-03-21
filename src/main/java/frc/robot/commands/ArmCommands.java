@@ -64,43 +64,44 @@ public class ArmCommands {
   }
 
   public static Command armRemoveAlgae(
-    Pivot pivot,
-    Extend extend,
-    DoubleSupplier pivotSetpointSupplier,
-    DoubleSupplier extendSetpointSupplier,
-    DoubleSupplier pivotUpSetpointSupplier) {
-  return Commands.sequence(
-      Commands.parallel(
-              Commands.run(() -> pivot.pivotToAngle(pivotSetpointSupplier.getAsDouble()), pivot),
-              Commands.run(
-                  () -> extend.extendToLength(ArmConstants.Home.homeExtendInches), extend))
-          .until(() -> pivot.atSetpoint())
-          .andThen(
-              Commands.run(
-                  () -> extend.extendToLength(extendSetpointSupplier.getAsDouble()),
-                  extend), 
-                  Commands.run(() -> pivot.pivotToAngle(pivotUpSetpointSupplier.getAsDouble()), 
-                  pivot))); // might need run().until()
-}
+      Pivot pivot,
+      Extend extend,
+      DoubleSupplier pivotSetpointSupplier,
+      DoubleSupplier extendSetpointSupplier,
+      DoubleSupplier pivotUpSetpointSupplier) {
+    return Commands.sequence(
+        Commands.parallel(
+                Commands.run(() -> pivot.pivotToAngle(pivotSetpointSupplier.getAsDouble()), pivot),
+                Commands.run(
+                    () -> extend.extendToLength(ArmConstants.Home.homeExtendInches), extend))
+            .until(() -> pivot.atSetpoint())
+            .andThen(
+                Commands.run(
+                    () -> extend.extendToLength(extendSetpointSupplier.getAsDouble()), extend),
+                Commands.run(
+                    () -> pivot.pivotToAngle(pivotUpSetpointSupplier.getAsDouble()),
+                    pivot))); // might need run().until()
+  }
 
-//   public static Command armBottomRemoveAlgae(Pivot pivot, Extend extend) {
-//     return Commands.sequence(
-//         Commands.run(() -> pivot.pivotToAngle(ArmConstants.Algae.algaeBottomPrepPivotDegrees))
-//             .until(() -> pivot.atSetpoint()),
-//         Commands.run(() -> extend.extendToLength(ArmConstants.Algae.algaeBottomPrepExtendInches))
-//             .until(() -> extend.atSetpoint()),
-//         Commands.run(() -> pivot.pivotToAngle(ArmConstants.Algae.algaeBottomPivotDegrees))
-//             .until(() -> pivot.atSetpoint()));}
+  //   public static Command armBottomRemoveAlgae(Pivot pivot, Extend extend) {
+  //     return Commands.sequence(
+  //         Commands.run(() -> pivot.pivotToAngle(ArmConstants.Algae.algaeBottomPrepPivotDegrees))
+  //             .until(() -> pivot.atSetpoint()),
+  //         Commands.run(() ->
+  // extend.extendToLength(ArmConstants.Algae.algaeBottomPrepExtendInches))
+  //             .until(() -> extend.atSetpoint()),
+  //         Commands.run(() -> pivot.pivotToAngle(ArmConstants.Algae.algaeBottomPivotDegrees))
+  //             .until(() -> pivot.atSetpoint()));}
 
-//   public static Command armTopRemoveAlgae(Pivot pivot, Extend extend) {
-//     return Commands.sequence(
-//         Commands.run(() -> pivot.pivotToAngle(ArmConstants.Algae.algaeTopPrepPivotDegrees))
-//             .until(() -> pivot.atSetpoint()),
-//         Commands.run(() -> extend.extendToLength(ArmConstants.Algae.algaeTopPrepExtendInches))
-//             .until(() -> extend.atSetpoint()),
-//         Commands.run(() -> pivot.pivotToAngle(ArmConstants.Algae.algaeTopPivotDegrees))
-//             .until(() -> pivot.atSetpoint()));
-//   }
+  //   public static Command armTopRemoveAlgae(Pivot pivot, Extend extend) {
+  //     return Commands.sequence(
+  //         Commands.run(() -> pivot.pivotToAngle(ArmConstants.Algae.algaeTopPrepPivotDegrees))
+  //             .until(() -> pivot.atSetpoint()),
+  //         Commands.run(() -> extend.extendToLength(ArmConstants.Algae.algaeTopPrepExtendInches))
+  //             .until(() -> extend.atSetpoint()),
+  //         Commands.run(() -> pivot.pivotToAngle(ArmConstants.Algae.algaeTopPivotDegrees))
+  //             .until(() -> pivot.atSetpoint()));
+  //   }
 
   public static Command pickupAlgae(Pivot pivot, Extend extend) {
     return Commands.sequence(
