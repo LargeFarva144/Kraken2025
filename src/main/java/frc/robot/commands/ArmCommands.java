@@ -18,6 +18,15 @@ public class ArmCommands {
                 Commands.run(() -> pivot.pivotToAngle(ArmConstants.Home.homePivotDegrees), pivot)));
   }
 
+  public static Command armToHomeAuto(Pivot pivot, Extend extend) {
+    return Commands.sequence(
+        Commands.run(() -> extend.extendToLength(ArmConstants.Home.homeExtendInches), extend)
+            .until(() -> extend.atSetpoint())
+            .andThen(
+                Commands.run(() -> pivot.pivotToAngle(ArmConstants.Home.homePivotDegrees), pivot))
+            .until(() -> pivot.atSetpoint()));
+  }
+
   public static Command armToSetpoint(
       Pivot pivot,
       Extend extend,
@@ -127,7 +136,7 @@ public class ArmCommands {
             .until(() -> pivot.atSetpoint()),
         Commands.run(() -> extend.extendToLength(ArmConstants.Algae.algaeExtendPickUpGround))
             .until(() -> extend.atSetpoint()),
-        Commands.waitSeconds(1.5),
+        Commands.waitSeconds(0.5),
         Commands.run(() -> extend.extendToLength(ArmConstants.Home.homeExtendInches))
             .until(() -> extend.atSetpoint()));
   }
@@ -135,6 +144,8 @@ public class ArmCommands {
   public static Command joystickPivot(Pivot pivot, DoubleSupplier ySupplier) {
     double voltLimit = 2.5;
     return Commands.run(() -> pivot.runVolts(ySupplier.getAsDouble() * voltLimit), pivot);
+    // return Commands.run(() -> pivot.runVolts(ySupplier.getAsDouble() * voltLimit
+    // +(Math.cos(Unit.degreesToRadians(getAngle.)))), pivot);
   }
 
   public static Command joystickExtend(Extend extend, DoubleSupplier ySupplier) {

@@ -38,14 +38,14 @@ public class VisionConstants {
           Units.inchesToMeters(6.237),
           Units.inchesToMeters(14.829),
           new Rotation3d(
-              Units.degreesToRadians(1), Units.degreesToRadians(11), Units.degreesToRadians(6)));
+              Units.degreesToRadians(1), Units.degreesToRadians(11), Units.degreesToRadians(-6)));
   public static Transform3d robotToCamera1 =
       new Transform3d(
           Units.inchesToMeters(7.24),
           Units.inchesToMeters(-6.237),
           Units.inchesToMeters(14.829),
           new Rotation3d(
-              Units.degreesToRadians(-1), Units.degreesToRadians(11), Units.degreesToRadians(-6)));
+              Units.degreesToRadians(-1), Units.degreesToRadians(11), Units.degreesToRadians(6)));
   public static Transform3d robotToCamera2 = // update, changed from hang interference
       new Transform3d(
           Units.inchesToMeters(3.3),
@@ -66,13 +66,13 @@ public class VisionConstants {
               Units.degreesToRadians(135)));
 
   // Basic filtering thresholds
-  public static double maxAmbiguity = 0.3;
+  public static double maxAmbiguity = 0.2;
   public static double maxZError = 0.75;
 
   // Standard deviation baselines, for 1 meter distance and 1 tag
   // (Adjusted automatically based on distance and # of tags)
-  public static double linearStdDevBaseline = 0.02; // Meters
-  public static double angularStdDevBaseline = 0.06; // Radians
+  public static double linearStdDevBaseline = 0.021; // Meters
+  public static double angularStdDevBaseline = 0.061; // Radians
 
   // Standard deviation multipliers for each camera
   // (Adjust to trust some cameras more than others)

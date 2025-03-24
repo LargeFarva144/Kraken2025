@@ -3,14 +3,13 @@ package frc.robot.util;
 public class ArmConstants {
 
   public class Home {
-
     public static double homePivotDegrees = -79;
     public static double homeExtendInches = 18;
   }
 
   public class Coral {
     public static double coralPivotDegrees = -78;
-    public static double coralExtendInches = 23.9;
+    public static double coralExtendInches = 23.25;
   }
 
   public class Prep {

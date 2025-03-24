@@ -5,9 +5,22 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Reef Test"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "PickUpCoral"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Reef Test"
+                }
+              }
+            ]
           }
         },
         {

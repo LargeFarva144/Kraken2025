@@ -31,11 +31,21 @@ public class TunerConstants {
           .withKS(.1)
           .withKV(1.91)
           .withKA(0)
-          .withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
+          .withStaticFeedforwardSign(
+              StaticFeedforwardSignValue
+                  .UseClosedLoopSign); // Less kP and more kV. kD and kS might be too high
+  // to tune drive: kP, kD, kV, kP, kD, kV, kP
+
   // When using closed-loop control, the drive motor uses the control
   // output type specified by SwerveModuleConstants.DriveMotorClosedLoopOutput
   private static final Slot0Configs driveGains =
-      new Slot0Configs().withKP(2).withKI(0).withKD(0).withKS(0).withKV(.124);
+      new Slot0Configs()
+          .withKP(2)
+          .withKI(0)
+          .withKD(0)
+          .withKS(0)
+          .withKV(.124); // more kV, add kS, maybe lower kP
+  // tune kS, then kV, then kP
 
   // The closed-loop output type to use for the steer motors;
   // This affects the PID/FF gains for the steer motors

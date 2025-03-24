@@ -82,6 +82,7 @@ public class RobotContainer {
   private static Command L3;
   private static Command L4;
   private static Command PickUpCoral;
+  public static Command Home;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -164,10 +165,12 @@ public class RobotContainer {
     L3 = new L3(pivot, extend);
     L4 = new L4(pivot, extend, vacuum);
     PickUpCoral = new PickUpCoral(pivot, extend, vacuum);
+    Home = new Home(pivot, extend);
 
     NamedCommands.registerCommand("L2", L2);
     NamedCommands.registerCommand("L3", L3);
     NamedCommands.registerCommand("L4", L4);
+    NamedCommands.registerCommand("Home", Home);
     NamedCommands.registerCommand("PickUpCoral", PickUpCoral);
 
     // Set up auto routines
@@ -306,7 +309,7 @@ public class RobotContainer {
                 pivot,
                 extend,
                 () -> ArmConstants.Prep.L3PivotDegrees,
-                () -> ArmConstants.Prep.L3ExtendInches));
+                () -> ArmConstants.Home.homeExtendInches));
 
     // L4 on Y button
     controllerOperator
@@ -350,7 +353,7 @@ public class RobotContainer {
     // Coral pickup on RB
     controllerOperator
         .rightBumper()
-        .whileTrue(
+        .onTrue(
             Commands.parallel(
                 ArmCommands.pickupCoral(pivot, extend),
                 Commands.runOnce(() -> vacuum.runVacuum(true))));
@@ -365,14 +368,14 @@ public class RobotContainer {
         .y()
         .and(() -> climb.setAngle() < ClimbConstants.climbPrepAngleDegrees)
         .onTrue(
-            Commands.run(() -> climb.runVolts(3))
+            Commands.run(() -> climb.runVolts(4))
                 .until(() -> climb.setAngle() >= ClimbConstants.climbPrepAngleDegrees));
 
     controllerDriver
         .y()
         .and(() -> climb.setAngle() >= ClimbConstants.climbPrepAngleDegrees)
         .whileTrue(
-            Commands.run(() -> climb.runVolts(3))
+            Commands.run(() -> climb.runVolts(4))
                 .until(() -> climb.setAngle() >= ClimbConstants.climbHangAngleDegrees));
 
     controllerDriver
@@ -386,9 +389,12 @@ public class RobotContainer {
                     () -> ArmConstants.Algae.algaeTopPrepExtendInches),
                 Commands.runOnce(() -> vacuum.runVacuum(true))))
         .onFalse(
-            ArmCommands.armAlgaeLiftTop(pivot, extend)
-                .andThen(
-                    Commands.runOnce(() -> pivot.stop()), Commands.runOnce(() -> extend.stop())));
+            Commands.sequence(
+                ArmCommands.armAlgaeLiftTop(pivot, extend)
+                    .andThen(
+                        Commands.parallel(
+                            Commands.runOnce(() -> pivot.stop()),
+                            Commands.runOnce(() -> extend.stop())))));
 
     controllerDriver
         .leftBumper()
@@ -401,9 +407,12 @@ public class RobotContainer {
                     () -> ArmConstants.Algae.algaeBottomPrepExtendInches),
                 Commands.runOnce(() -> vacuum.runVacuum(true))))
         .onFalse(
-            ArmCommands.armAlgaeLiftTop(pivot, extend)
-                .andThen(
-                    Commands.runOnce(() -> pivot.stop()), Commands.runOnce(() -> extend.stop())));
+            Commands.sequence(
+                ArmCommands.armAlgaeLiftTop(pivot, extend)
+                    .andThen(
+                        Commands.parallel(
+                            Commands.runOnce(() -> pivot.stop()),
+                            Commands.runOnce(() -> extend.stop())))));
   }
 
   /**
