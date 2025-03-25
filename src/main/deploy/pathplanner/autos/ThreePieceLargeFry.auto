@@ -1,0 +1,79 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CarterSpecialP1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PickUpCoral"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "L4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CSP2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CSP3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PickUpCoral"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "L4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CSP4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CSP5"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PickUpCoral"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "L4"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

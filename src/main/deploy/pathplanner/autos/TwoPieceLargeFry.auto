@@ -9,15 +9,65 @@
           "data": {
             "commands": [
               {
+                "type": "path",
+                "data": {
+                  "pathName": "CarterSpecialP1"
+                }
+              },
+              {
                 "type": "named",
                 "data": {
                   "name": "PickUpCoral"
                 }
-              },
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "L4"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "OP2ReefE"
+                  "pathName": "CSP2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Home"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "CSP3"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "PickUpCoral"
                 }
               }
             ]
@@ -33,43 +83,6 @@
           "type": "named",
           "data": {
             "name": "Home"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "ReefE2ickup"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "PickUpCoral"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Pickup2ReefD"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "L4"
           }
         }
       ]

@@ -7,6 +7,11 @@ public class ArmConstants {
     public static double homeExtendInches = 18;
   }
 
+  public class pickupCoral {
+    public static double pickupCoralPivotDegrees = -79;
+    public static double pickupCoralExtendInches = 18;
+  }
+
   public class Coral {
     public static double coralPivotDegrees = -78;
     public static double coralExtendInches = 23.25;
