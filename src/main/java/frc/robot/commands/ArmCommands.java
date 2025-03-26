@@ -10,20 +10,31 @@ import java.util.function.DoubleSupplier;
 public class ArmCommands {
   private ArmCommands() {}
 
-  public static Command armToHome(Pivot pivot, Extend extend) {
+  public static Command armToHomeCoral(Pivot pivot, Extend extend) {
     return Commands.sequence(
-        Commands.run(() -> extend.extendToLength(ArmConstants.Home.homeExtendInches), extend)
+        Commands.run(() -> extend.extendToLength(ArmConstants.Home.homeExtendInchesCoral), extend)
             .until(() -> extend.atSetpoint())
             .andThen(
-                Commands.run(() -> pivot.pivotToAngle(ArmConstants.Home.homePivotDegrees), pivot)));
+                Commands.run(
+                    () -> pivot.pivotToAngle(ArmConstants.Home.homePivotDegreesCoral), pivot)));
+  }
+
+  public static Command armToHomeAlgae(Pivot pivot, Extend extend) {
+    return Commands.sequence(
+        Commands.run(() -> extend.extendToLength(ArmConstants.Home.homeExtendInchesAlgae), extend)
+            .until(() -> extend.atSetpoint())
+            .andThen(
+                Commands.run(
+                    () -> pivot.pivotToAngle(ArmConstants.Home.homePivotDegreesAlgae), pivot)));
   }
 
   public static Command armToHomeAuto(Pivot pivot, Extend extend) {
     return Commands.sequence(
-        Commands.run(() -> extend.extendToLength(ArmConstants.Home.homeExtendInches), extend)
+        Commands.run(() -> extend.extendToLength(ArmConstants.Home.homeExtendInchesCoral), extend)
             .until(() -> extend.atSetpoint())
             .andThen(
-                Commands.run(() -> pivot.pivotToAngle(ArmConstants.Home.homePivotDegrees), pivot))
+                Commands.run(
+                    () -> pivot.pivotToAngle(ArmConstants.Home.homePivotDegreesCoral), pivot))
             .until(() -> pivot.atSetpoint()));
   }
 
@@ -36,7 +47,7 @@ public class ArmCommands {
         Commands.parallel(
                 Commands.run(() -> pivot.pivotToAngle(pivotSetpointSupplier.getAsDouble()), pivot),
                 Commands.run(
-                    () -> extend.extendToLength(ArmConstants.Home.homeExtendInches), extend))
+                    () -> extend.extendToLength(ArmConstants.Home.homeExtendInchesCoral), extend))
             .until(() -> pivot.atSetpoint())
             .andThen(
                 Commands.run(
@@ -53,7 +64,7 @@ public class ArmCommands {
         Commands.parallel(
                 Commands.run(() -> pivot.pivotToAngle(pivotSetpointSupplier.getAsDouble()), pivot),
                 Commands.run(
-                    () -> extend.extendToLength(ArmConstants.Home.homeExtendInches), extend))
+                    () -> extend.extendToLength(ArmConstants.Home.homeExtendInchesCoral), extend))
             .until(() -> pivot.atSetpoint())
             .andThen(
                 Commands.run(
@@ -68,7 +79,7 @@ public class ArmCommands {
         Commands.run(() -> extend.extendToLength(ArmConstants.Coral.coralExtendInches))
             .until(() -> extend.atSetpoint()),
         Commands.waitSeconds(1.5),
-        Commands.run(() -> extend.extendToLength(ArmConstants.Home.homeExtendInches))
+        Commands.run(() -> extend.extendToLength(ArmConstants.Home.homeExtendInchesCoral))
             .until(() -> extend.atSetpoint()));
   }
 
@@ -110,25 +121,21 @@ public class ArmCommands {
   //                     pivot))); // might need run().until()
   //   }
 
-  //   public static Command armBottomRemoveAlgae(Pivot pivot, Extend extend) {
-  //     return Commands.sequence(
-  //         Commands.run(() -> pivot.pivotToAngle(ArmConstants.Algae.algaeBottomPrepPivotDegrees))
-  //             .until(() -> pivot.atSetpoint()),
-  //         Commands.run(() ->
-  // extend.extendToLength(ArmConstants.Algae.algaeBottomPrepExtendInches))
-  //             .until(() -> extend.atSetpoint()),
-  //         Commands.run(() -> pivot.pivotToAngle(ArmConstants.Algae.algaeBottomPivotDegrees))
-  //             .until(() -> pivot.atSetpoint()));}
+  public static Command armBottomRemoveAlgae(Pivot pivot, Extend extend) {
+    return Commands.sequence(
+        Commands.run(() -> pivot.pivotToAngle(ArmConstants.Algae.algaeBottomPrepPivotDegrees))
+            .until(() -> pivot.atSetpoint()),
+        Commands.run(() -> extend.extendToLength(ArmConstants.Algae.algaeBottomPrepExtendInches))
+            .until(() -> extend.atSetpoint()));
+  }
 
-  //   public static Command armTopRemoveAlgae(Pivot pivot, Extend extend) {
-  //     return Commands.sequence(
-  //         Commands.run(() -> pivot.pivotToAngle(ArmConstants.Algae.algaeTopPrepPivotDegrees))
-  //             .until(() -> pivot.atSetpoint()),
-  //         Commands.run(() -> extend.extendToLength(ArmConstants.Algae.algaeTopPrepExtendInches))
-  //             .until(() -> extend.atSetpoint()),
-  //         Commands.run(() -> pivot.pivotToAngle(ArmConstants.Algae.algaeTopPivotDegrees))
-  //             .until(() -> pivot.atSetpoint()));
-  //   }
+  public static Command armTopRemoveAlgae(Pivot pivot, Extend extend) {
+    return Commands.sequence(
+        Commands.run(() -> pivot.pivotToAngle(ArmConstants.Algae.algaeTopPrepPivotDegrees))
+            .until(() -> pivot.atSetpoint()),
+        Commands.run(() -> extend.extendToLength(ArmConstants.Algae.algaeTopPrepExtendInches))
+            .until(() -> extend.atSetpoint()));
+  }
 
   public static Command pickupAlgae(Pivot pivot, Extend extend) {
     return Commands.sequence(
@@ -137,7 +144,7 @@ public class ArmCommands {
         Commands.run(() -> extend.extendToLength(ArmConstants.Algae.algaeExtendPickUpGround))
             .until(() -> extend.atSetpoint()),
         Commands.waitSeconds(0.5),
-        Commands.run(() -> extend.extendToLength(ArmConstants.Home.homeExtendInches))
+        Commands.run(() -> extend.extendToLength(ArmConstants.Home.homeExtendInchesCoral))
             .until(() -> extend.atSetpoint()));
   }
 

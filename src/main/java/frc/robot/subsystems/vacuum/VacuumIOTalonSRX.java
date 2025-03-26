@@ -29,7 +29,7 @@ public class VacuumIOTalonSRX implements VacuumIO {
   public void runVacuum(boolean runVacuum) {
     if (runVacuum) {
       _vacuumMotor.set(ControlMode.PercentOutput, 1);
-      _valveMotor.setAngle(40);
+      _valveMotor.setAngle(50); // change degree
     } else {
       _vacuumMotor.set(ControlMode.PercentOutput, 0);
       _valveMotor.setAngle(90);

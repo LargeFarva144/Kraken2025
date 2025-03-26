@@ -211,7 +211,7 @@ public class RobotContainer {
             () -> -controllerDriver.getLeftX(),
             () -> -controllerDriver.getRightX()));
 
-    pivot.setDefaultCommand(ArmCommands.armToHome(pivot, extend));
+    // pivot.setDefaultCommand(ArmCommands.armToHome(pivot, extend));
 
     // Automatic Triggers
 
@@ -262,19 +262,19 @@ public class RobotContainer {
                 drive, () -> PoseConstants.getTargetPose(vision.getForwardTargetID(), false)));
 
     // Climb to prep angle on RB
-    controllerDriver
-        .y()
-        .and(() -> climb.setAngle() < ClimbConstants.climbPrepAngleDegrees)
-        .onTrue(
-            Commands.run(() -> climb.runVolts(3))
-                .until(() -> climb.setAngle() >= ClimbConstants.climbPrepAngleDegrees));
+    // controllerDriver
+    //     .y()
+    //     .and(() -> climb.setAngle() < ClimbConstants.climbPrepAngleDegrees)
+    //     .onTrue(
+    //         Commands.run(() -> climb.runVolts(3))
+    //             .until(() -> climb.setAngle() >= ClimbConstants.climbPrepAngleDegrees));
 
-    // Climb to hang on RB
-    controllerDriver
-        .y()
-        .and(() -> climb.setAngle() >= ClimbConstants.climbPrepAngleDegrees)
-        .whileTrue(Commands.run(() -> climb.runVolts(3)))
-        .onFalse(Commands.runOnce(() -> climb.stop()));
+    // // Climb to hang on RB
+    // controllerDriver
+    //     .y()
+    //     .and(() -> climb.setAngle() >= ClimbConstants.climbPrepAngleDegrees)
+    //     .whileTrue(Commands.run(() -> climb.runVolts(3)))
+    //     .onFalse(Commands.runOnce(() -> climb.stop()));
 
     // Operator Controller Bindings
 
@@ -287,7 +287,8 @@ public class RobotContainer {
                 ArmCommands.joystickExtend(extend, () -> -controllerOperator.getRightY())))
         .onFalse(
             Commands.parallel(
-                Commands.runOnce(() -> pivot.stop()), Commands.runOnce(() -> extend.stop())));
+                Commands.runOnce(() -> pivot.stop()), Commands.runOnce(() -> extend.stop())))
+        .onFalse(ArmCommands.armToHomeCoral(pivot, extend));
 
     controllerOperator.x().onTrue(Commands.runOnce(() -> vacuum.toggleVacuum()));
 
@@ -299,7 +300,8 @@ public class RobotContainer {
                 pivot,
                 extend,
                 () -> ArmConstants.Prep.L2PivotDegrees,
-                () -> ArmConstants.Prep.L2ExtendInches));
+                () -> ArmConstants.Prep.L2ExtendInches))
+        .onFalse(ArmCommands.armToHomeCoral(pivot, extend));
 
     // L3 on B button
     controllerOperator
@@ -309,7 +311,8 @@ public class RobotContainer {
                 pivot,
                 extend,
                 () -> ArmConstants.Prep.L3PivotDegrees,
-                () -> ArmConstants.Home.homeExtendInches));
+                () -> ArmConstants.Home.homeExtendInchesCoral))
+        .onFalse(ArmCommands.armToHomeCoral(pivot, extend));
 
     // L4 on Y button
     controllerOperator
@@ -319,7 +322,8 @@ public class RobotContainer {
                 pivot,
                 extend,
                 () -> ArmConstants.Prep.L4PivotDegrees,
-                () -> ArmConstants.Prep.L4ExtendInches));
+                () -> ArmConstants.Prep.L4ExtendInches))
+        .onFalse(ArmCommands.armToHomeCoral(pivot, extend));
 
     // controllerOperator
     //     .button(0)
@@ -338,7 +342,8 @@ public class RobotContainer {
                 pivot,
                 extend,
                 () -> ArmConstants.Algae.algaePivotBarge,
-                () -> ArmConstants.Algae.algaeExtendBarge));
+                () -> ArmConstants.Algae.algaeExtendBarge))
+        .onFalse(ArmCommands.armToHomeCoral(pivot, extend));
 
     // controllerOperator
     //     .button(0)
@@ -356,13 +361,17 @@ public class RobotContainer {
         .onTrue(
             Commands.parallel(
                 ArmCommands.pickupCoral(pivot, extend),
-                Commands.runOnce(() -> vacuum.runVacuum(true))));
+                Commands.runOnce(() -> vacuum.runVacuum(true))))
+        .onFalse(ArmCommands.armToHomeCoral(pivot, extend));
 
     // Drop coral on RT
     controllerOperator.rightTrigger(0.1).onTrue(Commands.runOnce(() -> vacuum.runVacuum(false)));
 
     // Reset encoder on Start button
-    controllerOperator.start().onTrue(Commands.runOnce(() -> extend.resetZero()));
+    controllerOperator
+        .start()
+        .onTrue(Commands.runOnce(() -> extend.resetZero()))
+        .onFalse(ArmCommands.armToHomeCoral(pivot, extend));
 
     controllerDriver
         .y()
@@ -391,10 +400,7 @@ public class RobotContainer {
         .onFalse(
             Commands.sequence(
                 ArmCommands.armAlgaeLiftTop(pivot, extend)
-                    .andThen(
-                        Commands.parallel(
-                            Commands.runOnce(() -> pivot.stop()),
-                            Commands.runOnce(() -> extend.stop())))));
+                    .andThen(ArmCommands.armToHomeAlgae(pivot, extend))));
 
     controllerDriver
         .leftBumper()
@@ -409,10 +415,7 @@ public class RobotContainer {
         .onFalse(
             Commands.sequence(
                 ArmCommands.armAlgaeLiftTop(pivot, extend)
-                    .andThen(
-                        Commands.parallel(
-                            Commands.runOnce(() -> pivot.stop()),
-                            Commands.runOnce(() -> extend.stop())))));
+                    .andThen(ArmCommands.armToHomeAlgae(pivot, extend))));
   }
 
   /**
