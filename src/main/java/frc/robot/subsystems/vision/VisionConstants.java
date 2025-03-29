@@ -18,6 +18,7 @@ import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.util.Units;
+import java.util.Set;
 
 public class VisionConstants {
   // AprilTag layout
@@ -88,4 +89,6 @@ public class VisionConstants {
   public static double linearStdDevMegatag2Factor = 0.5; // More stable than full 3D solve
   public static double angularStdDevMegatag2Factor =
       Double.POSITIVE_INFINITY; // No rotation data available
+
+  public static final Set<Integer> reefTags = Set.of(6, 7, 8, 9, 10, 11, 17, 18, 19, 20, 21, 22);
 }

@@ -38,6 +38,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
@@ -167,24 +168,27 @@ public class DriveCommands {
    * @param targetPoseSupplier Target pose to drive to
    * @return Returns command for drive subsystem
    */
-  public static Command driveToPose(Drive drive, Supplier<Pose2d> targetPoseSupplier) {
-
+  public static Command driveToPose(Drive drive, Supplier<Optional<Pose2d>> targetPoseSupplier) {
     return Commands.runOnce(
         () -> {
+          if (targetPoseSupplier.get().isEmpty()) {
+            return;
+          }
+
           Pose2d currentPose = drive.getPose();
           Pose2d startPose = new Pose2d(currentPose.getTranslation(), currentPose.getRotation());
+          Pose2d targetPose = targetPoseSupplier.get().get();
 
           // new PPHolonomicDriveController(new PIDConstants(5.0), new PIDConstants(5.0));
 
-          List<Waypoint> waypoints =
-              PathPlannerPath.waypointsFromPoses(startPose, targetPoseSupplier.get());
+          List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(startPose, targetPose);
           PathPlannerPath path =
               new PathPlannerPath(
                   waypoints,
                   new PathConstraints(
                       5, 5, Units.degreesToRadians(360), Units.degreesToRadians(540)),
                   null,
-                  new GoalEndState(0.0, targetPoseSupplier.get().getRotation()));
+                  new GoalEndState(0.0, targetPose.getRotation()));
 
           path.preventFlipping = true;
           AutoBuilder.followPath(path).schedule();
