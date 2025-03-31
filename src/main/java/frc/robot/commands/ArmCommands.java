@@ -78,7 +78,7 @@ public class ArmCommands {
             .until(() -> pivot.atSetpoint()),
         Commands.run(() -> extend.extendToLength(ArmConstants.Coral.coralExtendInches))
             .until(() -> extend.atSetpoint()),
-        Commands.waitSeconds(1.5),
+        Commands.waitSeconds(1),
         Commands.run(() -> extend.extendToLength(ArmConstants.Home.homeExtendInchesCoral))
             .until(() -> extend.atSetpoint()));
   }

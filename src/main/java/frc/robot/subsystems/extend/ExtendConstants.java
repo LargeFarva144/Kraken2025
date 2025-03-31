@@ -23,7 +23,7 @@ public class ExtendConstants {
   public static final double funnelToPivotInches = 25;
 
   // PID
-  public static double kP = 15; // 15
+  public static double kP = 21; // 15
   public static double kI = 0;
   public static double kD = 0;
   public static double kG = 0;

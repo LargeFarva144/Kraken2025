@@ -21,12 +21,12 @@ public class ArmConstants {
 
   public class Prep {
 
-    public static double L4PivotDegrees = 92.5; // 98.5
+    public static double L4PivotDegrees = 98; // Old: 98.5, New: 92.5
     public static double L3PivotDegrees = 113.5;
     public static double L2PivotDegrees = 3;
     // public static double L1PivotDegrees = 90;
 
-    public static double L4ExtendInches = 45.5; // 49
+    public static double L4ExtendInches = 48; // Old: 47, New:45.5
     public static double L3ExtendInches = 27.2;
     public static double L2ExtendInches = 25.6;
     // public static double L1ExtendInches

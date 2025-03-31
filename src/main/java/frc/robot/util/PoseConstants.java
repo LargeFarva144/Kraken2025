@@ -14,8 +14,9 @@ public class PoseConstants {
   //   private static double flippedX = 337.37;
   private static final AprilTagFieldLayout field =
       AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
-  private static final double distanceFromReefFace = Units.inchesToMeters(20);
-  private static final double poleDistance = Units.inchesToMeters(6.5);
+  private static final double distanceFromReefFace = Units.inchesToMeters(26); // Old: 26, New: 20
+  private static final double poleDistanceRight = Units.inchesToMeters(8.5);
+  private static final double poleDistanceLeft = Units.inchesToMeters(5.5);
 
   //   private static final Map<Integer, Pose2d> leftPoses =
   //       Map.ofEntries(
@@ -186,7 +187,7 @@ public class PoseConstants {
         tagPose.transformBy(
             new Transform2d(
                 distanceFromReefFace,
-                isLeftTrigger ? -poleDistance : poleDistance,
+                isLeftTrigger ? -poleDistanceLeft : poleDistanceRight,
                 Rotation2d.kZero));
     Pose2d robotPose = adjustedTagPose.transformBy(new Transform2d(0, 0, Rotation2d.k180deg));
 
