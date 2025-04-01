@@ -211,7 +211,7 @@ public class RobotContainer {
             () -> -controllerDriver.getLeftX(),
             () -> -controllerDriver.getRightX()));
 
-    // pivot.setDefaultCommand(ArmCommands.armToHome(pivot, extend));
+    pivot.setDefaultCommand(ArmCommands.armToHomeCoral(pivot, extend));
 
     // Automatic Triggers
 
@@ -300,8 +300,7 @@ public class RobotContainer {
                 pivot,
                 extend,
                 () -> ArmConstants.Prep.L2PivotDegrees,
-                () -> ArmConstants.Prep.L2ExtendInches))
-        .onFalse(ArmCommands.armToHomeCoral(pivot, extend));
+                () -> ArmConstants.Prep.L2ExtendInches));
 
     // L3 on B button
     controllerOperator
@@ -311,39 +310,27 @@ public class RobotContainer {
                 pivot,
                 extend,
                 () -> ArmConstants.Prep.L3PivotDegrees,
-                () -> ArmConstants.Home.homeExtendInchesCoral))
-        .onFalse(ArmCommands.armToHomeCoral(pivot, extend));
+                () -> ArmConstants.Home.homeExtendInchesCoral));
 
     // L4 on Y button
     controllerOperator
         .y()
         .whileTrue(
-            ArmCommands.armToSetpoint(
+            ArmCommands.armToSetpointLFour(
                 pivot,
                 extend,
                 () -> ArmConstants.Prep.L4PivotDegrees,
-                () -> ArmConstants.Prep.L4ExtendInches))
-        .onFalse(ArmCommands.armToHomeCoral(pivot, extend));
+                () -> ArmConstants.Prep.L4ExtendInches,
+                () -> ArmConstants.Score.L4PivotDegrees));
 
     // controllerOperator
-    //     .button(0)
+    //     .povUp()
     //     .whileTrue(
     //         ArmCommands.armToSetpoint(
     //             pivot,
     //             extend,
-    //             () -> ArmConstants.Algae.algaePivotProcessor,
-    //             () ->
-    // ArmConstants.Algae.algaeExtendProcessor)));
-
-    controllerOperator
-        .povUp()
-        .whileTrue(
-            ArmCommands.armToSetpoint(
-                pivot,
-                extend,
-                () -> ArmConstants.Algae.algaePivotBarge,
-                () -> ArmConstants.Algae.algaeExtendBarge))
-        .onFalse(ArmCommands.armToHomeCoral(pivot, extend));
+    //             () -> ArmConstants.Algae.algaePivotBarge,
+    //             () -> ArmConstants.Algae.algaeExtendBarge));
 
     // controllerOperator
     //     .button(0)
@@ -361,17 +348,13 @@ public class RobotContainer {
         .onTrue(
             Commands.parallel(
                 ArmCommands.pickupCoral(pivot, extend),
-                Commands.runOnce(() -> vacuum.runVacuum(true))))
-        .onFalse(ArmCommands.armToHomeCoral(pivot, extend));
+                Commands.runOnce(() -> vacuum.runVacuum(true))));
 
     // Drop coral on RT
     controllerOperator.rightTrigger(0.1).onTrue(Commands.runOnce(() -> vacuum.runVacuum(false)));
 
     // Reset encoder on Start button
-    controllerOperator
-        .start()
-        .onTrue(Commands.runOnce(() -> extend.resetZero()))
-        .onFalse(ArmCommands.armToHomeCoral(pivot, extend));
+    controllerOperator.start().onTrue(Commands.runOnce(() -> extend.resetZero()));
 
     controllerDriver
         .y()
@@ -387,35 +370,35 @@ public class RobotContainer {
             Commands.run(() -> climb.runVolts(4))
                 .until(() -> climb.setAngle() >= ClimbConstants.climbHangAngleDegrees));
 
-    controllerDriver
-        .rightBumper()
-        .whileTrue(
-            Commands.parallel(
-                ArmCommands.armToSetpoint(
-                    pivot,
-                    extend,
-                    () -> ArmConstants.Algae.algaeTopPrepPivotDegrees,
-                    () -> ArmConstants.Algae.algaeTopPrepExtendInches),
-                Commands.runOnce(() -> vacuum.runVacuum(true))))
-        .onFalse(
-            Commands.sequence(
-                ArmCommands.armAlgaeLiftTop(pivot, extend)
-                    .andThen(ArmCommands.armToHomeAlgae(pivot, extend))));
+    // controllerDriver
+    //     .rightBumper()
+    //     .whileTrue(
+    //         Commands.parallel(
+    //             ArmCommands.armToSetpoint(
+    //                 pivot,
+    //                 extend,
+    //                 () -> ArmConstants.Algae.algaeTopPrepPivotDegrees,
+    //                 () -> ArmConstants.Algae.algaeTopPrepExtendInches),
+    //             Commands.runOnce(() -> vacuum.runVacuum(true))))
+    //     .onFalse(
+    //         Commands.sequence(
+    //             ArmCommands.armAlgaeLiftTop(pivot, extend)
+    //                 .andThen(ArmCommands.armToHomeAlgae(pivot, extend))));
 
-    controllerDriver
-        .leftBumper()
-        .whileTrue(
-            Commands.parallel(
-                ArmCommands.armToSetpoint(
-                    pivot,
-                    extend,
-                    () -> ArmConstants.Algae.algaeBottomPrepPivotDegrees,
-                    () -> ArmConstants.Algae.algaeBottomPrepExtendInches),
-                Commands.runOnce(() -> vacuum.runVacuum(true))))
-        .onFalse(
-            Commands.sequence(
-                ArmCommands.armAlgaeLiftTop(pivot, extend)
-                    .andThen(ArmCommands.armToHomeAlgae(pivot, extend))));
+    // controllerDriver
+    //     .leftBumper()
+    //     .whileTrue(
+    //         Commands.parallel(
+    //             ArmCommands.armToSetpoint(
+    //                 pivot,
+    //                 extend,
+    //                 () -> ArmConstants.Algae.algaeBottomPrepPivotDegrees,
+    //                 () -> ArmConstants.Algae.algaeBottomPrepExtendInches),
+    //             Commands.runOnce(() -> vacuum.runVacuum(true))))
+    //     .onFalse(
+    //         Commands.sequence(
+    //             ArmCommands.armAlgaeLiftTop(pivot, extend)
+    //                 .andThen(ArmCommands.armToHomeAlgae(pivot, extend))));
   }
 
   /**

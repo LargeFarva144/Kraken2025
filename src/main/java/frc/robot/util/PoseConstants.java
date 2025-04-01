@@ -14,7 +14,7 @@ public class PoseConstants {
   //   private static double flippedX = 337.37;
   private static final AprilTagFieldLayout field =
       AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
-  private static final double distanceFromReefFace = Units.inchesToMeters(26); // Old: 26, New: 20
+  private static final double distanceFromReefFace = Units.inchesToMeters(17.5); // Old: 26, New: 18
   private static final double poleDistanceRight = Units.inchesToMeters(8.5);
   private static final double poleDistanceLeft = Units.inchesToMeters(5.5);
 

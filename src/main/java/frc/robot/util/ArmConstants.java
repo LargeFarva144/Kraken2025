@@ -4,30 +4,30 @@ public class ArmConstants {
 
   public class Home {
     public static double homePivotDegreesCoral = -79;
-    public static double homeExtendInchesCoral = 18;
+    public static double homeExtendInchesCoral = 17.6;
     public static double homePivotDegreesAlgae = 91.2;
     public static double homeExtendInchesAlgae = 17.7;
   }
 
   public class pickupCoral {
     public static double pickupCoralPivotDegrees = -79;
-    public static double pickupCoralExtendInches = 18;
+    public static double pickupCoralExtendInches = 24;
   }
 
   public class Coral {
-    public static double coralPivotDegrees = -78;
-    public static double coralExtendInches = 23.25;
+    public static double coralPivotDegrees = -79.6;
+    public static double coralExtendInches = 23.5;
   }
 
   public class Prep {
 
-    public static double L4PivotDegrees = 98; // Old: 98.5, New: 92.5
-    public static double L3PivotDegrees = 113.5;
-    public static double L2PivotDegrees = 3;
+    public static double L4PivotDegrees = 87.5; // Old: 98.5, New: 92.5
+    public static double L3PivotDegrees = 108.5;
+    public static double L2PivotDegrees = 0;
     // public static double L1PivotDegrees = 90;
 
-    public static double L4ExtendInches = 48; // Old: 47, New:45.5
-    public static double L3ExtendInches = 27.2;
+    public static double L4ExtendInches = 43.6; // Old: 47, New:45.5
+    public static double L3ExtendInches = 19.3;
     public static double L2ExtendInches = 25.6;
     // public static double L1ExtendInches
 
@@ -35,7 +35,7 @@ public class ArmConstants {
 
   public class Score {
 
-    // public static double L4PivotDegrees = 94.2;
+    public static double L4PivotDegrees = 94.5;
     // public static double L3PivotDegrees = 125;
     // public static double L2PivotDegrees = 185;
     // public static double L1PivotDegrees = 90;

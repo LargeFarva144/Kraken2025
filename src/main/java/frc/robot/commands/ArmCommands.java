@@ -19,14 +19,16 @@ public class ArmCommands {
                     () -> pivot.pivotToAngle(ArmConstants.Home.homePivotDegreesCoral), pivot)));
   }
 
-  public static Command armToHomeAlgae(Pivot pivot, Extend extend) {
-    return Commands.sequence(
-        Commands.run(() -> extend.extendToLength(ArmConstants.Home.homeExtendInchesAlgae), extend)
-            .until(() -> extend.atSetpoint())
-            .andThen(
-                Commands.run(
-                    () -> pivot.pivotToAngle(ArmConstants.Home.homePivotDegreesAlgae), pivot)));
-  }
+  //   public static Command armToHomeAlgae(Pivot pivot, Extend extend) {
+  //     return Commands.sequence(
+  //         Commands.run(() -> extend.extendToLength(ArmConstants.Home.homeExtendInchesAlgae),
+  // extend)
+  //             .until(() -> extend.atSetpoint())
+  //             .andThen(
+  //                 Commands.run(
+  //                     () -> pivot.pivotToAngle(ArmConstants.Home.homePivotDegreesAlgae),
+  // pivot)));
+  //   }
 
   public static Command armToHomeAuto(Pivot pivot, Extend extend) {
     return Commands.sequence(
@@ -55,6 +57,29 @@ public class ArmCommands {
                     extend))); // might need run().until()
   }
 
+  public static Command armToSetpointLFour(
+      Pivot pivot,
+      Extend extend,
+      DoubleSupplier pivotSetpointSupplier,
+      DoubleSupplier extendSetpointSupplier,
+      DoubleSupplier pivotScoreSetpointSupplier) {
+    return Commands.sequence(
+        Commands.parallel(
+                Commands.run(() -> pivot.pivotToAngle(pivotSetpointSupplier.getAsDouble()), pivot),
+                Commands.run(
+                    () -> extend.extendToLength(ArmConstants.Home.homeExtendInchesCoral),
+                    extend)) // keeps the extend at the home length as it pivots
+            .until(() -> pivot.atSetpoint())
+            .andThen(
+                Commands.run(
+                        () -> extend.extendToLength(extendSetpointSupplier.getAsDouble()), extend)
+                    .until(() -> extend.atSetpoint())
+                    .andThen(
+                        Commands.run(
+                            () -> pivot.pivotToAngle(pivotScoreSetpointSupplier.getAsDouble()),
+                            pivot)))); //
+  }
+
   public static Command autoArmToSetpoint(
       Pivot pivot,
       Extend extend,
@@ -78,7 +103,7 @@ public class ArmCommands {
             .until(() -> pivot.atSetpoint()),
         Commands.run(() -> extend.extendToLength(ArmConstants.Coral.coralExtendInches))
             .until(() -> extend.atSetpoint()),
-        Commands.waitSeconds(1),
+        Commands.waitSeconds(0.5),
         Commands.run(() -> extend.extendToLength(ArmConstants.Home.homeExtendInchesCoral))
             .until(() -> extend.atSetpoint()));
   }
@@ -137,16 +162,16 @@ public class ArmCommands {
             .until(() -> extend.atSetpoint()));
   }
 
-  public static Command pickupAlgae(Pivot pivot, Extend extend) {
-    return Commands.sequence(
-        Commands.run(() -> pivot.pivotToAngle(ArmConstants.Algae.algaePivotPickUpGround))
-            .until(() -> pivot.atSetpoint()),
-        Commands.run(() -> extend.extendToLength(ArmConstants.Algae.algaeExtendPickUpGround))
-            .until(() -> extend.atSetpoint()),
-        Commands.waitSeconds(0.5),
-        Commands.run(() -> extend.extendToLength(ArmConstants.Home.homeExtendInchesCoral))
-            .until(() -> extend.atSetpoint()));
-  }
+  //   public static Command pickupAlgae(Pivot pivot, Extend extend) {
+  //     return Commands.sequence(
+  //         Commands.run(() -> pivot.pivotToAngle(ArmConstants.Algae.algaePivotPickUpGround))
+  //             .until(() -> pivot.atSetpoint()),
+  //         Commands.run(() -> extend.extendToLength(ArmConstants.Algae.algaeExtendPickUpGround))
+  //             .until(() -> extend.atSetpoint()),
+  //         Commands.waitSeconds(0.5),
+  //         Commands.run(() -> extend.extendToLength(ArmConstants.Home.homeExtendInchesCoral))
+  //             .until(() -> extend.atSetpoint()));
+  //   }
 
   public static Command joystickPivot(Pivot pivot, DoubleSupplier ySupplier) {
     double voltLimit = 2.5;
