@@ -16,9 +16,9 @@ public class PivotConstants {
 
   // PID
 
-  public static double kP = 75; // 80
+  public static double kP = 70; // 80
   public static double kI = 0.00000; // 0.00001
-  public static double kD = 0.6; // 0.5
+  public static double kD = 0.5; // 0.5
   public static double kG = 0.43; // 0.40
   public static double kS = 0.4; // 0.28
   public static double kV = 5; // 0.13

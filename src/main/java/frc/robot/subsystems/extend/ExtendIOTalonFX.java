@@ -97,8 +97,8 @@ public class ExtendIOTalonFX implements ExtendIO {
     cfg.MotionMagic.withMotionMagicAcceleration(RotationsPerSecondPerSecond.of(ExtendConstants.motionMagicAcceleration));
     cfg.MotionMagic.withMotionMagicJerk(RotationsPerSecondPerSecond.per(Second).of(ExtendConstants.motionMagicJerk));
 
-    // _extendMotorK.setPosition(_extendCANCoder.getAbsolutePosition().getValueAsDouble());
-    _extendMotorK.setPosition(0);
+    _extendMotorK.setPosition(_extendCANCoder.getAbsolutePosition().getValueAsDouble());
+    // _extendMotorK.setPosition(0);
     // spotless:on
 
     BaseStatusSignal.setUpdateFrequencyForAll(

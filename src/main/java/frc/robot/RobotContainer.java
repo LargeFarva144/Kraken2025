@@ -370,20 +370,15 @@ public class RobotContainer {
             Commands.run(() -> climb.runVolts(4))
                 .until(() -> climb.setAngle() >= ClimbConstants.climbHangAngleDegrees));
 
-    // controllerDriver
-    //     .rightBumper()
-    //     .whileTrue(
-    //         Commands.parallel(
-    //             ArmCommands.armToSetpoint(
-    //                 pivot,
-    //                 extend,
-    //                 () -> ArmConstants.Algae.algaeTopPrepPivotDegrees,
-    //                 () -> ArmConstants.Algae.algaeTopPrepExtendInches),
-    //             Commands.runOnce(() -> vacuum.runVacuum(true))))
-    //     .onFalse(
-    //         Commands.sequence(
-    //             ArmCommands.armAlgaeLiftTop(pivot, extend)
-    //                 .andThen(ArmCommands.armToHomeAlgae(pivot, extend))));
+    controllerDriver
+        .rightBumper()
+        .whileTrue(
+            ArmCommands.armToSetpoint(
+                pivot,
+                extend,
+                () -> ArmConstants.Algae.algaeTopPrepPivotDegrees,
+                () -> ArmConstants.Algae.algaeTopPrepExtendInches))
+        .onFalse(ArmCommands.armToHomeCoral(pivot, extend));
 
     // controllerDriver
     //     .leftBumper()

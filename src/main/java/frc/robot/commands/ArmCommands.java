@@ -26,7 +26,7 @@ public class ArmCommands {
   //             .until(() -> extend.atSetpoint())
   //             .andThen(
   //                 Commands.run(
-  //                     () -> pivot.pivotToAngle(ArmConstants.Home.homePivotDegreesAlgae),
+  //                     () -> pivot.pivotToAngle(ArmConstants.Home.homePivotDegreesCoral),
   // pivot)));
   //   }
 
@@ -125,42 +125,51 @@ public class ArmCommands {
     Commands.runOnce(() -> pivot.pivotToAngle(ArmConstants.Algae.algaePivotBarge), pivot);
   }
 
-  //   public static Command armRemoveAlgae(
+  public static Command armRemovealgae(
+      Pivot pivot,
+      Extend extend,
+      DoubleSupplier pivotSetpointSupplier,
+      DoubleSupplier extendSetpointSupplier,
+      DoubleSupplier pivotScoreSetpointSupplier) {
+    return Commands.sequence(
+        Commands.parallel(
+                Commands.run(() -> pivot.pivotToAngle(pivotSetpointSupplier.getAsDouble()), pivot),
+                Commands.run(
+                    () -> extend.extendToLength(ArmConstants.Home.homeExtendInchesCoral),
+                    extend)) // keeps the extend at the home length as it pivots
+            .until(() -> pivot.atSetpoint())
+            .andThen(
+                Commands.run(
+                        () -> extend.extendToLength(extendSetpointSupplier.getAsDouble()), extend)
+                    .until(() -> extend.atSetpoint())
+                    .andThen(
+                        Commands.run(
+                            () -> pivot.pivotToAngle(pivotScoreSetpointSupplier.getAsDouble()),
+                            pivot)))); //
+  }
+
+  //   public static Command removeAlgae(
   //       Pivot pivot,
   //       Extend extend,
-  //       DoubleSupplier pivotSetpointSupplier,
-  //       DoubleSupplier extendSetpointSupplier,
-  //       DoubleSupplier pivotUpSetpointSupplier) {
+  //       DoubleSupplier pivotPrepSupplier,
+  //       DoubleSupplier extendPrepSupplier,
+  //       DoubleSupplier pivotFinalSupplier) {
   //     return Commands.sequence(
   //         Commands.parallel(
-  //                 Commands.run(() -> pivot.pivotToAngle(pivotSetpointSupplier.getAsDouble()),
-  // pivot),
+  //                 Commands.run(() -> pivot.pivotToAngle(pivotPrepSupplier.getAsDouble()), pivot),
   //                 Commands.run(
-  //                     () -> extend.extendToLength(ArmConstants.Home.homeExtendInches), extend))
+  //                     () -> extend.extendToLength(ArmConstants.Algae.algaeTopPrepExtendInches),
+  //                     extend))
   //             .until(() -> pivot.atSetpoint())
   //             .andThen(
-  //                 Commands.run(
-  //                     () -> extend.extendToLength(extendSetpointSupplier.getAsDouble()), extend),
-  //                 Commands.run(
-  //                     () -> pivot.pivotToAngle(pivotUpSetpointSupplier.getAsDouble()),
-  //                     pivot))); // might need run().until()
+  //                 Commands.run(() -> extend.extendToLength(extendPrepSupplier.getAsDouble()),
+  // extend)
+  //                     .until(() -> extend.atSetpoint())
+  //                     .andThen(
+  //                         Commands.run(
+  //                             () -> pivot.pivotToAngle(pivotFinalSupplier.getAsDouble()),
+  // pivot))));
   //   }
-
-  public static Command armBottomRemoveAlgae(Pivot pivot, Extend extend) {
-    return Commands.sequence(
-        Commands.run(() -> pivot.pivotToAngle(ArmConstants.Algae.algaeBottomPrepPivotDegrees))
-            .until(() -> pivot.atSetpoint()),
-        Commands.run(() -> extend.extendToLength(ArmConstants.Algae.algaeBottomPrepExtendInches))
-            .until(() -> extend.atSetpoint()));
-  }
-
-  public static Command armTopRemoveAlgae(Pivot pivot, Extend extend) {
-    return Commands.sequence(
-        Commands.run(() -> pivot.pivotToAngle(ArmConstants.Algae.algaeTopPrepPivotDegrees))
-            .until(() -> pivot.atSetpoint()),
-        Commands.run(() -> extend.extendToLength(ArmConstants.Algae.algaeTopPrepExtendInches))
-            .until(() -> extend.atSetpoint()));
-  }
 
   //   public static Command pickupAlgae(Pivot pivot, Extend extend) {
   //     return Commands.sequence(
