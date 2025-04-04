@@ -21,6 +21,10 @@ public class Vacuum extends SubsystemBase {
     io.runVacuum(runVacuum);
   }
 
+  public boolean getVacuumHasPressure(){
+    io.getVacuumHasPressure();
+  }
+
   public void toggleVacuum() {
     io.toggleVacuum();
   }
