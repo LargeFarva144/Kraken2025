@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.ArmCommands;
@@ -355,6 +356,14 @@ public class RobotContainer {
 
     // Reset encoder on Start button
     controllerOperator.start().onTrue(Commands.runOnce(() -> extend.resetZero()));
+    controllerOperator.start().onTrue(
+        Commands.sequence(
+            Commands.parallel(
+                ArmCommands.pickupCoral(pivot, extend),
+                Commands.runOnce(() -> vacuum.runVacuum(true)))
+                .until(() -> extend.atSetpoint()),
+                Commands.run(() -> extend.)
+            Commands.runOnce(() -> extend.resetZero())));
 
     controllerDriver
         .y()

@@ -23,6 +23,7 @@ public class Vacuum extends SubsystemBase {
 
   public boolean getVacuumHasPressure() {
     io.getVacuumHasPressure();
+    return false;
   }
 
   public void toggleVacuum() {
