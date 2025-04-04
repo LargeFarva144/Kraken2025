@@ -23,14 +23,13 @@ public class ArmConstants {
 
     public static double L4PivotDegrees = 87.5; // Old: 98.5, New: 92.5
     public static double L3PivotDegrees = 108.5;
-    public static double L2PivotDegrees = 0;
-    // public static double L1PivotDegrees = 90;
+    public static double L2PivotDegrees = 10;
+    public static double L1PivotDegrees = 184.7;
 
-    public static double L4ExtendInches = 46.5; // Old: 47, New:45.5
+    public static double L4ExtendInches = 47; // Old: 47, New:45.5
     public static double L3ExtendInches = 20.3;
-    public static double L2ExtendInches = 25.6;
-    // public static double L1ExtendInches
-
+    public static double L2ExtendInches = 26.6;
+    public static double L1ExtendInches = 20.9;
   }
 
   public class Score {

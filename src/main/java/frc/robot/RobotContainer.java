@@ -261,22 +261,18 @@ public class RobotContainer {
             DriveCommands.driveToPose(
                 drive, () -> PoseConstants.getTargetPose(vision.getForwardTargetID(), false)));
 
-    // Climb to prep angle on RB
-    // controllerDriver
-    //     .y()
-    //     .and(() -> climb.setAngle() < ClimbConstants.climbPrepAngleDegrees)
-    //     .onTrue(
-    //         Commands.run(() -> climb.runVolts(3))
-    //             .until(() -> climb.setAngle() >= ClimbConstants.climbPrepAngleDegrees));
-
-    // // Climb to hang on RB
-    // controllerDriver
-    //     .y()
-    //     .and(() -> climb.setAngle() >= ClimbConstants.climbPrepAngleDegrees)
-    //     .whileTrue(Commands.run(() -> climb.runVolts(3)))
-    //     .onFalse(Commands.runOnce(() -> climb.stop()));
-
     // Operator Controller Bindings
+
+    // L4 on Y button
+    controllerOperator
+        .y()
+        .whileTrue(
+            ArmCommands.armToSetpointLFour(
+                pivot,
+                extend,
+                () -> ArmConstants.Prep.L4PivotDegrees,
+                () -> ArmConstants.Prep.L4ExtendInches,
+                () -> ArmConstants.Score.L4PivotDegrees));
 
     // Joystick control of arm requires LT
     controllerOperator
@@ -290,7 +286,7 @@ public class RobotContainer {
                 Commands.runOnce(() -> pivot.stop()), Commands.runOnce(() -> extend.stop())))
         .onFalse(ArmCommands.armToHomeCoral(pivot, extend));
 
-    controllerOperator.x().onTrue(Commands.runOnce(() -> vacuum.toggleVacuum()));
+    controllerOperator.leftBumper().onTrue(Commands.runOnce(() -> vacuum.toggleVacuum()));
 
     // L2 on A button
     controllerOperator
@@ -312,35 +308,15 @@ public class RobotContainer {
                 () -> ArmConstants.Prep.L3PivotDegrees,
                 () -> ArmConstants.Home.homeExtendInchesCoral));
 
-    // L4 on Y button
+
     controllerOperator
-        .y()
+        .x()
         .whileTrue(
-            ArmCommands.armToSetpointLFour(
+            ArmCommands.armToSetpoint(
                 pivot,
                 extend,
-                () -> ArmConstants.Prep.L4PivotDegrees,
-                () -> ArmConstants.Prep.L4ExtendInches,
-                () -> ArmConstants.Score.L4PivotDegrees));
-
-    // controllerOperator
-    //     .povUp()
-    //     .whileTrue(
-    //         ArmCommands.armToSetpoint(
-    //             pivot,
-    //             extend,
-    //             () -> ArmConstants.Algae.algaePivotBarge,
-    //             () -> ArmConstants.Algae.algaeExtendBarge));
-
-    // controllerOperator
-    //     .button(0)
-    //     .whileTrue(
-    //         Commands.parallel(
-    //             ArmCommands.pickupAlgae(pivot, extend),
-    //             Commands.runOnce(() -> vacuum.runVacuum(true)))).onFalse(
-    //                 Commands.parallel(
-    //                     Commands.runOnce(() -> pivot.stop()), Commands.runOnce(() ->
-    // extend.stop())));
+                () -> ArmConstants.Prep.L1PivotDegrees,
+                () -> ArmConstants.Prep.L1ExtendInches));
 
     // Coral pickup on RB
     controllerOperator
@@ -360,13 +336,13 @@ public class RobotContainer {
         .y()
         .and(() -> climb.setAngle() < ClimbConstants.climbPrepAngleDegrees)
         .onTrue(
-            Commands.run(() -> climb.runVolts(4))
+            Commands.run(() -> climb.runVolts(8))
                 .until(() -> climb.setAngle() >= ClimbConstants.climbPrepAngleDegrees));
 
     controllerDriver
         .y()
         .and(() -> climb.setAngle() >= ClimbConstants.climbPrepAngleDegrees)
-        .whileTrue(Commands.run(() -> climb.runVolts(4)));
+        .whileTrue(Commands.run(() -> climb.runVolts(8)));
 
     controllerDriver
         .rightBumper()
@@ -389,31 +365,7 @@ public class RobotContainer {
                 () -> ArmConstants.Algae.algaeTopExtendInches))
         .onFalse(ArmCommands.armToHomeCoral(pivot, extend));
 
-    // controllerDriver
-    //     .leftBumper()
-    //     .whileTrue(
-    //         ArmCommands.armRemoveBottomalgae(
-    //             pivot,
-    //             extend,
-    //             () -> ArmConstants.Algae.algaeBottomPrepPivotDegrees,
-    //             () -> ArmConstants.Algae.algaeBottomPrepExtendInches,
-    //             () -> ArmConstants.Algae.algaeBottomPivotDegrees,
-    //             () -> ArmConstants.Algae.algaeBottomExtendInches));
 
-    // controllerDriver
-    //     .leftBumper()
-    //     .whileTrue(
-    //         Commands.parallel(
-    //             ArmCommands.armToSetpoint(
-    //                 pivot,
-    //                 extend,
-    //                 () -> ArmConstants.Algae.algaeBottomPrepPivotDegrees,
-    //                 () -> ArmConstants.Algae.algaeBottomPrepExtendInches),
-    //             Commands.runOnce(() -> vacuum.runVacuum(true))))
-    //     .onFalse(
-    //         Commands.sequence(
-    //             ArmCommands.armAlgaeLiftTop(pivot, extend)
-    //                 .andThen(ArmCommands.armToHomeAlgae(pivot, extend))));
   }
 
   /**
