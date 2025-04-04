@@ -84,7 +84,8 @@ public class ArmCommands {
       Pivot pivot,
       Extend extend,
       DoubleSupplier pivotSetpointSupplier,
-      DoubleSupplier extendSetpointSupplier) {
+      DoubleSupplier extendSetpointSupplier,
+      DoubleSupplier pivotScoreSetpointSupplier) {
     return Commands.sequence(
         Commands.parallel(
                 Commands.run(() -> pivot.pivotToAngle(pivotSetpointSupplier.getAsDouble()), pivot),
@@ -94,7 +95,11 @@ public class ArmCommands {
             .andThen(
                 Commands.run(
                         () -> extend.extendToLength(extendSetpointSupplier.getAsDouble()), extend)
-                    .until(() -> extend.atSetpoint()))); // might need run().until()
+                    .until(() -> extend.atSetpoint())
+                    .andThen(
+                        Commands.run(
+                            () -> pivot.pivotToAngle(pivotScoreSetpointSupplier.getAsDouble()),
+                            pivot)))); // might need run().until()
   }
 
   public static Command pickupCoral(Pivot pivot, Extend extend) {
