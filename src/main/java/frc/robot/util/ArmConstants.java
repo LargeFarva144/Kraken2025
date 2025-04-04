@@ -26,7 +26,7 @@ public class ArmConstants {
     public static double L2PivotDegrees = 0;
     // public static double L1PivotDegrees = 90;
 
-    public static double L4ExtendInches = 45.5; // Old: 47, New:45.5
+    public static double L4ExtendInches = 46.5; // Old: 47, New:45.5
     public static double L3ExtendInches = 20.3;
     public static double L2ExtendInches = 25.6;
     // public static double L1ExtendInches
@@ -53,9 +53,9 @@ public class ArmConstants {
     public static double algaeBottomPrepExtendInches = 17.7;
     public static double algaeBottomExtendInches = 35; // 25.7
 
-    public static double algaeTopPrepPivotDegrees = 142;
+    public static double algaeTopPrepPivotDegrees = 152;
     public static double algaeTopPivotDegrees = 88;
-    public static double algaeTopPrepExtendInches = 24.5;
+    public static double algaeTopPrepExtendInches = 25.5;
     public static double algaeTopExtendInches = 20.4;
 
     public static double algaeExtendBarge = 61;

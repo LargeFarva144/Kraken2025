@@ -12,12 +12,12 @@ public class L4 extends SequentialCommandGroup {
   public L4(Pivot pivot, Extend extend, Vacuum vacuum) {
     addCommands(
         ArmCommands.autoArmToSetpoint(
-            pivot,
-            extend,
-            () -> ArmConstants.Prep.L4PivotDegrees,
-            () -> ArmConstants.Prep.L4ExtendInches,
-            () -> ArmConstants.Score.L4PivotDegrees),
-        Commands.runOnce(() -> vacuum.runVacuum(false)),
-        Commands.waitSeconds(1));
+                pivot,
+                extend,
+                () -> ArmConstants.Prep.L4PivotDegrees,
+                () -> ArmConstants.Prep.L4ExtendInches,
+                () -> ArmConstants.Score.L4PivotDegrees),
+            Commands.runOnce(() -> vacuum.runVacuum(false)), 
+            Commands.waitSeconds(1));
   }
 }
