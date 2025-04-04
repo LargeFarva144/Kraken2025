@@ -366,8 +366,7 @@ public class RobotContainer {
     controllerDriver
         .y()
         .and(() -> climb.setAngle() >= ClimbConstants.climbPrepAngleDegrees)
-        .whileTrue(
-            Commands.run(() -> climb.runVolts(4)));
+        .whileTrue(Commands.run(() -> climb.runVolts(4)));
 
     controllerDriver
         .rightBumper()
@@ -390,12 +389,14 @@ public class RobotContainer {
                 () -> ArmConstants.Algae.algaeTopExtendInches))
         .onFalse(ArmCommands.armToHomeCoral(pivot, extend));
 
-        controllerDriver.leftBumper().whileTrue(
+    controllerDriver
+        .leftBumper()
+        .whileTrue(
             ArmCommands.armRemoveBottomalgae(
-                pivot, 
-                extend, 
+                pivot,
+                extend,
                 () -> ArmConstants.Algae.algaeBottomPrepPivotDegrees,
-                () -> ArmConstants.Algae.algaeBottomPrepExtendInches, 
+                () -> ArmConstants.Algae.algaeBottomPrepExtendInches,
                 () -> ArmConstants.Algae.algaeBottomPivotDegrees,
                 () -> ArmConstants.Algae.algaeBottomExtendInches));
 

@@ -55,7 +55,7 @@ public class ArmConstants {
 
     public static double algaeTopPrepPivotDegrees = 152;
     public static double algaeTopPivotDegrees = 88;
-    public static double algaeTopPrepExtendInches = 25.5;
+    public static double algaeTopPrepExtendInches = 26.5;
     public static double algaeTopExtendInches = 20.4;
 
     public static double algaeExtendBarge = 61;
