@@ -2,7 +2,6 @@ package frc.robot.subsystems.vacuum;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Servo;
 
@@ -30,13 +29,13 @@ public class VacuumIOTalonSRX implements VacuumIO {
     }
   }
 
-  public boolean getVacuumHasPressure(){
+  public boolean getVacuumHasPressure() {
     double voltage = _vacuumSensor.getVoltage();
 
-    if (voltage < 1.0){
-       return true;
+    if (voltage < 1.0) {
+      return true;
     } else {
-    return false;
+      return false;
     }
   }
 

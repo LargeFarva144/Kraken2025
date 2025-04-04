@@ -12,7 +12,7 @@ public interface VacuumIO {
     public double sensorVolts = 0.0;
   }
 
-  public default boolean getVacuumHasPressure(){
+  public default boolean getVacuumHasPressure() {
     return false;
   }
 
