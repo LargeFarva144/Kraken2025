@@ -17,6 +17,7 @@ public class L4 extends SequentialCommandGroup {
             () -> ArmConstants.Prep.L4PivotDegrees,
             () -> ArmConstants.Prep.L4ExtendInches,
             () -> ArmConstants.Score.L4PivotDegrees),
+        Commands.waitSeconds(0.5),
         Commands.runOnce(() -> vacuum.runVacuum(false)),
         Commands.waitSeconds(1));
   }
