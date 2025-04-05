@@ -365,6 +365,17 @@ public class RobotContainer {
                 () -> ArmConstants.Algae.algaeTopExtendInches))
         .onFalse(ArmCommands.armToHomeCoral(pivot, extend));
 
+    controllerDriver
+        .leftBumper()
+        .whileTrue(
+            ArmCommands.armRemoveBottomalgae(
+                pivot, 
+                extend,
+                () -> ArmConstants.Algae.algaeBottomPrepPivotDegrees,
+                () -> ArmConstants.Algae.algaeBottomPrepExtendInches,
+                () -> ArmConstants.Algae.algaeBottomPivotDegrees, 
+                () -> ArmConstants.Algae.algaeBottomExtendInches));
+
 
   }
 
