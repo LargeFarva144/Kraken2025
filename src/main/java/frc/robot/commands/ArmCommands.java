@@ -70,7 +70,7 @@ public class ArmCommands {
         new WaitUntilCommand(() -> extend.atSetpoint()),
         new InstantCommand(
             () -> pivot.pivotToAngle(pivotScoreSetpointSupplier.getAsDouble()), pivot),
-        new WaitUntilCommand(100)); //
+        new WaitUntilCommand(100));
   }
 
   public static Command autoArmToSetpoint(
