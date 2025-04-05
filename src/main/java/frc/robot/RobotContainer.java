@@ -308,7 +308,6 @@ public class RobotContainer {
                 () -> ArmConstants.Prep.L3PivotDegrees,
                 () -> ArmConstants.Home.homeExtendInchesCoral));
 
-
     controllerOperator
         .x()
         .whileTrue(

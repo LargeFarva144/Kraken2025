@@ -12,8 +12,6 @@ public class VacuumIOTalonSRX implements VacuumIO {
   public VacuumIOTalonSRX() {
     _vacuumMotor = new TalonSRX(30);
     _valveMotor = new Servo(0);
-
-    double supplyCurrentAmps = _vacuumMotor.getStatorCurrent();
   }
 
   public void toggleVacuum() {
