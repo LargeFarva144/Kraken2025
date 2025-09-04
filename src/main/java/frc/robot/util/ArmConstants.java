@@ -44,10 +44,9 @@ public class ArmConstants {
   public class groundPickUp {
     public static double groundPickUpPivotDegrees = 220;
     public static double groundPickUpExtendInches = 24;
-
   }
 
-  public class Algae{
+  public class Algae {
     public static double algaePrepRemovePivotDegrees = 113.5;
     public static double algaeRemovePivotDegrees = 125;
     public static double algaePrepRemoveExtendInches = 27.2;
@@ -55,7 +54,7 @@ public class ArmConstants {
 
     public static double algaePickUpReefPivotDegrees = 220;
     public static double algaePickUpReefExtendInches = 24;
-    
+
     // public static double algaePickUpFloorPivotDegrees = 0;
     // public static double algaePickUpFloorExtendInches = 0;
 

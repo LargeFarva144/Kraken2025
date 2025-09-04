@@ -3,7 +3,6 @@ package frc.robot.subsystems.climb;
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
@@ -84,17 +83,17 @@ public class ClimbTalonFX implements ClimbIO {
   @Override
   public double setAngle() {
     return positionRotations.getValueAsDouble();
- }
+  }
 
- // =======
-//   public void stop() {
-//     _climbMotorK.setControl(voltageOut.withOutput(0));
-//   }
+  // =======
+  //   public void stop() {
+  //     _climbMotorK.setControl(voltageOut.withOutput(0));
+  //   }
 
-//   @Override
-//   public double setAngle() {
-//     return positionRotations.getValueAsDouble() / ClimbConstants.climbGearRatio;
-// >>>>>>> 1b8980746a08f84ace5ca040f0b63f3085f0f42a
+  //   @Override
+  //   public double setAngle() {
+  //     return positionRotations.getValueAsDouble() / ClimbConstants.climbGearRatio;
+  // >>>>>>> 1b8980746a08f84ace5ca040f0b63f3085f0f42a
 
   // @Override
   // public Rotation2d getAngle() {
@@ -116,9 +115,9 @@ public class ClimbTalonFX implements ClimbIO {
 
     inputs.positionRotations = positionRotations.getValueAsDouble();
     inputs.angleDegrees = Units.rotationsToDegrees(positionRotations.getValueAsDouble());
-// =======
-//     inputs.angleDegrees = positionRotations.getValueAsDouble() / 360;
-// >>>>>>> 1b8980746a08f84ace5ca040f0b63f3085f0f42a
+    // =======
+    //     inputs.angleDegrees = positionRotations.getValueAsDouble() / 360;
+    // >>>>>>> 1b8980746a08f84ace5ca040f0b63f3085f0f42a
     inputs.velocityRotationsPerSecond = velocityRotationsPerSecond.getValueAsDouble();
     inputs.appliedVoltage = voltage.getValueAsDouble();
     inputs.supplyCurrentAmps = supplyCurrentAmps.getValueAsDouble();

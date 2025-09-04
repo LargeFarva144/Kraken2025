@@ -24,7 +24,6 @@ public class Climb extends SubsystemBase {
     io.runVolts(volts);
   }
 
-
   public void stop() {
     io.stop();
   }
@@ -33,7 +32,6 @@ public class Climb extends SubsystemBase {
   //   return io.getAngle();
   // }
 
-  
   public double setAngle() {
     return io.setAngle();
   }

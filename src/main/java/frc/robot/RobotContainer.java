@@ -288,7 +288,10 @@ public class RobotContainer {
             Commands.parallel(
                 Commands.runOnce(() -> pivot.stop()), Commands.runOnce(() -> extend.stop())));
 
-    controllerOperator.x().and(controllerOperator.leftTrigger()).onTrue(Commands.runOnce(() -> vacuum.toggleVacuum()));
+    controllerOperator
+        .x()
+        .and(controllerOperator.leftTrigger())
+        .onTrue(Commands.runOnce(() -> vacuum.toggleVacuum()));
 
     // L2 on A button
     controllerOperator
@@ -348,20 +351,18 @@ public class RobotContainer {
         .whileTrue(
             Commands.run(() -> climb.runVolts(3))
                 .until(() -> climb.setAngle() >= ClimbConstants.climbHangAngleDegrees));
-    
-    controllerOperator.button(10)
-    .and(controllerOperator.button(9))
-    .whileTrue(ArmCommands.armRemoveAlgae(pivot, extend));
+
+    controllerOperator
+        .button(10)
+        .and(controllerOperator.button(9))
+        .whileTrue(ArmCommands.armRemoveAlgae(pivot, extend));
 
     controllerOperator
         .leftBumper()
-        .whileTrue(Commands.parallel(
-            ArmCommands.armFloorPickUpCoral(
-                pivot, extend),
+        .whileTrue(
+            Commands.parallel(
+                ArmCommands.armFloorPickUpCoral(pivot, extend),
                 Commands.runOnce(() -> vacuum.runVacuum(true))));
-
-
-                
   }
 
   /**

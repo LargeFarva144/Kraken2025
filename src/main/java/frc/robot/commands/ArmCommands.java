@@ -80,10 +80,11 @@ public class ArmCommands {
     return Commands.sequence(
         Commands.run(() -> pivot.pivotToAngle(ArmConstants.groundPickUp.groundPickUpPivotDegrees))
             .until(() -> pivot.atSetpoint()),
-        Commands.run(() -> extend.extendToLength(ArmConstants.groundPickUp.groundPickUpExtendInches))
+        Commands.run(
+                () -> extend.extendToLength(ArmConstants.groundPickUp.groundPickUpExtendInches))
             .until(() -> extend.atSetpoint()));
   }
-  
+
   public static Command armReefPickUpAlgae(Pivot pivot, Extend extend) {
     return Commands.sequence(
         Commands.run(() -> pivot.pivotToAngle(ArmConstants.Algae.algaePickUpReefPivotDegrees))
@@ -92,8 +93,8 @@ public class ArmCommands {
             .until(() -> extend.atSetpoint()));
   }
 
-//   public static Command armScoreProcessor(p)
-// {}
+  //   public static Command armScoreProcessor(p)
+  // {}
   public static Command joystickPivot(Pivot pivot, DoubleSupplier ySupplier) {
     double voltLimit = 2.5;
     return Commands.run(() -> pivot.runVolts(ySupplier.getAsDouble() * voltLimit), pivot);
