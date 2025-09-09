@@ -32,14 +32,18 @@ public class ClimbSim implements ClimbIO {
     
  }
 
+ public void setvolts(double volts) {
+    double voltage = MathUtil.clamp(volts, -12, 12);
+    climb.setInputVoltage(volts); 
+ }
 
   @Override
   public void runVolts(double volts) {
-    _climbMotorK.setControl(voltageOut.withOutput(volts));
+    setvolts(volts);
   }
 
   @Override
   public double setAngle() {
-    return positionRotations.getValueAsDouble();
+    climb.setAngle(Units.rotationstodegrees());
   }
 }
