@@ -50,7 +50,6 @@ public class ArmCommands {
                     extend))); // might need run().until()
   }
 
-
   public static Command armToSetpointLFour(
       Pivot pivot,
       Extend extend,
@@ -128,34 +127,34 @@ public class ArmCommands {
                             pivot)))); //
   }
 
-
   public static Command armRemoveBottomalgae(
-    Pivot pivot,
-    Extend extend,
-    DoubleSupplier pivotSetpointSupplier,
-    DoubleSupplier extendSetpointSupplier,
-    DoubleSupplier pivotScoreSetpointSupplier,
-    DoubleSupplier extendScoreSetpointSupplier) {
-  return Commands.sequence(
-      Commands.parallel(
-              Commands.run(() -> pivot.pivotToAngle(pivotSetpointSupplier.getAsDouble()), pivot),
-              Commands.run(
-                  () -> extend.extendToLength(ArmConstants.Home.homeExtendInchesCoral),
-                  extend)) // keeps the extend at the home length as it pivots
-          .until(() -> pivot.atSetpoint())
-          .andThen(
-              Commands.run(
-                      () -> extend.extendToLength(extendSetpointSupplier.getAsDouble()), extend)
-                  .until(() -> extend.atSetpoint())
-                  .andThen(
-                      Commands.run(
-                          () -> pivot.pivotToAngle(pivotScoreSetpointSupplier.getAsDouble()),
-                          pivot)).until(() -> pivot.atSetpoint())
-                          .andThen(
-                            Commands.run(
-                                () -> extend.extendToLength(extendScoreSetpointSupplier.getAsDouble()),
-                                extend)))); //
-}
+      Pivot pivot,
+      Extend extend,
+      DoubleSupplier pivotSetpointSupplier,
+      DoubleSupplier extendSetpointSupplier,
+      DoubleSupplier pivotScoreSetpointSupplier,
+      DoubleSupplier extendScoreSetpointSupplier) {
+    return Commands.sequence(
+        Commands.parallel(
+                Commands.run(() -> pivot.pivotToAngle(pivotSetpointSupplier.getAsDouble()), pivot),
+                Commands.run(
+                    () -> extend.extendToLength(ArmConstants.Home.homeExtendInchesCoral),
+                    extend)) // keeps the extend at the home length as it pivots
+            .until(() -> pivot.atSetpoint())
+            .andThen(
+                Commands.run(
+                        () -> extend.extendToLength(extendSetpointSupplier.getAsDouble()), extend)
+                    .until(() -> extend.atSetpoint())
+                    .andThen(
+                        Commands.run(
+                            () -> pivot.pivotToAngle(pivotScoreSetpointSupplier.getAsDouble()),
+                            pivot))
+                    .until(() -> pivot.atSetpoint())
+                    .andThen(
+                        Commands.run(
+                            () -> extend.extendToLength(extendScoreSetpointSupplier.getAsDouble()),
+                            extend)))); //
+  }
 
   public static Command joystickPivot(Pivot pivot, DoubleSupplier ySupplier) {
     double voltLimit = 2.5;

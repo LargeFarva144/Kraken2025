@@ -368,14 +368,12 @@ public class RobotContainer {
         .leftBumper()
         .whileTrue(
             ArmCommands.armRemoveBottomalgae(
-                pivot, 
+                pivot,
                 extend,
                 () -> ArmConstants.Algae.algaeBottomPrepPivotDegrees,
                 () -> ArmConstants.Algae.algaeBottomPrepExtendInches,
-                () -> ArmConstants.Algae.algaeBottomPivotDegrees, 
+                () -> ArmConstants.Algae.algaeBottomPivotDegrees,
                 () -> ArmConstants.Algae.algaeBottomExtendInches));
-
-
   }
 
   /**
