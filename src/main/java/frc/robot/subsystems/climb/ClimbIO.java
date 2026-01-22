@@ -1,6 +1,7 @@
 package frc.robot.subsystems.climb;
 
 import org.littletonrobotics.junction.AutoLog;
+//input output class
 
 public interface ClimbIO {
   @AutoLog

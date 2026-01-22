@@ -35,6 +35,7 @@ public class ClimbTalonFX implements ClimbIO {
     supplyCurrentAmps = _climbMotorK.getSupplyCurrent();
     torqueCurrentAmps = _climbMotorK.getTorqueCurrent();
     tempCelsius = _climbMotorK.getDeviceTemp();
+    _climbMotorK.set(-0.25);
 
     TalonFXConfiguration cfg = new TalonFXConfiguration();
     // spotless:off
